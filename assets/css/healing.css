@@ -1,0 +1,62 @@
+.image-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px; /* optional: to control spacing between images */
+  margin: 1em 0;
+}
+
+.image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.image-wrapper img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  margin-top: 2em;
+}
+
+.grid-row {
+  display: flex;
+  flex-wrap: nowrap;
+  min-height: 25px; 
+}
+
+.grid-cell {
+  flex: 1 1 25%;
+  padding: 0.25em 0.5em;
+  box-sizing: border-box;
+  min-width: 100px;
+}
+
+.grid-cell.wide {
+  flex: 1 1 75%;
+}
+
+.grid-cell input[type="number"] {
+  width: 100%;
+  padding: 0.25em;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border-width: 0.4em;
+  border-color: #9896fa;
+}
+
+.output {
+  font-weight: bold;
+}
+
+.output-info {
+  font-style: italic;
+}
