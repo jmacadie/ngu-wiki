@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NGU Alliance Guides</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 2em auto; padding: 1em; background: #f8f8f8; color: #333; }
+    h1, h2, h3 { color: #2a2a2a; }
+    ul { margin-left: 1.5em; }
+    a { color: #0066cc; text-decoration: none; }
+    a.missing { color: #eb4f34; }
+    nav { background-color: #333; padding: 1em; text-align: center; margin-bottom: 2em; }
+    nav a { color: white; margin: 0 1em; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    header { text-align: center; font-size: 2em; margin-bottom: 1em; font-weight: bold; color: #444; }
+    .grid-container { display: flex; flex-direction: column; gap: 0.75em; margin-top: 2em; }
+    .grid-row { display: flex; align-items: center; flex-wrap: wrap; }
+    .grid-row > * { flex: 1 1 25%; min-width: 100px; box-sizing: border-box; margin: 0 0.5em; }
+    .grid-row input[type="number"] { width: 100%; padding: 0.25em; }
+    .grid-row .output { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header>NGU Alliance</header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/events">Events</a>
+    <a href="/" class="missing">Buildings</a>
+    <a href="/troops">Troops</a>
+    <a href="javascript:void(0)" class="current">Healing</a>
+  </nav>
+
+  <h1>Healing Troops</h1>
+
+  <p>In the infirmary, you don't need to heal all troops at once. Adjust down the sliders and you will heal fewer troops.</p>
+  <p>Why do that? Well, once a heal is underway you can request help from allies to speed that healing session.</p>
+  <p>By batching up heal sessions into groups that can be fully helped by allies, you can instantly heal <em>any</em> amount of troops.</p>
+  <br />
+  <p>Go to your Embassy and click on <strong>Details</strong> and look for <strong>Ally Assists</strong> and <strong>Ally Help Time</strong>.
+  This is how much help you can get for each request.</p>
+  <p>The black numbers are your base levels and the green numbers are additions from research. You need to add the two together.</p>
+
+  <div class="grid-container">
+    <div class="grid-row">
+      <div></div>
+      <div>Base stats</div>
+      <div>Research stats</div>
+      <div>Total</div>
+    </div>
+    <div class="grid-row">
+      <div>Ally Assists</div>
+      <input type="number" id="baseAssists" value="0">
+      <input type="number" id="researchAssists" value="0">
+      <div id="totalAssists" class="output">0</div>
+    </div>
+    <div class="grid-row">
+      <div>Ally Help Time (s)</div>
+      <input type="number" id="baseHelpTime" value="0">
+      <input type="number" id="researchHelpTime" value="0">
+      <div id="totalHelpTime" class="output">0s</div>
+    </div>
+    <div class="grid-row">
+      <div>Allies online</div>
+      <input type="number" id="alliesOnline" value="0">
+      <div></div>
+      <div></div>
+    </div>
+    <div class="grid-row"></div>
+    <div class="grid-row">
+      <div>Max help</div>
+      <div id="maxHelp" class="output">0s</div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="grid-row">
+      <div>Immediate help</div>
+      <div id="immediateHelp" class="output">0s</div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+
+  <script>
+    const inputs = [
+      'baseAssists', 'researchAssists',
+      'baseHelpTime', 'researchHelpTime',
+      'alliesOnline'
+    ];
+
+    inputs.forEach(id => document.getElementById(id).addEventListener('input', updateCalculations));
+
+    function toHMS(seconds) {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      if h === 0 && m === 0 {
+        return `${s}s`;
+      }
+      if h === 0 && s === 0 {
+        return `${m}m`;
+      }
+      if m === 0 && s === 0 {
+        return `${h}h`;
+      }
+      if h === 0 {
+        return `${m}m ${s}s`;
+      }
+      if m === 0 {
+        return `${h}h ${s}s`;
+      }
+      if s === 0 {
+        return `${h}h ${m}m`;
+      }
+      return `${h}h ${m}m ${s}s`;
+    }
+
+    function updateCalculations() {
+      const baseAssists = parseInt(document.getElementById('baseAssists').value) || 0;
+      const researchAssists = parseInt(document.getElementById('researchAssists').value) || 0;
+      const baseHelpTime = parseInt(document.getElementById('baseHelpTime').value) || 0;
+      const researchHelpTime = parseInt(document.getElementById('researchHelpTime').value) || 0;
+      const alliesOnline = parseInt(document.getElementById('alliesOnline').value) || 0;
+
+      const totalAssists = baseAssists + researchAssists;
+      const totalHelpTime = baseHelpTime + researchHelpTime;
+      const maxHelp = totalAssists * totalHelpTime;
+      const immediateHelp = Math.min(totalAssists, alliesOnline) * totalHelpTime;
+
+      document.getElementById('totalAssists').textContent = totalAssists;
+      document.getElementById('totalHelpTime').textContent = toHMS(totalHelpTime);
+      document.getElementById('maxHelp').textContent = toHMS(maxHelp);
+      document.getElementById('immediateHelp').textContent = toHMS(immediateHelp);
+    }
+
+    updateCalculations();
+  </script>
+
+</body>
+</html>
