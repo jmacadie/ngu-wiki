@@ -7,6 +7,7 @@ body {
   background: #f8f8f8;
   color: #333;
   padding-top: 150px; /* match header + nav height */
+  box-sizing: border-box;
 }
 
 h1, h2, h3 {
@@ -25,10 +26,13 @@ a {
 .fixed-wrapper {
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 800px;
+  width: 100%;
   z-index: 1000;
+  box-sizing: border-box;
 }
 
 header {
