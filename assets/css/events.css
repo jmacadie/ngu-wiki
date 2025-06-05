@@ -1,3 +1,39 @@
-h2 {
-  text-decoration: underline;
+.event-table {
+  width: 100%;
+  border-collapse: separate; /* key change */
+  border-spacing: 0;         /* remove gaps */
+  margin: 2em 0;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* General cell styles */
+.event-table th,
+.event-table td {
+  border: none;
+  padding: 0.75em;
+  text-align: left;
+}
+
+/* Header background */
+.event-table th {
+  background-color: #333;
+  color: white;
+}
+
+/* Zebra striping */
+.event-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.event-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Anchor styling */
+.event-table a {
+  color: #0066cc;
+  text-decoration: none;
 }
