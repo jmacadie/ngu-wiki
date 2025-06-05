@@ -1,6 +1,11 @@
-pre {
+.pre-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 1em 0;
+}
+
+.pre-wrapper pre {
   font-family: monospace;
   font-size: 1rem;
   white-space: pre;
-  text-align: center;
 }
