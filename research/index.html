@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>NGU Alliance Guides</title>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/research.css">
+  <script type="module" src="/assets/js/research.js"></script>
+</head>
+<body>
+  <div class="fixed-wrapper">
+    <header>NGU Alliance</header>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/" class="missing">Buildings</a>
+      <a href="/troops">Troops</a>
+	  <a href="javascript:void(0)" class="current">Research</a>
+      <a href="/healing">Healing</a>
+    </nav>
+  </div>
+
+  <h1>Research Planner</h1>
+  
+  <h3>Filters</h3>
+  <div class="filter-group">
+    <label>Tree:
+      <select id="tree-select">
+        <option>Growth</option>
+        <option>Economy</option>
+        <option>Battle</option>
+      </select>
+    </label>
+
+    <label>Category:
+      <select id="category-select" multiple size="5"></select>
+    </label>
+
+    <label>Main Level:
+      <select id="level-select" multiple size="5">
+        <option>I</option>
+        <option>II</option>
+        <option>III</option>
+        <option>IV</option>
+        <option>V</option>
+        <option>VI</option>
+        <option>VII</option>
+      </select>
+    </label>
+
+    <label>Completion Status:
+      <div class="radio-group">
+        <label><input type="radio" name="completed" value="uncompleted" checked /> Uncompleted</label>
+        <label><input type="radio" name="completed" value="completed" /> Completed</label>
+		<label><input type="radio" name="completed" value="all" /> All</label>
+      </div>
+    </label>
+  </div>
+
+  <div class="controls">
+    <button id="max-all">MAX (all filtered)</button>
+    <button id="clear-all">None (all filtered)</button>
+	<button id="reset-research">Reset all research</button>
+  </div>
+
+  <h3>Research List</h3>
+  <table class="research-list" id="research-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+		<th>Buff</th>
+        <th>Level</th>
+      </tr>
+    </thead>
+    <tbody id="research-body">
+      <!-- rows will be inserted here -->
+    </tbody>
+  </table>
+  
+  <div class="control-bar">
+  <label>Research Speed (%):
+    <input type="number" id="base-speed" value="0" placeholder="Base %" /> +
+    <input type="number" id="bonus-speed" value="0" placeholder="Research %" />
+  </label>
+  
+  <label>Academy Level:
+    <select id="academy-select">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+      <option>11</option>
+      <option>12</option>
+      <option>13</option>
+      <option>14</option>
+      <option>15</option>
+      <option>16</option>
+      <option>17</option>
+      <option>18</option>
+      <option>19</option>
+      <option>20</option>
+      <option>21</option>
+      <option>22</option>
+      <option>23</option>
+      <option>24</option>
+      <option>25</option>
+      <option>26</option>
+      <option>27</option>
+      <option>28</option>
+      <option>29</option>
+      <option>30</option>
+    </select>
+  </label>
+  </div>
+  
+  <h3>Stats</h3>
+  <h4>Completed Research</h4>
+  <table id="completed-research">
+    <thead>
+      <tr>
+        <th>Buff</th>
+		<th>Value</th>
+		<th>Count</th>
+        <th>Time</th>
+		<th>Power</th>
+      </tr>
+    </thead>
+    <tbody>
+	  <tr>
+        <td colspan="5">Growth</td>
+      </tr>
+	  <tr>
+        <td>Research Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+      <tr>
+        <td>Construction Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Healing Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Training Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infirmary Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Training Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>March Queue</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL GROWTH</strong></td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">Economy</td>
+      </tr>
+      
+	  <tr>
+        <td>Bread Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Wood Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Stone Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Iron Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Bread Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Wood Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Stone Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Iron Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL ECONOMY</strong></td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">Battle</td>
+      </tr>
+	  <tr>
+        <td>Infantry Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Troop Deployment Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL BATTLE</strong></td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">All</td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL</strong></td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <hr />
+  
+  <h4>Not yet completed Research (To current academy level)</h4>
+  <table id="uncompleted-lvl-research">
+    <thead>
+      <tr>
+        <th>Buff</th>
+		<th>Value</th>
+		<th>Count</th>
+        <th>Time</th>
+		<th>Power</th>
+      </tr>
+    </thead>
+    <tbody>
+	  <tr>
+        <td colspan="5">Growth</td>
+      </tr>
+	  <tr>
+        <td>Research Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+      <tr>
+        <td>Construction Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Healing Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Training Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infirmary Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Training Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>March Queue</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL GROWTH</strong></td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">Economy</td>
+      </tr>
+      
+	  <tr>
+        <td>Bread Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Wood Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Stone Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Iron Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Bread Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Wood Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Stone Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Iron Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL ECONOMY</strong></td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">Battle</td>
+      </tr>
+	  <tr>
+        <td>Infantry Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Troop Deployment Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL BATTLE</strong></td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">All</td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL</strong></td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <hr />
+  
+  <h4>Not yet completed Research (All levels)</h4>
+  <table id="uncompleted-all-research">
+    <thead>
+      <tr>
+        <th>Buff</th>
+		<th>Value</th>
+		<th>Count</th>
+        <th>Time</th>
+		<th>Power</th>
+      </tr>
+    </thead>
+    <tbody>
+	  <tr>
+        <td colspan="5">Growth</td>
+      </tr>
+	  <tr>
+        <td>Research Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+      <tr>
+        <td>Construction Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Healing Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Training Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infirmary Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Training Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>March Queue</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL GROWTH</strong></td>
+		<td>n/a</td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">Economy</td>
+      </tr>
+      
+	  <tr>
+        <td>Bread Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Wood Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Stone Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Iron Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Bread Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Wood Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Stone Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Iron Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL ECONOMY</strong></td>
+		<td>n/a</td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">Battle</td>
+      </tr>
+	  <tr>
+        <td>Infantry Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Troop Deployment Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL BATTLE</strong></td>
+		<td>n/a</td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">All</td>
+      </tr>
+	  <tr>
+        <td><strong>TOTAL</strong></td>
+		<td>n/a</td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+</body>
+</html>
