@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NGU Alliance Guides</title>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/research.css">
+  <script type="module" src="/assets/js/research.js"></script>
+</head>
+<body>
+  <div class="fixed-wrapper">
+    <header>NGU Alliance</header>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/events">Events</a>
+      <a href="/" class="missing">Buildings</a>
+      <a href="/troops">Troops</a>
+	  <a href="javascript:void(0)" class="current">Research</a>
+      <a href="/healing">Healing</a>
+    </nav>
+  </div>
+
+  <h1>Research Planner</h1>
+
+  <div class="filter-group">
+    <label>Tree:
+      <select id="tree-select">
+        <option>Growth</option>
+        <option>Economy</option>
+        <option>Battle</option>
+      </select>
+    </label>
+
+    <label>Category:
+      <select id="category-select" multiple size="5"></select>
+    </label>
+
+    <label>Main Level:
+      <select id="level-select" multiple size="5">
+        <option>I</option>
+        <option>II</option>
+        <option>III</option>
+        <option>IV</option>
+        <option>V</option>
+        <option>VI</option>
+        <option>VII</option>
+      </select>
+    </label>
+
+    <label>Completed:
+      <div class="radio-group">
+        <label><input type="radio" name="completed" value="uncompleted" checked /> Uncompleted</label>
+        <label><input type="radio" name="completed" value="all" /> All</label>
+        <label><input type="radio" name="completed" value="completed" /> Completed</label>
+      </div>
+    </label>
+
+    <label>Research Speed (%):
+      <input type="number" id="base-speed" value="0" placeholder="Base %" /> +
+      <input type="number" id="bonus-speed" value="0" placeholder="Research %" />
+    </label>
+  </div>
+
+  <div class="controls">
+    <button id="max-all">All MAX</button>
+    <button id="clear-all">All Uncompleted</button>
+  </div>
+
+  <table class="research-list" id="research-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+		<th>Buff</th>
+        <th>Level</th>
+      </tr>
+    </thead>
+    <tbody id="research-body">
+      <!-- rows will be inserted here -->
+    </tbody>
+  </table>
+
+</body>
+</html>
