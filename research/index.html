@@ -22,7 +22,8 @@
   </div>
 
   <h1>Research Planner</h1>
-
+  
+  <h3>Filters</h3>
   <div class="filter-group">
     <label>Tree:
       <select id="tree-select">
@@ -48,23 +49,19 @@
       </select>
     </label>
 
-    <label>Completed:
+    <label>Completion Status:
       <div class="radio-group">
         <label><input type="radio" name="completed" value="uncompleted" checked /> Uncompleted</label>
-        <label><input type="radio" name="completed" value="all" /> All</label>
         <label><input type="radio" name="completed" value="completed" /> Completed</label>
+		<label><input type="radio" name="completed" value="all" /> All</label>
       </div>
-    </label>
-
-    <label>Research Speed (%):
-      <input type="number" id="base-speed" value="0" placeholder="Base %" /> +
-      <input type="number" id="bonus-speed" value="0" placeholder="Research %" />
     </label>
   </div>
 
   <div class="controls">
-    <button id="max-all">All MAX</button>
-    <button id="clear-all">All Uncompleted</button>
+    <button id="max-all">MAX all filtered</button>
+    <button id="clear-all">None all filtered</button>
+	<button id="reset-research">Reset all research</button>
   </div>
 
   <table class="research-list" id="research-table">
@@ -79,6 +76,11 @@
       <!-- rows will be inserted here -->
     </tbody>
   </table>
+
+  <label>Research Speed (%):
+    <input type="number" id="base-speed" value="0" placeholder="Base %" /> +
+    <input type="number" id="bonus-speed" value="0" placeholder="Research %" />
+  </label>
 
 </body>
 </html>

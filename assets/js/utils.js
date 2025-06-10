@@ -19,11 +19,10 @@ export function toHMS(seconds) {
   if (s !== 0) {
 	out += `${s}s `;
   }
-  return out;
+  return out.slice(0, -1);
 }
 
 export function formatPcnt(val) {
-  const grossed = val * 100;
-  const rounded = Math.round(grossed * 100) / 100;
+  const rounded = Math.round(val * 100 * 100) / 100;
   return String(rounded) + '%';
 }

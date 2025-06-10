@@ -3,100 +3,68 @@ import { toHMS, formatPcnt } from './utils.js';
 
 const state = {
   tree: 'Growth',
-  categories: new Set(),
+  categories: new Set(),                 // research “name” filters
   levels: new Set(['I','II','III','IV','V','VI','VII']),
-  completed: 'uncompleted',
-  speed: { base: 0, bonus: 0 },
+  completed: 'uncompleted',              // radio: uncompleted | completed | all
+  speed: { base: 0, bonus: 0 },          // for later use
   completedMap: JSON.parse(localStorage.getItem('completedResearch') || '{}')
 };
 
+function isVisible(group) {
+  const finished = (state.completedMap[group.id] || 0) >= group.innerLevels.length;
+  const show =
+    (state.completed === 'all') ||
+    (state.completed === 'completed' ? finished : !finished);
+
+  return (
+    group.tree === state.tree &&
+    state.categories.has(group.name) &&
+    state.levels.has(group.level) &&
+    show
+  );
+}
+
+function isGroupComplete(group) {
+  return (state.completedMap[group.id] || 0) >= group.innerLevels.length;
+}
+
 function updateCategoryOptions() {
-  const rawList = researchData
-    .filter(r => r.Tree === state.tree)
-    .map(r => ({ name: r['MainName'], buff: r['BuffType'] || '' }));
-  const uniqueMap = new Map();
-  for (const item of rawList) {
-    if (!uniqueMap.has(item.name)) {
-      uniqueMap.set(item.name, item);
-    }
+  // 1️ gather unique categories (name + buff) for current tree
+  const unique = new Map();
+  for (const g of researchData) {
+    if (g.tree !== state.tree) continue;
+    if (!unique.has(g.name)) unique.set(g.name, { name: g.name, buff: g.buff });
   }
 
-  const uniqueList = [...uniqueMap.values()].sort((a, b) =>
-    a.buff.localeCompare(b.buff) || a.name.localeCompare(b.name)
+  // 2️ sort by buff then name
+  const list = [...unique.values()].sort(
+    (a, b) => a.buff.localeCompare(b.buff) || a.name.localeCompare(b.name)
   );
 
-  const select = document.getElementById('category-select');
-  select.innerHTML = '';
+  // 3️ rebuild the <select>
+  const sel = document.getElementById('category-select');
+  sel.innerHTML = '';
   state.categories.clear();
 
-  for (const category of uniqueList) {
-    const option = document.createElement('option');
-    option.value = category.name;
-    option.textContent = `${category.name} (${category.buff})`;
-    option.selected = true;
-    select.appendChild(option);
-    state.categories.add(category.name);
+  for (const c of list) {
+    const opt = document.createElement('option');
+    opt.value = c.name;
+    opt.textContent = `${c.name} (${c.buff})`;
+    opt.selected = true;
+    sel.appendChild(opt);
+    state.categories.add(c.name);
   }
-}
-
-function updateResearchList() {
-  const tbody = document.getElementById('research-body');
-  tbody.innerHTML = '';
-
-  const groups = getFilteredGroupedResearch();
-  const sorted = [...groups.values()].sort((a, b) => {
-    return a[0].MainLevel.localeCompare(b[0].MainLevel) || a[0].BuffType.localeCompare(b[0].BuffType)
-  });
-
-  for (const group of sorted) {
-    const row = renderResearchRow(group);
-    tbody.appendChild(row);
-  }
-}
-
-function getFilteredGroupedResearch() {
-  const grouped = new Map();
-
-  for (const r of researchData) {
-    if (!isResearchVisible(r)) continue;
-
-    const key = `${r.MainName}__${r.MainLevel}`;
-    if (!grouped.has(key)) grouped.set(key, []);
-    grouped.get(key).push(r);
-  }
-
-  return [...grouped.values()];
-}
-
-function isResearchVisible(r) {
-  return (
-    r.Tree === state.tree &&
-    state.categories.has(r.MainName) &&
-    state.levels.has(r.MainLevel) &&
-    (state.completed === 'all' ||
-     (state.completed === 'completed') === isGroupCompleted(r.MainName, r.MainLevel))
-  );
-}
-
-function isGroupCompleted(mainName, mainLevel) {
-  return researchData.some(r =>
-    r.MainName === mainName &&
-    r.MainLevel === mainLevel &&
-    state.completedMap[r.id] &&
-    state.completedMap[r.id] >= r.InnerLevel
-  );
 }
 
 function renderResearchRow(group) {
   const tr = document.createElement('tr');
-  const { MainName, MainLevel, BuffType } = group[0];
 
-  const maxLevel = Math.max(...group.map(r => r.InnerLevel));
-  const ids = group.map(r => r.id);
-  const current = Math.max(...ids.map(id => state.completedMap[id] || 0));
+  // max inner level = #levels, dropdown 0…max
+  const maxLvl = group.innerLevels.length;
+  const current  = state.completedMap[group.id] || 0;
 
   const select = document.createElement('select');
-  for (let i = 0; i <= maxLevel; i++) {
+  for (let i = 0; i <= maxLvl; i++) {
     const opt = document.createElement('option');
     opt.value = i;
     opt.textContent = i === 0 ? 'None' : `Level ${i}`;
@@ -104,74 +72,87 @@ function renderResearchRow(group) {
     select.appendChild(opt);
   }
 
+  // persist on change
   select.addEventListener('change', () => {
-    const newLevel = parseInt(select.value);
-    for (const r of group) {
-      state.completedMap[r.id] = r.InnerLevel <= newLevel ? r.InnerLevel : 0;
-    }
+    state.completedMap[group.id] = parseInt(select.value, 10);
     localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
+    updateResearchList();
   });
 
   tr.innerHTML = `
-    <td>${MainName} ${MainLevel}</td>
-    <td>${BuffType || ''}</td>
+    <td>${group.name} ${group.level}</td>
+    <td>${group.buff || ''}</td>
     <td></td>
   `;
   tr.children[2].appendChild(select);
   return tr;
 }
 
+function updateResearchList() {
+  const tbody = document.getElementById('research-body');
+  tbody.innerHTML = '';
+
+  const visible = researchData
+    .filter(isVisible)
+    .sort(
+      (a, b) => a.level.localeCompare(b.level) || a.buff.localeCompare(b.buff)
+    );
+
+  for (const g of visible) tbody.appendChild(renderResearchRow(g));
+}
+
+
 function addListeners() {
+  // tree dropdown
   document.getElementById('tree-select').addEventListener('change', e => {
-	state.tree = e.target.value;
-	updateCategoryOptions();
-	updateResearchList();
+    state.tree = e.target.value;
+    updateCategoryOptions();
+    updateResearchList();
   });
 
+  // multi-select category
   document.getElementById('category-select').addEventListener('change', e => {
-	const selected = new Set([...e.target.selectedOptions].map(opt => opt.value));
-	state.categories = selected;
-	updateResearchList();
+    state.categories = new Set([...e.target.selectedOptions].map(o => o.value));
+    updateResearchList();
   });
 
+  // multi-select main level */
   document.getElementById('level-select').addEventListener('change', e => {
-	const selected = new Set([...e.target.selectedOptions].map(opt => opt.value));
-	state.levels = selected;
-	updateResearchList();
+    state.levels = new Set([...e.target.selectedOptions].map(o => o.value));
+    updateResearchList();
   });
 
-  document.querySelectorAll('input[name="completed"]').forEach(r => r.addEventListener('change', e => {
-	state.completed = e.target.value;
-	updateResearchList();
-  }));
+  // completed radio buttons
+  document.querySelectorAll('input[name="completed"]').forEach(r =>
+    r.addEventListener('change', e => {
+      state.completed = e.target.value;
+      updateResearchList();
+    })
+  );
 
-  document.getElementById('base-speed').addEventListener('input', e => {
-	state.speed.base = parseFloat(e.target.value) || 0;
-  });
+  // speed inputs (not yet used)
+  document.getElementById('base-speed')
+    .addEventListener('input', e => state.speed.base  = parseFloat(e.target.value) || 0);
+  document.getElementById('bonus-speed')
+    .addEventListener('input', e => state.speed.bonus = parseFloat(e.target.value) || 0);
 
-  document.getElementById('bonus-speed').addEventListener('input', e => {
-	state.speed.bonus = parseFloat(e.target.value) || 0;
-  });
-
+  // buttons
   document.getElementById('max-all').addEventListener('click', () => {
-	for (const r of researchData) state.completedMap[r.id] = parseInt(r['Inner Level']);
-	localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
-	updateResearchList();
+    for (const g of researchData) state.completedMap[g.id] = g.innerLevels.length;
+    localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
+    updateResearchList();
   });
 
-  document.getElementById('clear-all').addEventListener('click', () => {
-	for (const r of researchData) state.completedMap[r.id] = 0;
-	localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
-	updateResearchList();
+  document.getElementById('reset-research').addEventListener('click', () => {
+    for (const g of researchData) state.completedMap[g.id] = null;
+    localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
+    updateResearchList();
   });
 }
 
-document.addEventListener("DOMContentLoaded", (event) => {
-  // Set up listeners
+/* ────────────────────  bootstrap  ──────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
   addListeners();
-
-  // initialize
   updateCategoryOptions();
   updateResearchList();
 });
-
