@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
   <title>NGU Alliance Guides</title>
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="stylesheet" href="/assets/css/research.css">
@@ -59,8 +60,8 @@
   </div>
 
   <div class="controls">
-    <button id="max-all">MAX all filtered</button>
-    <button id="clear-all">None all filtered</button>
+    <button id="max-all">MAX (all filtered)</button>
+    <button id="clear-all">None (all filtered)</button>
 	<button id="reset-research">Reset all research</button>
   </div>
 
@@ -81,6 +82,12 @@
     <input type="number" id="base-speed" value="0" placeholder="Base %" /> +
     <input type="number" id="bonus-speed" value="0" placeholder="Research %" />
   </label>
-
+  
+  <div id="totTimeTaken">
+    <p>
+	  Total time taken on upgrades so far is <strong><span></span><strong>
+	</p>
+  </div>
+  
 </body>
 </html>

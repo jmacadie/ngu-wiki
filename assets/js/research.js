@@ -78,7 +78,13 @@ function renderResearchRow(group) {
   for (let i = 0; i <= maxLvl; i++) {
     const opt = document.createElement('option');
     opt.value = i;
-    opt.textContent = i === 0 ? 'None' : `Level ${i}`;
+	let textVal = `Level ${i}`;
+	if (i === 0) {
+		textVal = 'None';
+	} else if (i === maxLvl) {
+		textVal = 'MAX';
+	}
+    opt.textContent = textVal;
     if (i === current) opt.selected = true;
     select.appendChild(opt);
   }
@@ -110,6 +116,8 @@ function updateResearchList() {
 
   state.visible = new Set([...visible.values()].map(g => g.id));
   for (const g of visible) tbody.appendChild(renderResearchRow(g));
+  
+  updateTimeInvested();
 }
 
 function setFilteredMax(e) {
@@ -137,6 +145,20 @@ function setAllNone(e) {
   for (const id of Object.keys(state.completedMap)) state.completedMap[id] = 0;
   localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
   updateResearchList();
+}
+
+function updateTimeInvested() {
+  const div = document.querySelector('.tot-time-taken span')
+  console.log(div);
+}
+
+function totalTimeInvested() {
+  return researchData
+	.map(g => g.innerLevels.filter(i => i.innerLevel <= state.completedMap[g.id]))
+	.filter(inner => inner.length)
+	.flat()
+	.map(level => level.rawTimeSeconds)
+	.reduce((sum, time) => sum + time, 0);
 }
 
 function addListeners() {
