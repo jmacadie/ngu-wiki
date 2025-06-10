@@ -7,14 +7,17 @@ const state = {
   levels: new Set(['I','II','III','IV','V','VI','VII']),
   completed: 'uncompleted',              // radio: uncompleted | completed | all
   speed: { base: 0, bonus: 0 },          // for later use
-  completedMap: JSON.parse(localStorage.getItem('completedResearch') || '{}')
+  completedMap: JSON.parse(localStorage.getItem('completedResearch') || '{}'),
+  visible: new Set(), 
 };
 
 function isVisible(group) {
-  const finished = (state.completedMap[group.id] || 0) >= group.innerLevels.length;
+  const finished = isGroupComplete(group);
+  const started = isGroupStarted(group);
   const show =
     (state.completed === 'all') ||
-    (state.completed === 'completed' ? finished : !finished);
+    (state.completed === 'completed' && started) ||
+	(state.completed === 'uncompleted' && !finished) ;
 
   return (
     group.tree === state.tree &&
@@ -28,20 +31,29 @@ function isGroupComplete(group) {
   return (state.completedMap[group.id] || 0) >= group.innerLevels.length;
 }
 
-function updateCategoryOptions() {
-  // 1️ gather unique categories (name + buff) for current tree
+function isGroupStarted(group) {
+  return (state.completedMap[group.id] || 0) >= 1;
+}
+
+function getCategories() {
+  // gather unique categories (name + buff) for current tree
   const unique = new Map();
   for (const g of researchData) {
     if (g.tree !== state.tree) continue;
     if (!unique.has(g.name)) unique.set(g.name, { name: g.name, buff: g.buff });
   }
 
-  // 2️ sort by buff then name
+  // sort by buff, then name
   const list = [...unique.values()].sort(
     (a, b) => a.buff.localeCompare(b.buff) || a.name.localeCompare(b.name)
   );
+  
+  return list;
+}
 
-  // 3️ rebuild the <select>
+function updateCategoryOptions() {
+  const list = getCategories();
+
   const sel = document.getElementById('category-select');
   sel.innerHTML = '';
   state.categories.clear();
@@ -59,7 +71,6 @@ function updateCategoryOptions() {
 function renderResearchRow(group) {
   const tr = document.createElement('tr');
 
-  // max inner level = #levels, dropdown 0…max
   const maxLvl = group.innerLevels.length;
   const current  = state.completedMap[group.id] || 0;
 
@@ -72,7 +83,6 @@ function renderResearchRow(group) {
     select.appendChild(opt);
   }
 
-  // persist on change
   select.addEventListener('change', () => {
     state.completedMap[group.id] = parseInt(select.value, 10);
     localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
@@ -98,9 +108,36 @@ function updateResearchList() {
       (a, b) => a.level.localeCompare(b.level) || a.buff.localeCompare(b.buff)
     );
 
+  state.visible = new Set([...visible.values()].map(g => g.id));
   for (const g of visible) tbody.appendChild(renderResearchRow(g));
 }
 
+function setFilteredMax(e) {
+  e.preventDefault();
+  const researches = researchData.filter(g => state.visible.has(g.id));
+
+  for (const group of researches) {
+    state.completedMap[group.id] = group.innerLevels.length;
+  }
+  localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
+  updateResearchList();
+}
+
+function setFilteredNone(e) {
+  e.preventDefault();
+  const researches = researchData.filter(g => state.visible.has(g.id));
+
+  for (const group of researches) state.completedMap[group.id] = 0;
+  localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
+  updateResearchList();
+}
+
+function setAllNone(e) {
+  e.preventDefault();
+  for (const id of Object.keys(state.completedMap)) state.completedMap[id] = 0;
+  localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
+  updateResearchList();
+}
 
 function addListeners() {
   // tree dropdown
@@ -137,17 +174,9 @@ function addListeners() {
     .addEventListener('input', e => state.speed.bonus = parseFloat(e.target.value) || 0);
 
   // buttons
-  document.getElementById('max-all').addEventListener('click', () => {
-    for (const g of researchData) state.completedMap[g.id] = g.innerLevels.length;
-    localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
-    updateResearchList();
-  });
-
-  document.getElementById('reset-research').addEventListener('click', () => {
-    for (const g of researchData) state.completedMap[g.id] = null;
-    localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
-    updateResearchList();
-  });
+  document.getElementById('max-all').addEventListener('click', setFilteredMax);
+  document.getElementById('clear-all').addEventListener('click', setFilteredNone);
+  document.getElementById('reset-research').addEventListener('click', setAllNone);
 }
 
 /* ────────────────────  bootstrap  ──────────────────── */
