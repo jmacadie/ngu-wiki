@@ -102,3 +102,102 @@ table.research-list td select {
   padding: 0.4em;
   font-size: 1em;
 }
+
+table#completed-research,
+table#uncompleted-lvl-research,
+table#uncompleted-all-research {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 1.5em 0;
+}
+
+/* header cells */
+table#completed-research th,
+table#uncompleted-lvl-research th,
+table#uncompleted-all-research th {
+  padding: 0.75em;
+  text-align: left;
+  background: #f4f4f4;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95em;
+}
+
+/* body cells */
+table#completed-research td,
+table#uncompleted-lvl-research td,
+table#uncompleted-all-research td {
+  padding: 0.6em;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+/* zebra striping (every even row, but skip header separators) */
+table#completed-research tbody tr:nth-child(even):not([hidden]),
+table#uncompleted-lvl-research tbody tr:nth-child(even):not([hidden]),
+table#uncompleted-all-research tbody tr:nth-child(even):not([hidden]) {
+  background: #fafafa;
+}
+
+/* section headers like “Growth”, “TOTAL GROWTH”… (colspan rows) */
+table#completed-research td[colspan],
+table#uncompleted-lvl-research td[colspan],
+table#uncompleted-all-research td[colspan] {
+  background: #e9ecef;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* right-align numeric columns for readability */
+table#completed-research td:nth-child(2),
+table#completed-research td:nth-child(3),
+table#completed-research td:nth-child(4),
+table#completed-research td:nth-child(5),
+table#uncompleted-lvl-research td:nth-child(2),
+table#uncompleted-lvl-research td:nth-child(3),
+table#uncompleted-lvl-research td:nth-child(4),
+table#uncompleted-lvl-research td:nth-child(5),
+table#uncompleted-all-research td:nth-child(2),
+table#uncompleted-all-research td:nth-child(3),
+table#uncompleted-all-research td:nth-child(4),
+table#uncompleted-all-research td:nth-child(5) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.control-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5em;
+  margin: 1.7em 0 2em;
+}
+
+.control-bar label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-weight: bold;
+  gap: 0.5em;
+  font-size: 0.95em;
+}
+
+/* inputs & selects inside that bar */
+.control-bar input[type="number"],
+.control-bar select {
+  width: 90px;
+  padding: 0.4em 0.5em;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.control-bar input[type="number"] {
+  text-align: right;
+}

@@ -203,7 +203,16 @@ function updateBuffTable(data, tableId) {
     const buffName = row.cells[0].textContent.trim();
     const data = aggData[buffName];
 
-    if (data) {
+    if (buffName.slice(0, 5) === 'TOTAL' && data) {
+	  const count = data.count;
+	  const time = toHMS(data.time);
+	  const power = data.power.toLocaleString();
+	  row.cells[1].textContent = '';
+      row.cells[2].innerHTML = `<strong>${count}</strong>`;
+      row.cells[3].innerHTML = `<strong>${time}</strong>`;
+      row.cells[4].innerHTML = `<strong>${power}</strong>`; 
+	}
+    else if (data) {
 	  row.cells[1].textContent = '+' + (isPcntRow(buffName) ? formatPcnt(data.value) : data.value.toLocaleString());
       row.cells[2].textContent = data.count;
       row.cells[3].textContent = toHMS(data.time);
