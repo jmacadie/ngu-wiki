@@ -6,7 +6,7 @@ const state = {
   categories: new Set(),                 // research “name” filters
   levels: new Set(['I','II','III','IV','V','VI','VII']),
   completed: 'uncompleted',              // radio: uncompleted | completed | all
-  speed: { base: 0, bonus: 0 },          // for later use
+  speed: JSON.parse(localStorage.getItem('researchSpeed')) || { base: 0, bonus: 0 },
   completedMap: JSON.parse(localStorage.getItem('completedResearch') || '{}'),
   visible: new Set(), 
 };
@@ -93,6 +93,7 @@ function renderResearchRow(group) {
     state.completedMap[group.id] = parseInt(select.value, 10);
     localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
     updateResearchList();
+	updateTimeInvested();
   });
 
   tr.innerHTML = `
@@ -116,8 +117,6 @@ function updateResearchList() {
 
   state.visible = new Set([...visible.values()].map(g => g.id));
   for (const g of visible) tbody.appendChild(renderResearchRow(g));
-  
-  updateTimeInvested();
 }
 
 function setFilteredMax(e) {
@@ -129,6 +128,7 @@ function setFilteredMax(e) {
   }
   localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
   updateResearchList();
+  updateTimeInvested();
 }
 
 function setFilteredNone(e) {
@@ -138,6 +138,7 @@ function setFilteredNone(e) {
   for (const group of researches) state.completedMap[group.id] = 0;
   localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
   updateResearchList();
+  updateTimeInvested();
 }
 
 function setAllNone(e) {
@@ -145,20 +146,63 @@ function setAllNone(e) {
   for (const id of Object.keys(state.completedMap)) state.completedMap[id] = 0;
   localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
   updateResearchList();
+  updateTimeInvested();
 }
 
 function updateTimeInvested() {
-  const div = document.querySelector('.tot-time-taken span')
-  console.log(div);
+  const timeInvested = totalInvested();
+  const timetotInvested = timeInvested.reduce((sum, time) => sum + time, 0);
+  const timeInvestedHMS = toHMS(timeInvested.reduce((sum, time) => sum + time, 0));
+  document.getElementById('tot-time-taken').textContent = timeInvestedHMS;
+  document.getElementById('tot-items-researched').textContent = timeInvested.length;
+  
+  const timeRemaining = totalRemaining();
+  const timetotRemaining = timeRemaining.reduce((sum, time) => sum + time, 0);
+  const timeRemainingHMS = toHMS(timeRemaining.reduce((sum, time) => sum + time, 0));
+  document.getElementById('tot-time-remaining').textContent = timeRemainingHMS;
+  document.getElementById('tot-items-to-research').textContent = timeRemaining.length;
 }
 
-function totalTimeInvested() {
+function researchSpeed() {
+	return (state.speed.base + state.speed.bonus) / 100;
+}
+
+function totalInvested() {
+  const modifier = 1 / (1 + researchSpeed());
   return researchData
 	.map(g => g.innerLevels.filter(i => i.innerLevel <= state.completedMap[g.id]))
 	.filter(inner => inner.length)
 	.flat()
-	.map(level => level.rawTimeSeconds)
-	.reduce((sum, time) => sum + time, 0);
+	.map(level => level.rawTimeSeconds * modifier);
+}
+
+function totalRemaining() {
+  const modifier = 1 / (1 + researchSpeed());
+  return researchData
+	.map(g => g.innerLevels.filter(i => i.innerLevel > state.completedMap[g.id]))
+	.filter(inner => inner.length)
+	.flat()
+	.map(level => level.rawTimeSeconds * modifier);
+}
+
+function updateSpeed(e) {
+  e.preventDefault();
+  
+  const elBase = document.getElementById('base-speed');
+  const elBonus = document.getElementById('bonus-speed');
+  state.speed.base  = parseFloat(elBase.value) || 0;
+  state.speed.bonus = parseFloat(elBonus.value) || 0;
+  localStorage.setItem('researchSpeed', JSON.stringify(state.speed));
+  
+  updateTimeInvested();
+}
+
+function initPage() {
+  updateCategoryOptions();
+  updateResearchList();
+  updateTimeInvested();
+  document.getElementById('base-speed').value = state.speed.base;
+  document.getElementById('bonus-speed').value = state.speed.bonus;
 }
 
 function addListeners() {
@@ -189,11 +233,9 @@ function addListeners() {
     })
   );
 
-  // speed inputs (not yet used)
-  document.getElementById('base-speed')
-    .addEventListener('input', e => state.speed.base  = parseFloat(e.target.value) || 0);
-  document.getElementById('bonus-speed')
-    .addEventListener('input', e => state.speed.bonus = parseFloat(e.target.value) || 0);
+  // speed inputs
+  document.getElementById('base-speed').addEventListener('input', updateSpeed);
+  document.getElementById('bonus-speed').addEventListener('input', updateSpeed);
 
   // buttons
   document.getElementById('max-all').addEventListener('click', setFilteredMax);
@@ -204,6 +246,5 @@ function addListeners() {
 /* ────────────────────  bootstrap  ──────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   addListeners();
-  updateCategoryOptions();
-  updateResearchList();
+  initPage();
 });

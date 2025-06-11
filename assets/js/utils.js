@@ -5,7 +5,7 @@ export function toHMS(seconds) {
   const d = Math.floor(seconds / DAY);
   const h = Math.floor((seconds % DAY) / HOUR);
   const m = Math.floor((seconds % HOUR) / MIN);
-  const s = seconds % MIN;
+  const s = Math.floor(seconds % MIN);
   let out = "";
   if (d !== 0) {
 	out += `${d}d `;
