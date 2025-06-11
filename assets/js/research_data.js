@@ -4294,7 +4294,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Precision Targeting",
     "level": "I",
-    "buff": "Marksman Attack",
+    "buff": "Archer Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -4342,7 +4342,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Cavalry Charge",
     "level": "I",
-    "buff": "Lancer Attack",
+    "buff": "Cavalry Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -4438,7 +4438,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Picket Lines",
     "level": "I",
-    "buff": "Marksman Defense",
+    "buff": "Archer Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -4486,7 +4486,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Bulwark Formations",
     "level": "I",
-    "buff": "Lancer Defense",
+    "buff": "Cavalry Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -4774,7 +4774,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Targeted Sniping",
     "level": "I",
-    "buff": "Marksman Lethality",
+    "buff": "Archer Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -4822,7 +4822,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Lance Upgrade",
     "level": "I",
-    "buff": "Lancer Lethality",
+    "buff": "Cavalry Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -4918,7 +4918,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Leathercraft",
     "level": "I",
-    "buff": "Marksman Health",
+    "buff": "Archer Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -4936,7 +4936,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 8,
-        "prerequisite": "Marksman Armor I Lv. 1",
+        "prerequisite": "Archer Armor I Lv. 1",
         "bread": 7500,
         "wood": 7500,
         "stone": 1500,
@@ -4949,7 +4949,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 9,
-        "prerequisite": "Marksman Armor I Lv. 2",
+        "prerequisite": "Archer Armor I Lv. 2",
         "bread": 16000,
         "wood": 16000,
         "stone": 3200,
@@ -4966,7 +4966,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Fortified Mail",
     "level": "I",
-    "buff": "Lancer Health",
+    "buff": "Cavalry Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -4984,7 +4984,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 8,
-        "prerequisite": "Lancer Armor I Lv. 1",
+        "prerequisite": "Cavalry Armor I Lv. 1",
         "bread": 7500,
         "wood": 7500,
         "stone": 1500,
@@ -4997,7 +4997,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 9,
-        "prerequisite": "Lancer Armor I Lv. 2",
+        "prerequisite": "Cavalry Armor I Lv. 2",
         "bread": 16000,
         "wood": 16000,
         "stone": 3200,
@@ -5019,7 +5019,7 @@ export const researchData = [
       {
         "innerLevel": 1,
         "academyLevel": 8,
-        "prerequisite": "Shield Upgrade I Lv. 1, Marksman Armor I Lv. 1, Lancer Armor I Lv. 1",
+        "prerequisite": "Shield Upgrade I Lv. 1, Archer Armor I Lv. 1, Cavalry Armor I Lv. 1",
         "bread": 87000,
         "wood": 87000,
         "stone": 17000,
@@ -5110,7 +5110,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Precision Targeting",
     "level": "II",
-    "buff": "Marksman Attack",
+    "buff": "Archer Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -5158,7 +5158,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Cavalry Charge",
     "level": "II",
-    "buff": "Lancer Attack",
+    "buff": "Cavalry Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -5254,7 +5254,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Picket Lines",
     "level": "II",
-    "buff": "Marksman Defense",
+    "buff": "Archer Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -5302,7 +5302,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Bulwark Formations",
     "level": "II",
-    "buff": "Lancer Defense",
+    "buff": "Cavalry Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -5590,7 +5590,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Targeted Sniping",
     "level": "II",
-    "buff": "Marksman Lethality",
+    "buff": "Archer Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -5638,7 +5638,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Lance Upgrade",
     "level": "II",
-    "buff": "Lancer Lethality",
+    "buff": "Cavalry Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -5734,7 +5734,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Leathercraft",
     "level": "II",
-    "buff": "Marksman Health",
+    "buff": "Archer Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -5752,7 +5752,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 13,
-        "prerequisite": "Marksman Armor II Lv. 1",
+        "prerequisite": "Archer Armor II Lv. 1",
         "bread": 75000,
         "wood": 75000,
         "stone": 15000,
@@ -5765,7 +5765,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 14,
-        "prerequisite": "Marksman Armor II Lv. 2",
+        "prerequisite": "Archer Armor II Lv. 2",
         "bread": 160000,
         "wood": 160000,
         "stone": 32000,
@@ -5782,7 +5782,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Fortified Mail",
     "level": "II",
-    "buff": "Lancer Health",
+    "buff": "Cavalry Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -5800,7 +5800,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 13,
-        "prerequisite": "Lancer Armor II Lv. 1",
+        "prerequisite": "Cavalry Armor II Lv. 1",
         "bread": 75000,
         "wood": 75000,
         "stone": 15000,
@@ -5813,7 +5813,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 14,
-        "prerequisite": "Lancer Armor II Lv. 2",
+        "prerequisite": "Cavalry Armor II Lv. 2",
         "bread": 160000,
         "wood": 160000,
         "stone": 32000,
@@ -5835,7 +5835,7 @@ export const researchData = [
       {
         "innerLevel": 1,
         "academyLevel": 13,
-        "prerequisite": "Shield Upgrade II Lv. 1, Marksman Armor II Lv. 1, Lancer Armor II Lv. 1",
+        "prerequisite": "Shield Upgrade II Lv. 1, Archer Armor II Lv. 1, Cavalry Armor II Lv. 1",
         "bread": 280000,
         "wood": 280000,
         "stone": 56000,
@@ -5952,7 +5952,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Precision Targeting",
     "level": "III",
-    "buff": "Marksman Attack",
+    "buff": "Archer Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -6013,7 +6013,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Cavalry Charge",
     "level": "III",
-    "buff": "Lancer Attack",
+    "buff": "Cavalry Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -6135,7 +6135,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Picket Lines",
     "level": "III",
-    "buff": "Marksman Defense",
+    "buff": "Archer Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -6196,7 +6196,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Bulwark Formations",
     "level": "III",
-    "buff": "Lancer Defense",
+    "buff": "Cavalry Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -6562,7 +6562,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Targeted Sniping",
     "level": "III",
-    "buff": "Marksman Lethality",
+    "buff": "Archer Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -6623,7 +6623,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Lance Upgrade",
     "level": "III",
-    "buff": "Lancer Lethality",
+    "buff": "Cavalry Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -6745,7 +6745,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Leathercraft",
     "level": "III",
-    "buff": "Marksman Health",
+    "buff": "Archer Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -6763,7 +6763,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 18,
-        "prerequisite": "Marksman Armor III Lv. 1",
+        "prerequisite": "Archer Armor III Lv. 1",
         "bread": 220000,
         "wood": 220000,
         "stone": 44000,
@@ -6776,7 +6776,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 19,
-        "prerequisite": "Marksman Armor III Lv. 2",
+        "prerequisite": "Archer Armor III Lv. 2",
         "bread": 290000,
         "wood": 290000,
         "stone": 58000,
@@ -6789,7 +6789,7 @@ export const researchData = [
       {
         "innerLevel": 4,
         "academyLevel": 20,
-        "prerequisite": "Marksman Armor III Lv. 3",
+        "prerequisite": "Archer Armor III Lv. 3",
         "bread": 690000,
         "wood": 690000,
         "stone": 130000,
@@ -6806,7 +6806,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Fortified Mail",
     "level": "III",
-    "buff": "Lancer Health",
+    "buff": "Cavalry Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -6824,7 +6824,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 18,
-        "prerequisite": "Lancer Armor III Lv. 1",
+        "prerequisite": "Cavalry Armor III Lv. 1",
         "bread": 220000,
         "wood": 220000,
         "stone": 44000,
@@ -6837,7 +6837,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 19,
-        "prerequisite": "Lancer Armor III Lv. 2",
+        "prerequisite": "Cavalry Armor III Lv. 2",
         "bread": 290000,
         "wood": 290000,
         "stone": 58000,
@@ -6850,7 +6850,7 @@ export const researchData = [
       {
         "innerLevel": 4,
         "academyLevel": 20,
-        "prerequisite": "Lancer Armor III Lv. 3",
+        "prerequisite": "Cavalry Armor III Lv. 3",
         "bread": 690000,
         "wood": 690000,
         "stone": 130000,
@@ -6872,7 +6872,7 @@ export const researchData = [
       {
         "innerLevel": 1,
         "academyLevel": 18,
-        "prerequisite": "Shield Upgrade III Lv. 1, Marksman Armor III Lv. 1, Lancer Armor III Lv. 1",
+        "prerequisite": "Shield Upgrade III Lv. 1, Archer Armor III Lv. 1, Cavalry Armor III Lv. 1",
         "bread": 800000,
         "wood": 800000,
         "stone": 160000,
@@ -7015,7 +7015,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Precision Targeting",
     "level": "IV",
-    "buff": "Marksman Attack",
+    "buff": "Archer Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -7089,7 +7089,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Cavalry Charge",
     "level": "IV",
-    "buff": "Lancer Attack",
+    "buff": "Cavalry Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -7237,7 +7237,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Picket Lines",
     "level": "IV",
-    "buff": "Marksman Defense",
+    "buff": "Archer Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -7311,7 +7311,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Bulwark Formations",
     "level": "IV",
-    "buff": "Lancer Defense",
+    "buff": "Cavalry Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -7755,7 +7755,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Targeted Sniping",
     "level": "IV",
-    "buff": "Marksman Lethality",
+    "buff": "Archer Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -7829,7 +7829,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Lance Upgrade",
     "level": "IV",
-    "buff": "Lancer Lethality",
+    "buff": "Cavalry Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -7977,7 +7977,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Leathercraft",
     "level": "IV",
-    "buff": "Marksman Health",
+    "buff": "Archer Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -7995,7 +7995,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 23,
-        "prerequisite": "Marksman Armor IV Lv. 1",
+        "prerequisite": "Archer Armor IV Lv. 1",
         "bread": 590000,
         "wood": 590000,
         "stone": 110000,
@@ -8008,7 +8008,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 24,
-        "prerequisite": "Marksman Armor IV Lv. 2",
+        "prerequisite": "Archer Armor IV Lv. 2",
         "bread": 690000,
         "wood": 690000,
         "stone": 130000,
@@ -8021,7 +8021,7 @@ export const researchData = [
       {
         "innerLevel": 4,
         "academyLevel": 25,
-        "prerequisite": "Marksman Armor IV Lv. 3",
+        "prerequisite": "Archer Armor IV Lv. 3",
         "bread": 890000,
         "wood": 890000,
         "stone": 170000,
@@ -8034,7 +8034,7 @@ export const researchData = [
       {
         "innerLevel": 5,
         "academyLevel": 25,
-        "prerequisite": "Marksman Armor IV Lv. 4",
+        "prerequisite": "Archer Armor IV Lv. 4",
         "bread": 1800000,
         "wood": 1800000,
         "stone": 360000,
@@ -8051,7 +8051,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Fortified Mail",
     "level": "IV",
-    "buff": "Lancer Health",
+    "buff": "Cavalry Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -8069,7 +8069,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 23,
-        "prerequisite": "Lancer Armor IV Lv. 1",
+        "prerequisite": "Cavalry Armor IV Lv. 1",
         "bread": 590000,
         "wood": 590000,
         "stone": 110000,
@@ -8082,7 +8082,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 24,
-        "prerequisite": "Lancer Armor IV Lv. 2",
+        "prerequisite": "Cavalry Armor IV Lv. 2",
         "bread": 690000,
         "wood": 690000,
         "stone": 130000,
@@ -8095,7 +8095,7 @@ export const researchData = [
       {
         "innerLevel": 4,
         "academyLevel": 25,
-        "prerequisite": "Lancer Armor IV Lv. 3",
+        "prerequisite": "Cavalry Armor IV Lv. 3",
         "bread": 890000,
         "wood": 890000,
         "stone": 170000,
@@ -8108,7 +8108,7 @@ export const researchData = [
       {
         "innerLevel": 5,
         "academyLevel": 25,
-        "prerequisite": "Lancer Armor IV Lv. 4",
+        "prerequisite": "Cavalry Armor IV Lv. 4",
         "bread": 1800000,
         "wood": 1800000,
         "stone": 360000,
@@ -8130,7 +8130,7 @@ export const researchData = [
       {
         "innerLevel": 1,
         "academyLevel": 23,
-        "prerequisite": "Shield Upgrade IV Lv. 1, Marksman Armor IV Lv. 1, Lancer Armor IV Lv. 1",
+        "prerequisite": "Shield Upgrade IV Lv. 1, Archer Armor IV Lv. 1, Cavalry Armor IV Lv. 1",
         "bread": 1400000,
         "wood": 1400000,
         "stone": 280000,
@@ -8299,7 +8299,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Precision Targeting",
     "level": "V",
-    "buff": "Marksman Attack",
+    "buff": "Archer Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -8386,7 +8386,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Cavalry Charge",
     "level": "V",
-    "buff": "Lancer Attack",
+    "buff": "Cavalry Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -8560,7 +8560,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Picket Lines",
     "level": "V",
-    "buff": "Marksman Defense",
+    "buff": "Archer Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -8647,7 +8647,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Bulwark Formations",
     "level": "V",
-    "buff": "Lancer Defense",
+    "buff": "Cavalry Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -9169,7 +9169,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Targeted Sniping",
     "level": "V",
-    "buff": "Marksman Lethality",
+    "buff": "Archer Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -9256,7 +9256,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Lance Upgrade",
     "level": "V",
-    "buff": "Lancer Lethality",
+    "buff": "Cavalry Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -9430,7 +9430,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Leathercraft",
     "level": "V",
-    "buff": "Marksman Health",
+    "buff": "Archer Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -9448,7 +9448,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 27,
-        "prerequisite": "Marksman Armor V Lv. 1",
+        "prerequisite": "Archer Armor V Lv. 1",
         "bread": 880000,
         "wood": 880000,
         "stone": 170000,
@@ -9461,7 +9461,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 27,
-        "prerequisite": "Marksman Armor V Lv. 2",
+        "prerequisite": "Archer Armor V Lv. 2",
         "bread": 880000,
         "wood": 880000,
         "stone": 170000,
@@ -9474,7 +9474,7 @@ export const researchData = [
       {
         "innerLevel": 4,
         "academyLevel": 27,
-        "prerequisite": "Marksman Armor V Lv. 3",
+        "prerequisite": "Archer Armor V Lv. 3",
         "bread": 1000000,
         "wood": 1000000,
         "stone": 210000,
@@ -9487,7 +9487,7 @@ export const researchData = [
       {
         "innerLevel": 5,
         "academyLevel": 27,
-        "prerequisite": "Marksman Armor V Lv. 4",
+        "prerequisite": "Archer Armor V Lv. 4",
         "bread": 1200000,
         "wood": 1200000,
         "stone": 240000,
@@ -9500,7 +9500,7 @@ export const researchData = [
       {
         "innerLevel": 6,
         "academyLevel": 27,
-        "prerequisite": "Marksman Armor V Lv. 5",
+        "prerequisite": "Archer Armor V Lv. 5",
         "bread": 2400000,
         "wood": 2400000,
         "stone": 480000,
@@ -9517,7 +9517,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Fortified Mail",
     "level": "V",
-    "buff": "Lancer Health",
+    "buff": "Cavalry Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -9535,7 +9535,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 27,
-        "prerequisite": "Lancer Armor V Lv. 1",
+        "prerequisite": "Cavalry Armor V Lv. 1",
         "bread": 880000,
         "wood": 880000,
         "stone": 170000,
@@ -9548,7 +9548,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 27,
-        "prerequisite": "Lancer Armor V Lv. 2",
+        "prerequisite": "Cavalry Armor V Lv. 2",
         "bread": 880000,
         "wood": 880000,
         "stone": 170000,
@@ -9561,7 +9561,7 @@ export const researchData = [
       {
         "innerLevel": 4,
         "academyLevel": 27,
-        "prerequisite": "Lancer Armor V Lv. 3",
+        "prerequisite": "Cavalry Armor V Lv. 3",
         "bread": 1000000,
         "wood": 1000000,
         "stone": 210000,
@@ -9574,7 +9574,7 @@ export const researchData = [
       {
         "innerLevel": 5,
         "academyLevel": 27,
-        "prerequisite": "Lancer Armor V Lv. 4",
+        "prerequisite": "Cavalry Armor V Lv. 4",
         "bread": 1200000,
         "wood": 1200000,
         "stone": 240000,
@@ -9587,7 +9587,7 @@ export const researchData = [
       {
         "innerLevel": 6,
         "academyLevel": 27,
-        "prerequisite": "Lancer Armor V Lv. 5",
+        "prerequisite": "Cavalry Armor V Lv. 5",
         "bread": 2400000,
         "wood": 2400000,
         "stone": 480000,
@@ -9609,7 +9609,7 @@ export const researchData = [
       {
         "innerLevel": 1,
         "academyLevel": 28,
-        "prerequisite": "Shield Upgrade V Lv. 1, Marksman Armor V Lv. 1, Lancer Armor V Lv. 1",
+        "prerequisite": "Shield Upgrade V Lv. 1, Archer Armor V Lv. 1, Cavalry Armor V Lv. 1",
         "bread": 5000000,
         "wood": 5000000,
         "stone": 1000000,
@@ -9778,7 +9778,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Precision Targeting",
     "level": "VI",
-    "buff": "Marksman Attack",
+    "buff": "Archer Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -9865,7 +9865,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Cavalry Charge",
     "level": "VI",
-    "buff": "Lancer Attack",
+    "buff": "Cavalry Attack",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -10039,7 +10039,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Picket Lines",
     "level": "VI",
-    "buff": "Marksman Defense",
+    "buff": "Archer Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -10126,7 +10126,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Bulwark Formations",
     "level": "VI",
-    "buff": "Lancer Defense",
+    "buff": "Cavalry Defense",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -10648,7 +10648,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Targeted Sniping",
     "level": "VI",
-    "buff": "Marksman Lethality",
+    "buff": "Archer Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -10735,7 +10735,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Lance Upgrade",
     "level": "VI",
-    "buff": "Lancer Lethality",
+    "buff": "Cavalry Lethality",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -10909,7 +10909,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Leathercraft",
     "level": "VI",
-    "buff": "Marksman Health",
+    "buff": "Archer Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -10927,7 +10927,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 30,
-        "prerequisite": "Marksman Armor VI Lv. 1",
+        "prerequisite": "Archer Armor VI Lv. 1",
         "bread": 3100000,
         "wood": 3100000,
         "stone": 620000,
@@ -10940,7 +10940,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 30,
-        "prerequisite": "Marksman Armor VI Lv. 2",
+        "prerequisite": "Archer Armor VI Lv. 2",
         "bread": 3100000,
         "wood": 3100000,
         "stone": 620000,
@@ -10953,7 +10953,7 @@ export const researchData = [
       {
         "innerLevel": 4,
         "academyLevel": 30,
-        "prerequisite": "Marksman Armor VI Lv. 3",
+        "prerequisite": "Archer Armor VI Lv. 3",
         "bread": 3700000,
         "wood": 3700000,
         "stone": 740000,
@@ -10966,7 +10966,7 @@ export const researchData = [
       {
         "innerLevel": 5,
         "academyLevel": 30,
-        "prerequisite": "Marksman Armor VI Lv. 4",
+        "prerequisite": "Archer Armor VI Lv. 4",
         "bread": 4300000,
         "wood": 4300000,
         "stone": 870000,
@@ -10979,7 +10979,7 @@ export const researchData = [
       {
         "innerLevel": 6,
         "academyLevel": 30,
-        "prerequisite": "Marksman Armor VI Lv. 5",
+        "prerequisite": "Archer Armor VI Lv. 5",
         "bread": 8500000,
         "wood": 8500000,
         "stone": 1700000,
@@ -10996,7 +10996,7 @@ export const researchData = [
     "tree": "Battle",
     "name": "Fortified Mail",
     "level": "VI",
-    "buff": "Lancer Health",
+    "buff": "Cavalry Health",
     "innerLevels": [
       {
         "innerLevel": 1,
@@ -11014,7 +11014,7 @@ export const researchData = [
       {
         "innerLevel": 2,
         "academyLevel": 30,
-        "prerequisite": "Lancer Armor VI Lv. 1",
+        "prerequisite": "Cavalry Armor VI Lv. 1",
         "bread": 3100000,
         "wood": 3100000,
         "stone": 620000,
@@ -11027,7 +11027,7 @@ export const researchData = [
       {
         "innerLevel": 3,
         "academyLevel": 30,
-        "prerequisite": "Lancer Armor VI Lv. 2",
+        "prerequisite": "Cavalry Armor VI Lv. 2",
         "bread": 3100000,
         "wood": 3100000,
         "stone": 620000,
@@ -11040,7 +11040,7 @@ export const researchData = [
       {
         "innerLevel": 4,
         "academyLevel": 30,
-        "prerequisite": "Lancer Armor VI Lv. 3",
+        "prerequisite": "Cavalry Armor VI Lv. 3",
         "bread": 3700000,
         "wood": 3700000,
         "stone": 740000,
@@ -11053,7 +11053,7 @@ export const researchData = [
       {
         "innerLevel": 5,
         "academyLevel": 30,
-        "prerequisite": "Lancer Armor VI Lv. 4",
+        "prerequisite": "Cavalry Armor VI Lv. 4",
         "bread": 4300000,
         "wood": 4300000,
         "stone": 870000,
@@ -11066,7 +11066,7 @@ export const researchData = [
       {
         "innerLevel": 6,
         "academyLevel": 30,
-        "prerequisite": "Lancer Armor VI Lv. 5",
+        "prerequisite": "Cavalry Armor VI Lv. 5",
         "bread": 8500000,
         "wood": 8500000,
         "stone": 1700000,

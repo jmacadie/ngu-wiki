@@ -64,6 +64,7 @@
 	<button id="reset-research">Reset all research</button>
   </div>
 
+  <h3>Research List</h3>
   <table class="research-list" id="research-table">
     <thead>
       <tr>
@@ -83,48 +84,320 @@
   </label>
   
   <label>Academy Level:
-      <select id="academy-select">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        <option>6</option>
-        <option>7</option>
-		<option>8</option>
-        <option>9</option>
-        <option>10</option>
-		<option>11</option>
-        <option>12</option>
-        <option>13</option>
-        <option>14</option>
-        <option>15</option>
-        <option>16</option>
-        <option>17</option>
-		<option>18</option>
-        <option>19</option>
-        <option>20</option>
-		<option>21</option>
-        <option>22</option>
-        <option>23</option>
-        <option>24</option>
-        <option>25</option>
-        <option>26</option>
-        <option>27</option>
-		<option>28</option>
-        <option>29</option>
-        <option>30</option>
-      </select>
-    </label>
+    <select id="academy-select">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+      <option>11</option>
+      <option>12</option>
+      <option>13</option>
+      <option>14</option>
+      <option>15</option>
+      <option>16</option>
+      <option>17</option>
+      <option>18</option>
+      <option>19</option>
+      <option>20</option>
+      <option>21</option>
+      <option>22</option>
+      <option>23</option>
+      <option>24</option>
+      <option>25</option>
+      <option>26</option>
+      <option>27</option>
+      <option>28</option>
+      <option>29</option>
+      <option>30</option>
+    </select>
+  </label>
   
-  <p>
-	Total time taken on upgrades so far is <strong><span id="tot-time-taken"></span></strong> on
-	<span id="tot-items-researched"></span> different researches
-  </p>
-  <p>
-	Total time remaining on upgrades is <strong><span id="tot-time-remaining"></span></strong> on
-	<span id="tot-items-to-research"></span> different researches
-  </p>
+  <h3>Stats</h3>
+  <h4>Completed Research</h4>
+  <table id="completed-research">
+    <thead>
+      <tr>
+        <th>Buff</th>
+		<th>Value</th>
+		<th>Count</th>
+        <th>Time</th>
+		<th>Power</th>
+      </tr>
+    </thead>
+    <tbody>
+	  <tr>
+        <td colspan="5">Growth</td>
+      </tr>
+	  <tr>
+        <td>Research Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+      <tr>
+        <td>Construction Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Healing Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Training Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infirmary Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Training Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>March Queue</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>TOTAL GROWTH</td>
+		<td>n/a</td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">Economy</td>
+      </tr>
+      
+	  <tr>
+        <td>Bread Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Wood Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Stone Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Iron Output</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Bread Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Wood Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Stone Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Iron Gathering Speed</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>TOTAL ECONOMY</td>
+		<td>n/a</td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">Battle</td>
+      </tr>
+	  <tr>
+        <td>Infantry Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Infantry Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Cavalry Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Archer Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Attack</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Defense</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Health</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>All Troops Lethality</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Troop Deployment Capacity</td>
+		<td></td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>TOTAL BATTLE</td>
+		<td>n/a</td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td colspan="5">All</td>
+      </tr>
+	  <tr>
+        <td>TOTAL</td>
+		<td>n/a</td>
+		<td></td>
+        <td></td>
+		<td></td>
+      </tr>
+    </tbody>
+  </table>
   
 </body>
 </html>

@@ -8,6 +8,7 @@ const state = {
   completed: 'uncompleted',              // radio: uncompleted | completed | all
   speed: JSON.parse(localStorage.getItem('researchSpeed')) || { base: 0, bonus: 0 },
   completedMap: JSON.parse(localStorage.getItem('completedResearch') || '{}'),
+  academyLevel: JSON.parse(localStorage.getItem('academyLevel') || 0),
   visible: new Set(), 
 };
 
@@ -149,22 +150,108 @@ function setAllNone(e) {
   updateTimeInvested();
 }
 
+function getTotalName(tree) {
+  if (tree === 'Growth') return 'TOTAL GROWTH';
+  if (tree === 'Economy') return 'TOTAL ECONOMY';
+  if (tree === 'Battle') return 'TOTAL BATTLE';
+  return '';
+}
+
+function aggregateDataForTable(data) {
+  const totals = {
+	'TOTAL': { value: 0, count: 0, time: 0, power: 0 }
+  }; 
+
+  for (const g of data) {
+    const key = g.buff;
+    if (!totals[key]) totals[key] = { value: 0, count: 0, time: 0, power: 0 };
+	const totalKey = getTotalName(g.tree);
+	if (!totals[totalKey]) totals[totalKey] = { value: 0, count: 0, time: 0, power: 0 };
+
+    totals[key].value += g.buffValue;
+    totals[key].count += 1;
+    totals[key].time  += g.timeSeconds;
+    totals[key].power += g.power;
+	
+	totals[totalKey].count += 1;
+    totals[totalKey].time  += g.timeSeconds;
+    totals[totalKey].power += g.power;
+	
+	totals['TOTAL'].count += 1;
+    totals['TOTAL'].time  += g.timeSeconds;
+    totals['TOTAL'].power += g.power;
+  }
+  return totals;
+}
+
+function isPcntRow(buff) {
+  return buff.includes('Speed') ||
+	buff.includes('Output') ||
+	buff.includes('Attack') ||
+	buff.includes('Defense') ||
+	buff.includes('Health') ||
+	buff.includes('Lethality');
+}
+
+function updateBuffTable(data, tableId) {
+  const aggData = aggregateDataForTable(data);
+  const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+
+  rows.forEach(row => {
+	if (row.cells.length < 5) return; 
+
+    const buffName = row.cells[0].textContent.trim();
+    const data = aggData[buffName];
+
+    if (data) {
+	  row.cells[1].textContent = '+' + (isPcntRow(buffName) ? formatPcnt(data.value) : data.value.toLocaleString());
+      row.cells[2].textContent = data.count;
+      row.cells[3].textContent = toHMS(data.time);
+      row.cells[4].textContent = data.power.toLocaleString(); 
+    } else {
+      row.cells[1].textContent = 'None';
+      row.cells[2].textContent = 0;
+      row.cells[3].textContent = '0s';
+      row.cells[4].textContent = 0;
+    }
+  });
+}
+
 function updateTimeInvested() {
-  const timeInvested = totalInvested();
-  const timetotInvested = timeInvested.reduce((sum, time) => sum + time, 0);
-  const timeInvestedHMS = toHMS(timeInvested.reduce((sum, time) => sum + time, 0));
-  document.getElementById('tot-time-taken').textContent = timeInvestedHMS;
-  document.getElementById('tot-items-researched').textContent = timeInvested.length;
-  
-  const timeRemaining = totalRemaining();
-  const timetotRemaining = timeRemaining.reduce((sum, time) => sum + time, 0);
-  const timeRemainingHMS = toHMS(timeRemaining.reduce((sum, time) => sum + time, 0));
-  document.getElementById('tot-time-remaining').textContent = timeRemainingHMS;
-  document.getElementById('tot-items-to-research').textContent = timeRemaining.length;
+  updateBuffTable(completedResearchDetails(), 'completed-research');
 }
 
 function researchSpeed() {
 	return (state.speed.base + state.speed.bonus) / 100;
+}
+
+function completedResearchDetails() {
+  const modifier = 1 / (1 + researchSpeed());
+  return researchData.flatMap(group => {
+    const maxDone = state.completedMap[group.id] || 0;
+    if (!maxDone) return [];
+
+    return group.innerLevels
+      .filter(il => il.innerLevel <= maxDone)
+      .map(il => ({
+        id:           group.id,
+        tree:         group.tree,
+        name:         group.name,
+        level:        group.level,
+        buff:         group.buff,
+        innerLevel:   il.innerLevel,
+	    academyLevel: il.academyLevel,
+	    prerequisite: il.prerequisite,
+	    bread:        il.bread,
+	    wood:         il.wood,
+	    stone:        il.stone,
+	    iron:         il.iron,
+	    gold:         il.gold,
+	    timeSeconds:  il.rawTimeSeconds * modifier,
+	    power:        il.power,
+	    buffValue:    il.buffValue
+      }));
+  });
 }
 
 function totalInvested() {
