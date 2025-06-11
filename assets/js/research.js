@@ -3,12 +3,12 @@ import { toHMS, formatPcnt } from './utils.js';
 
 const state = {
   tree: 'Growth',
-  categories: new Set(),                 // research “name” filters
+  categories: new Set(),
   levels: new Set(['I','II','III','IV','V','VI','VII']),
-  completed: 'uncompleted',              // radio: uncompleted | completed | all
+  completed: 'uncompleted',
   speed: JSON.parse(localStorage.getItem('researchSpeed')) || { base: 0, bonus: 0 },
   completedMap: JSON.parse(localStorage.getItem('completedResearch') || '{}'),
-  academyLevel: JSON.parse(localStorage.getItem('academyLevel') || 0),
+  academyLevel: Number(JSON.parse(localStorage.getItem('academyLevel') || 0)),
   visible: new Set(), 
 };
 
@@ -219,6 +219,8 @@ function updateBuffTable(data, tableId) {
 
 function updateTimeInvested() {
   updateBuffTable(completedResearchDetails(), 'completed-research');
+  updateBuffTable(uncompletedLvlResearchDetails(), 'uncompleted-lvl-research');
+  updateBuffTable(uncompletedAllResearchDetails(), 'uncompleted-all-research');
 }
 
 function researchSpeed() {
@@ -254,22 +256,60 @@ function completedResearchDetails() {
   });
 }
 
-function totalInvested() {
+function uncompletedLvlResearchDetails() {
   const modifier = 1 / (1 + researchSpeed());
-  return researchData
-	.map(g => g.innerLevels.filter(i => i.innerLevel <= state.completedMap[g.id]))
-	.filter(inner => inner.length)
-	.flat()
-	.map(level => level.rawTimeSeconds * modifier);
+  return researchData.flatMap(group => {
+    const maxDone = state.completedMap[group.id] || 0;
+    
+    return group.innerLevels
+      .filter(il => (il.innerLevel > maxDone) && (il.academyLevel <= state.academyLevel))
+      .map(il => ({
+        id:           group.id,
+        tree:         group.tree,
+        name:         group.name,
+        level:        group.level,
+        buff:         group.buff,
+        innerLevel:   il.innerLevel,
+	    academyLevel: il.academyLevel,
+	    prerequisite: il.prerequisite,
+	    bread:        il.bread,
+	    wood:         il.wood,
+	    stone:        il.stone,
+	    iron:         il.iron,
+	    gold:         il.gold,
+	    timeSeconds:  il.rawTimeSeconds * modifier,
+	    power:        il.power,
+	    buffValue:    il.buffValue
+      }));
+  });
 }
 
-function totalRemaining() {
+function uncompletedAllResearchDetails() {
   const modifier = 1 / (1 + researchSpeed());
-  return researchData
-	.map(g => g.innerLevels.filter(i => i.innerLevel > state.completedMap[g.id]))
-	.filter(inner => inner.length)
-	.flat()
-	.map(level => level.rawTimeSeconds * modifier);
+  return researchData.flatMap(group => {
+    const maxDone = state.completedMap[group.id] || 0;
+
+    return group.innerLevels
+      .filter(il => il.innerLevel > maxDone)
+      .map(il => ({
+        id:           group.id,
+        tree:         group.tree,
+        name:         group.name,
+        level:        group.level,
+        buff:         group.buff,
+        innerLevel:   il.innerLevel,
+	    academyLevel: il.academyLevel,
+	    prerequisite: il.prerequisite,
+	    bread:        il.bread,
+	    wood:         il.wood,
+	    stone:        il.stone,
+	    iron:         il.iron,
+	    gold:         il.gold,
+	    timeSeconds:  il.rawTimeSeconds * modifier,
+	    power:        il.power,
+	    buffValue:    il.buffValue
+      }));
+  });
 }
 
 function updateSpeed(e) {
@@ -287,7 +327,7 @@ function updateSpeed(e) {
 function updateAcademy(e) {
   e.preventDefault();
   
-  state.academyLevel = e.target.value;
+  state.academyLevel = Number(e.target.value);
   localStorage.setItem('academyLevel', JSON.stringify(state.academyLevel));
   
   updateTimeInvested();
