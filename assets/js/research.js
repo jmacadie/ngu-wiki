@@ -284,12 +284,22 @@ function updateSpeed(e) {
   updateTimeInvested();
 }
 
+function updateAcademy(e) {
+  e.preventDefault();
+  
+  state.academyLevel = e.target.value;
+  localStorage.setItem('academyLevel', JSON.stringify(state.academyLevel));
+  
+  updateTimeInvested();
+}
+
 function initPage() {
   updateCategoryOptions();
   updateResearchList();
   updateTimeInvested();
   document.getElementById('base-speed').value = state.speed.base;
   document.getElementById('bonus-speed').value = state.speed.bonus;
+  document.getElementById('academy-select').value = state.academyLevel;
 }
 
 function addListeners() {
@@ -319,15 +329,18 @@ function addListeners() {
       updateResearchList();
     })
   );
+  
+  // buttons
+  document.getElementById('max-all').addEventListener('click', setFilteredMax);
+  document.getElementById('clear-all').addEventListener('click', setFilteredNone);
+  document.getElementById('reset-research').addEventListener('click', setAllNone);
 
   // speed inputs
   document.getElementById('base-speed').addEventListener('input', updateSpeed);
   document.getElementById('bonus-speed').addEventListener('input', updateSpeed);
 
-  // buttons
-  document.getElementById('max-all').addEventListener('click', setFilteredMax);
-  document.getElementById('clear-all').addEventListener('click', setFilteredNone);
-  document.getElementById('reset-research').addEventListener('click', setAllNone);
+  // academy level
+  document.getElementById('academy-select').addEventListener('input', updateAcademy);
 }
 
 /* ────────────────────  bootstrap  ──────────────────── */
