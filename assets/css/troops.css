@@ -1,0 +1,64 @@
+.filter-group.show-inputs {
+  background: #ffffff;
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 1.5em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.filter-group.hide-inputs {
+  display: none;
+}
+
+/* Default (narrow view): 3 vertical rows */
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+  flex: 1;
+  margin-bottom: 0.5em;
+}
+
+.row label {
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-right: 0.5em;
+}
+
+.row input,
+.row select {
+  padding: 0.4em;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 100px;
+  width: 100%;
+}
+
+.row span {
+  font-weight: bold;
+  align-self: center;
+}
+
+/* Wide layout: condense into 2 rows (label row and inputs row) */
+@media (min-width: 700px) {
+  .building-group {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5em;
+    width: 100%;
+  }
+
+  .row {
+    flex-direction: column;
+	margin-bottom: 0;
+  }
+
+  .row input,
+  .row select {
+    width: 80%;
+  }
+}
