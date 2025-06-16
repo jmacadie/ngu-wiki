@@ -22,7 +22,10 @@ export function toHMS(seconds) {
   return out.slice(0, -1);
 }
 
+export function roundPcnt(val) {
+  return Math.round(val * 100 * 100) / 100;
+}
+
 export function formatPcnt(val) {
-  const rounded = Math.round(val * 100 * 100) / 100;
-  return String(rounded) + '%';
+  return String(roundPcnt(val)) + '%';
 }
