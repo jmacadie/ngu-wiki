@@ -4,52 +4,62 @@ const training_data = [
   {
 	  level: 1,
 	  power: 3,
-	  time: 12
+	  time: 12,
+    minTCLevel: 1
   },
   {
 	  level: 2,
 	  power: 4,
-	  time: 17
+	  time: 17,
+    minTCLevel: 4
   },
   {
 	  level: 3,
 	  power: 6,
-	  time: 24
+	  time: 24,
+    minTCLevel: 7
   },
   {
 	  level: 4,
 	  power: 9,
-	  time: 32
+	  time: 32,
+    minTCLevel: 11
   },
   {
 	  level: 5,
 	  power: 13,
-	  time: 44
+	  time: 44,
+    minTCLevel: 13
   },
   {
 	  level: 6,
 	  power: 20,
-	  time: 60
+	  time: 60,
+    minTCLevel: 16
   },
   {
 	  level: 7,
 	  power: 28,
-	  time: 83
+	  time: 83,
+    minTCLevel: 19
   },
   {
 	  level: 8,
 	  power: 38,
-	  time: 113
+	  time: 113,
+    minTCLevel: 22
   },
   {
 	  level: 9,
 	  power: 50,
-	  time: 131
+	  time: 131,
+    minTCLevel: 26
   },
   {
 	  level: 10,
 	  power: 66,
-	  time: 152
+	  time: 152,
+    minTCLevel: 30
   },
 ];
 
@@ -244,80 +254,80 @@ const state = {
 	  "speed": 0
   },
   "currentTroops": {
-	"infantry": {
-	  "1": 0,
-	  "2": 0,
-	  "3": 0,
-	  "4": 0,
-	  "5": 0,
-	  "6": 0,
-	  "7": 0,
-	  "8": 0,
-	  "9": 0,
-	  "10": 0
-	},
-	  "cavalry": {
-	  "1": 0,
-	  "2": 0,
-	  "3": 0,
-	  "4": 0,
-	  "5": 0,
-	  "6": 0,
-	  "7": 0,
-	  "8": 0,
-	  "9": 0,
-	  "10": 0
-	},
-	"archers": {
-	  "1": 0,
-	  "2": 0,
-	  "3": 0,
-	  "4": 0,
-	  "5": 0,
-	  "6": 0,
-	  "7": 0,
-	  "8": 0,
-	  "9": 0,
-	  "10": 0
-	}
+    "infantry": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    },
+      "cavalry": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    },
+    "archers": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    }
   },
   "targetTroops": {
-	"infantry": {
-	  "1": 0,
-	  "2": 0,
-	  "3": 0,
-	  "4": 0,
-	  "5": 0,
-	  "6": 0,
-	  "7": 0,
-	  "8": 0,
-	  "9": 0,
-	  "10": 0
-	},
-	  "cavalry": {
-	  "1": 0,
-	  "2": 0,
-	  "3": 0,
-	  "4": 0,
-	  "5": 0,
-	  "6": 0,
-	  "7": 0,
-	  "8": 0,
-	  "9": 0,
-	  "10": 0
-	},
-	"archers": {
-	  "1": 0,
-	  "2": 0,
-	  "3": 0,
-	  "4": 0,
-	  "5": 0,
-	  "6": 0,
-	  "7": 0,
-	  "8": 0,
-	  "9": 0,
-	  "10": 0
-	}
+    "infantry": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    },
+      "cavalry": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    },
+    "archers": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    }
   },
 }
 
@@ -370,16 +380,41 @@ function loadStateFromLocalStorage() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     try {
-      const data = JSON.parse(saved);
-      for (const id of inputIds) {
-        if (id in data) {
-          document.getElementById(id).value = data[id];
-        }
-      }
+      const parsed = JSON.parse(saved);
+      loadStateFromParsedSecion(state.all, parsed.all);
+      loadStateFromParsedSecion(state.barracks, parsed.barracks);
+      loadStateFromParsedSecion(state.stables, parsed.stables);
+      loadStateFromParsedSecion(state.range, parsed.range);
+      loadStateFromParsedSecion(state.currentTroops.infantry, parsed.currentTroops.infantry);
+      loadStateFromParsedSecion(state.currentTroops.cavalry, parsed.currentTroops.cavalry);
+      loadStateFromParsedSecion(state.currentTroops.archers, parsed.currentTroops.archers);
+      loadStateFromParsedSecion(state.targetTroops.infantry, parsed.targetTroops.infantry);
+      loadStateFromParsedSecion(state.targetTroops.cavalry, parsed.targetTroops.cavalry);
+      loadStateFromParsedSecion(state.targetTroops.archers, parsed.targetTroops.archers);
+      loadAllBuildingInputs();
     } catch (e) {
       console.warn('Failed to parse saved inputs:', e);
     }
   }
+}
+
+function loadStateFromParsedSecion(s, p) {
+  for (const key of Object.keys(s)) {
+    s[key] = p[key];
+  }
+}
+
+function loadAllBuildingInputs() {
+  ["all-buildings", "barracks", "stables", "range"].forEach(b => loadBuildingInputs(b));
+}
+
+function loadBuildingInputs(building) {
+  const buildingState = state[buildingType(building)];
+  document.getElementById(`${building}-level`).value = buildingState.level;
+  document.getElementById(`${building}-base-capacity`).value = buildingState.baseCapacity;
+  document.getElementById(`${building}-bonus-capacity`).value = buildingState.bonusCapacity;
+  document.getElementById(`${building}-base-speed`).value = buildingState.baseSpeed * 100;
+  document.getElementById(`${building}-bonus-speed`).value = buildingState.bonusSpeed * 100;
 }
 
 function getBase(level) {
@@ -434,6 +469,7 @@ function processAllLevel(e) {
   processInner("range", level);
   
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateTrainingList();
 }
 
 function processLevel(e) {
@@ -441,6 +477,7 @@ function processLevel(e) {
   const level = Number(e.target.value);
   processInner(building, level);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateTrainingList();
 }
 
 function processBonusSpeed(e) {
@@ -451,6 +488,7 @@ function processBonusSpeed(e) {
     updateState(el, pcnt);
   });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateTrainingList();
 }
 
 function processBonusCapacity(e) {
@@ -460,10 +498,66 @@ function processBonusCapacity(e) {
     updateState(el, amount);
   });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateTrainingList();
 }
 
-function calculateTrainingTimes() {
-  return 0;
+function calculateTrainingTimes(level, capacity, speed) {
+  const raw = training_data
+            .filter(data => data.minTCLevel <= level)
+            .map(data => {
+              const time = data.time * capacity / (1 + speed);
+              return {
+                "level": data.level,
+                "time": time
+              }
+            });
+  
+  const last = raw.at(-1);
+  if (last) {
+    const maxLevelTime = last.time;
+    return raw.map(data => {
+      if (data.level === last.level) {
+        return {
+          "level": data.level,
+          "time": data.time,
+          "fullPromoteNum": null,
+          "fullPromoteTime": null
+        };
+      }
+      
+      const additionalTime = maxLevelTime - data.time;
+      const fullPromoteNum = Math.floor(maxLevelTime * capacity / additionalTime);
+      const fullPromoteTime = fullPromoteNum * additionalTime / capacity;
+      return {
+        "level": data.level,
+        "time": data.time,
+        "fullPromoteNum": fullPromoteNum,
+        "fullPromoteTime": fullPromoteTime
+      };
+    });
+  }
+}
+
+function renderTrainingRow(group) {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>Level ${group.level}</td>
+    <td>${state.all.capacity}</td>
+    <td>${toHMS(group.time)}</td>
+    <td>${group.fullPromoteNum}</td>
+    <td>${toHMS(group.fullPromoteTime)}</td>
+  `;
+  return tr;
+}
+
+function updateTrainingList() {
+  const tbody = document.getElementById('training-body');
+  tbody.innerHTML = '';
+
+  const times = calculateTrainingTimes(state.all.level, state.all.capacity, state.all.speed);
+  if (times) {
+    for (const g of times) tbody.appendChild(renderTrainingRow(g));
+  }
 }
 
 function setUpListeners() {
@@ -484,5 +578,7 @@ function setUpListeners() {
 
 document.addEventListener("DOMContentLoaded", (event) => {
   setUpListeners();
+  loadStateFromLocalStorage();
+  updateTrainingList();
 });
 
