@@ -206,6 +206,179 @@ const base_data = [
   }
 ];
 
+const state = {
+  "all": {
+	  "level": 1,
+	  "baseCapacity": 0,
+	  "bonusCapacity": 0,
+	  "capacity": 0,
+	  "baseSpeed": 0,
+	  "bonusSpeed": 0,
+	  "speed": 0
+  },
+  "barracks": {
+	  "level": 1,
+	  "baseCapacity": 0,
+	  "bonusCapacity": 0,
+	  "capacity": 0,
+	  "baseSpeed": 0,
+	  "bonusSpeed": 0,
+	  "speed": 0
+  },
+  "stables": {
+	  "level": 1,
+	  "baseCapacity": 0,
+	  "bonusCapacity": 0,
+	  "capacity": 0,
+	  "baseSpeed": 0,
+	  "bonusSpeed": 0,
+	  "speed": 0
+  },
+  "range": {
+	  "level": 1,
+	  "baseCapacity": 0,
+	  "bonusCapacity": 0,
+	  "capacity": 0,
+	  "baseSpeed": 0,
+	  "bonusSpeed": 0,
+	  "speed": 0
+  },
+  "currentTroops": {
+	"infantry": {
+	  "1": 0,
+	  "2": 0,
+	  "3": 0,
+	  "4": 0,
+	  "5": 0,
+	  "6": 0,
+	  "7": 0,
+	  "8": 0,
+	  "9": 0,
+	  "10": 0
+	},
+	  "cavalry": {
+	  "1": 0,
+	  "2": 0,
+	  "3": 0,
+	  "4": 0,
+	  "5": 0,
+	  "6": 0,
+	  "7": 0,
+	  "8": 0,
+	  "9": 0,
+	  "10": 0
+	},
+	"archers": {
+	  "1": 0,
+	  "2": 0,
+	  "3": 0,
+	  "4": 0,
+	  "5": 0,
+	  "6": 0,
+	  "7": 0,
+	  "8": 0,
+	  "9": 0,
+	  "10": 0
+	}
+  },
+  "targetTroops": {
+	"infantry": {
+	  "1": 0,
+	  "2": 0,
+	  "3": 0,
+	  "4": 0,
+	  "5": 0,
+	  "6": 0,
+	  "7": 0,
+	  "8": 0,
+	  "9": 0,
+	  "10": 0
+	},
+	  "cavalry": {
+	  "1": 0,
+	  "2": 0,
+	  "3": 0,
+	  "4": 0,
+	  "5": 0,
+	  "6": 0,
+	  "7": 0,
+	  "8": 0,
+	  "9": 0,
+	  "10": 0
+	},
+	"archers": {
+	  "1": 0,
+	  "2": 0,
+	  "3": 0,
+	  "4": 0,
+	  "5": 0,
+	  "6": 0,
+	  "7": 0,
+	  "8": 0,
+	  "9": 0,
+	  "10": 0
+	}
+  },
+}
+
+const STORAGE_KEY = 'ngu_troop_inputs';
+
+function statType(el) {
+  return el.replace("all-buildings-", "")
+           .replace("barracks-", "")
+           .replace("stables-", "")
+           .replace("range-", "")
+           .replace("-s", "S")
+           .replace("-c", "C");
+}
+
+function buildingType(el) {
+  if (el.startsWith("all-buildings")) {
+    return "all";
+  } else if (el.startsWith("barracks")) {
+    return "barracks";
+  } else if (el.startsWith("stables")) {
+    return "stables";
+  } else if (el.startsWith("range")) {
+    return "range";
+  }
+  return "";
+}
+
+function updateState(el, value) {
+  const targetBuilding = state[buildingType(el)];
+  if (targetBuilding) {
+    const stat = statType(el);
+    if (stat === "baseCapacity" || stat === "bonusCapacity") {
+      targetBuilding.capacity -= targetBuilding[stat];
+      targetBuilding[stat] = value;
+      targetBuilding.capacity += value;
+    } else if (stat === "baseSpeed" || stat === "bonusSpeed") {
+      targetBuilding.speed -= targetBuilding[stat];
+      targetBuilding[stat] = value;
+      targetBuilding.speed += value;
+    } else if (stat === "level") {
+      targetBuilding[stat] = value;
+    }
+  }
+}
+
+function loadStateFromLocalStorage() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      for (const id of inputIds) {
+        if (id in data) {
+          document.getElementById(id).value = data[id];
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse saved inputs:', e);
+    }
+  }
+}
+
 function getBase(level) {
   return base_data.find(inner => inner.level === level);
 }
@@ -213,40 +386,43 @@ function getBase(level) {
 function setBaseSpeed(el, level) {
   const baseSpeed = getBase(level).baseSpeed;
   document.getElementById(el).value = roundPcnt(baseSpeed);
+  updateState(el, baseSpeed);
 }
 
 function setBaseCapacity(el, level) {
   const baseCapacity = getBase(level).baseCapacity;
   document.getElementById(el).value = baseCapacity;
+  updateState(el, baseCapacity);
 }
 
 function setBonusSpeeds(amount) {
-  document.getElementById("all-buildings-bonus-speed").value = amount;
-  document.getElementById("barracks-bonus-speed").value = amount;
-  document.getElementById("stables-bonus-speed").value = amount;
-  document.getElementById("range-bonus-speed").value = amount;
+  const pcnt = amount / 100;
+  ["all-buildings-bonus-speed", "barracks-bonus-speed", "stables-bonus-speed", "range-bonus-speed"].forEach(el => {
+    document.getElementById(el).value = amount;
+    updateState(el, pcnt);
+  });
 }
 
 function setBonusCapacity(amount) {
-  document.getElementById("all-buildings-bonus-capacity").value = amount;
-  document.getElementById("barracks-bonus-capacity").value = amount;
-  document.getElementById("stables-bonus-capacity").value = amount;
-  document.getElementById("range-bonus-capacity").value = amount;
+  ["all-buildings-bonus-capacity", "barracks-bonus-capacity", "stables-bonus-capacity", "range-bonus-capacity"].forEach(el => {
+    document.getElementById(el).value = amount;
+    updateState(el, amount);
+  });
 }
 
 function toggleInputs(el) {
   const allInputs = document.getElementById("all-building-inputs");
   const sepInputs = document.getElementById("separate-building-inputs");
   if (el.checked) {
-	allInputs.classList.add("show-inputs");
-	allInputs.classList.remove("hide-inputs");
-	sepInputs.classList.remove("show-inputs");
-	sepInputs.classList.add("hide-inputs");
+    allInputs.classList.add("show-inputs");
+    allInputs.classList.remove("hide-inputs");
+    sepInputs.classList.remove("show-inputs");
+    sepInputs.classList.add("hide-inputs");
   } else {
-	allInputs.classList.remove("show-inputs");
-	allInputs.classList.add("hide-inputs");
-	sepInputs.classList.add("show-inputs");
-	sepInputs.classList.remove("hide-inputs");
+    allInputs.classList.remove("show-inputs");
+    allInputs.classList.add("hide-inputs");
+    sepInputs.classList.add("show-inputs");
+    sepInputs.classList.remove("hide-inputs");
   }
 }
 
@@ -257,54 +433,68 @@ function calculateTrainingTimes() {
 document.addEventListener("DOMContentLoaded", (event) => {
   // Set up listeners
   document.getElementById("all-buildings-same").addEventListener('change', e => {
-	toggleInputs(e.target);
+    toggleInputs(e.target);
   });
-  
+
   document.getElementById("all-buildings-level").addEventListener('change', e => {
     const level = Number(e.target.value);
-	setBaseSpeed("all-buildings-base-speed", level);
-	setBaseCapacity("all-buildings-base-capacity", level);
-	
-	document.getElementById("barracks-level").value = level;
-	setBaseSpeed("barracks-base-speed", level);
-	setBaseCapacity("barracks-base-capacity", level);
-	document.getElementById("stables-level").value = level;
-	setBaseSpeed("stables-base-speed", level);
-	setBaseCapacity("stables-base-capacity", level);
-	document.getElementById("range-level").value = level;
-	setBaseSpeed("range-base-speed", level);
-	setBaseCapacity("range-base-capacity", level);
+    setBaseSpeed("all-buildings-base-speed", level);
+    setBaseCapacity("all-buildings-base-capacity", level);
+    updateState("all-buildings-level", level);
+
+    document.getElementById("barracks-level").value = level;
+    setBaseSpeed("barracks-base-speed", level);
+    setBaseCapacity("barracks-base-capacity", level);
+    updateState("barracks-level", level);
+    document.getElementById("stables-level").value = level;
+    setBaseSpeed("stables-base-speed", level);
+    setBaseCapacity("stables-base-capacity", level);
+    updateState("stables-level", level);
+    document.getElementById("range-level").value = level;
+    setBaseSpeed("range-base-speed", level);
+    setBaseCapacity("range-base-capacity", level);
+    updateState("range-level", level);
+    
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   });
-  
+
   document.getElementById("barracks-level").addEventListener('change', e => {
     const level = Number(e.target.value);
-	setBaseSpeed("barracks-base-speed", level);
-	setBaseCapacity("barracks-base-capacity", level);
+    setBaseSpeed("barracks-base-speed", level);
+    setBaseCapacity("barracks-base-capacity", level);
+    updateState("barracks-level", level);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   });
-  
+
   document.getElementById("stables-level").addEventListener('change', e => {
     const level = Number(e.target.value);
-	setBaseSpeed("stables-base-speed", level);
-	setBaseCapacity("stables-base-capacity", level);
+    setBaseSpeed("stables-base-speed", level);
+    setBaseCapacity("stables-base-capacity", level);
+    updateState("stables-level", level);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   });
-  
+
   document.getElementById("range-level").addEventListener('change', e => {
     const level = Number(e.target.value);
-	setBaseSpeed("range-base-speed", level);
-	setBaseCapacity("range-base-capacity", level);
+    setBaseSpeed("range-base-speed", level);
+    setBaseCapacity("range-base-capacity", level);
+    updateState("range-level", level);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   });
-  
+
   ["all-buildings-bonus-speed", "barracks-bonus-speed", "stables-bonus-speed", "range-bonus-speed"].forEach(el => {
-	document.getElementById(el).addEventListener('change', e => {
+    document.getElementById(el).addEventListener('change', e => {
       const amount = Number(e.target.value);
-	  setBonusSpeeds(amount);
+      setBonusSpeeds(amount);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     });
   });
-  
+
   ["all-buildings-bonus-capacity", "barracks-bonus-capacity", "stables-bonus-capacity", "range-bonus-capacity"].forEach(el => {
-	document.getElementById(el).addEventListener('change', e => {
+    document.getElementById(el).addEventListener('change', e => {
       const amount = Number(e.target.value);
-	  setBonusCapacity(amount);
+      setBonusCapacity(amount);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     });
   });
 
