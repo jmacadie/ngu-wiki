@@ -323,6 +323,9 @@ const state = {
 
 const STORAGE_KEY = 'ngu_troop_inputs';
 
+const bonusSpeeds = ["all-buildings-bonus-speed", "barracks-bonus-speed", "stables-bonus-speed", "range-bonus-speed"];
+const bonusCapacities = ["all-buildings-bonus-capacity", "barracks-bonus-capacity", "stables-bonus-capacity", "range-bonus-capacity"];
+
 function statType(el) {
   return el.replace("all-buildings-", "")
            .replace("barracks-", "")
@@ -395,22 +398,8 @@ function setBaseCapacity(el, level) {
   updateState(el, baseCapacity);
 }
 
-function setBonusSpeeds(amount) {
-  const pcnt = amount / 100;
-  ["all-buildings-bonus-speed", "barracks-bonus-speed", "stables-bonus-speed", "range-bonus-speed"].forEach(el => {
-    document.getElementById(el).value = amount;
-    updateState(el, pcnt);
-  });
-}
-
-function setBonusCapacity(amount) {
-  ["all-buildings-bonus-capacity", "barracks-bonus-capacity", "stables-bonus-capacity", "range-bonus-capacity"].forEach(el => {
-    document.getElementById(el).value = amount;
-    updateState(el, amount);
-  });
-}
-
-function toggleInputs(el) {
+function toggleInputs(e) {
+  const el = e.target;
   const allInputs = document.getElementById("all-building-inputs");
   const sepInputs = document.getElementById("separate-building-inputs");
   if (el.checked) {
@@ -426,79 +415,74 @@ function toggleInputs(el) {
   }
 }
 
+function processInner(building, level) {
+  setBaseSpeed(`${building}-base-speed`, level);
+  setBaseCapacity(`${building}-base-capacity`, level);
+  updateState(`${building}-level`, level);
+}
+
+function processAllLevel(e) {
+  const level = Number(e.target.value);
+  
+  processInner("all-buildings", level);
+  
+  document.getElementById("barracks-level").value = level;
+  processInner("barracks", level);
+  document.getElementById("stables-level").value = level;
+  processInner("stables", level);
+  document.getElementById("range-level").value = level;
+  processInner("range", level);
+  
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function processLevel(e) {
+  const building = buildingType(e.target.id);
+  const level = Number(e.target.value);
+  processInner(building, level);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function processBonusSpeed(e) {
+  const amount = Number(e.target.value);
+  const pcnt = amount / 100;
+  bonusSpeeds.forEach(el => {
+    document.getElementById(el).value = amount;
+    updateState(el, pcnt);
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function processBonusCapacity(e) {
+  const amount = Number(e.target.value);
+  bonusCapacities.forEach(el => {
+    document.getElementById(el).value = amount;
+    updateState(el, amount);
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
 function calculateTrainingTimes() {
   return 0;
 }
 
+function setUpListeners() {
+  document.getElementById("all-buildings-same").addEventListener('change', toggleInputs);
+  document.getElementById("all-buildings-level").addEventListener('change', processAllLevel);
+  document.getElementById("barracks-level").addEventListener('change', processLevel);
+  document.getElementById("stables-level").addEventListener('change', processLevel);
+  document.getElementById("range-level").addEventListener('change', processLevel);
+
+  bonusSpeeds.forEach(el => {
+    document.getElementById(el).addEventListener('change', processBonusSpeed);
+  });
+
+  bonusCapacities.forEach(el => {
+    document.getElementById(el).addEventListener('change', processBonusCapacity);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", (event) => {
-  // Set up listeners
-  document.getElementById("all-buildings-same").addEventListener('change', e => {
-    toggleInputs(e.target);
-  });
-
-  document.getElementById("all-buildings-level").addEventListener('change', e => {
-    const level = Number(e.target.value);
-    setBaseSpeed("all-buildings-base-speed", level);
-    setBaseCapacity("all-buildings-base-capacity", level);
-    updateState("all-buildings-level", level);
-
-    document.getElementById("barracks-level").value = level;
-    setBaseSpeed("barracks-base-speed", level);
-    setBaseCapacity("barracks-base-capacity", level);
-    updateState("barracks-level", level);
-    document.getElementById("stables-level").value = level;
-    setBaseSpeed("stables-base-speed", level);
-    setBaseCapacity("stables-base-capacity", level);
-    updateState("stables-level", level);
-    document.getElementById("range-level").value = level;
-    setBaseSpeed("range-base-speed", level);
-    setBaseCapacity("range-base-capacity", level);
-    updateState("range-level", level);
-    
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  });
-
-  document.getElementById("barracks-level").addEventListener('change', e => {
-    const level = Number(e.target.value);
-    setBaseSpeed("barracks-base-speed", level);
-    setBaseCapacity("barracks-base-capacity", level);
-    updateState("barracks-level", level);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  });
-
-  document.getElementById("stables-level").addEventListener('change', e => {
-    const level = Number(e.target.value);
-    setBaseSpeed("stables-base-speed", level);
-    setBaseCapacity("stables-base-capacity", level);
-    updateState("stables-level", level);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  });
-
-  document.getElementById("range-level").addEventListener('change', e => {
-    const level = Number(e.target.value);
-    setBaseSpeed("range-base-speed", level);
-    setBaseCapacity("range-base-capacity", level);
-    updateState("range-level", level);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  });
-
-  ["all-buildings-bonus-speed", "barracks-bonus-speed", "stables-bonus-speed", "range-bonus-speed"].forEach(el => {
-    document.getElementById(el).addEventListener('change', e => {
-      const amount = Number(e.target.value);
-      setBonusSpeeds(amount);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    });
-  });
-
-  ["all-buildings-bonus-capacity", "barracks-bonus-capacity", "stables-bonus-capacity", "range-bonus-capacity"].forEach(el => {
-    document.getElementById(el).addEventListener('change', e => {
-      const amount = Number(e.target.value);
-      setBonusCapacity(amount);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    });
-  });
-
-  // Load on page start and run once
-
+  setUpListeners();
 });
 
