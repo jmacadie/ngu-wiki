@@ -264,7 +264,8 @@ const state = {
       "7": 0,
       "8": 0,
       "9": 0,
-      "10": 0
+      "10": 0,
+      "total": 0
     },
       "cavalry": {
       "1": 0,
@@ -276,7 +277,8 @@ const state = {
       "7": 0,
       "8": 0,
       "9": 0,
-      "10": 0
+      "10": 0,
+      "total": 0
     },
     "archers": {
       "1": 0,
@@ -288,7 +290,21 @@ const state = {
       "7": 0,
       "8": 0,
       "9": 0,
-      "10": 0
+      "10": 0,
+      "total": 0
+    },
+    "total": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "total": 0
     }
   },
   "targetTroops": {
@@ -302,7 +318,8 @@ const state = {
       "7": 0,
       "8": 0,
       "9": 0,
-      "10": 0
+      "10": 0,
+      "total": 0
     },
       "cavalry": {
       "1": 0,
@@ -314,7 +331,8 @@ const state = {
       "7": 0,
       "8": 0,
       "9": 0,
-      "10": 0
+      "10": 0,
+      "total": 0
     },
     "archers": {
       "1": 0,
@@ -326,7 +344,21 @@ const state = {
       "7": 0,
       "8": 0,
       "9": 0,
-      "10": 0
+      "10": 0,
+      "total": 0
+    },
+    "total": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "total": 0
     }
   },
 }
@@ -388,9 +420,11 @@ function loadStateFromLocalStorage() {
       loadStateFromParsedSecion(state.currentTroops.infantry, parsed.currentTroops.infantry);
       loadStateFromParsedSecion(state.currentTroops.cavalry, parsed.currentTroops.cavalry);
       loadStateFromParsedSecion(state.currentTroops.archers, parsed.currentTroops.archers);
+      loadStateFromParsedSecion(state.currentTroops.total, parsed.currentTroops.total);
       loadStateFromParsedSecion(state.targetTroops.infantry, parsed.targetTroops.infantry);
       loadStateFromParsedSecion(state.targetTroops.cavalry, parsed.targetTroops.cavalry);
       loadStateFromParsedSecion(state.targetTroops.archers, parsed.targetTroops.archers);
+      loadStateFromParsedSecion(state.targetTroops.total, parsed.targetTroops.total);
       loadAllBuildingInputs();
     } catch (e) {
       console.warn('Failed to parse saved inputs:', e);
@@ -400,7 +434,9 @@ function loadStateFromLocalStorage() {
 
 function loadStateFromParsedSecion(s, p) {
   for (const key of Object.keys(s)) {
-    s[key] = p[key];
+    if (p && key in p) {
+      s[key] = p[key] || 0;
+    }
   }
 }
 
@@ -437,16 +473,26 @@ function toggleInputs(e) {
   const el = e.target;
   const allInputs = document.getElementById("all-building-inputs");
   const sepInputs = document.getElementById("separate-building-inputs");
+  const allTable = document.getElementById("all-building-table");
+  const sepTables = document.getElementById("separate-building-tables");
   if (el.checked) {
-    allInputs.classList.add("show-inputs");
-    allInputs.classList.remove("hide-inputs");
-    sepInputs.classList.remove("show-inputs");
-    sepInputs.classList.add("hide-inputs");
+    allInputs.classList.add("show-section");
+    allInputs.classList.remove("hide-section");
+    sepInputs.classList.remove("show-section");
+    sepInputs.classList.add("hide-section");
+    allTable.classList.add("show-section");
+    allTable.classList.remove("hide-section");
+    sepTables.classList.remove("show-section");
+    sepTables.classList.add("hide-section");
   } else {
-    allInputs.classList.remove("show-inputs");
-    allInputs.classList.add("hide-inputs");
-    sepInputs.classList.add("show-inputs");
-    sepInputs.classList.remove("hide-inputs");
+    allInputs.classList.remove("show-section");
+    allInputs.classList.add("hide-section");
+    sepInputs.classList.add("show-section");
+    sepInputs.classList.remove("hide-section");
+    allTable.classList.add("hide-section");
+    allTable.classList.remove("show-section");
+    sepTables.classList.remove("hide-section");
+    sepTables.classList.add("show-section");
   }
 }
 
@@ -469,7 +515,7 @@ function processAllLevel(e) {
   processInner("range", level);
   
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  updateTrainingList();
+  updateAllTrainingLists();
 }
 
 function processLevel(e) {
@@ -477,7 +523,17 @@ function processLevel(e) {
   const level = Number(e.target.value);
   processInner(building, level);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  updateTrainingList();
+  switch (building) {
+  case "barracks":
+    updateTrainingList('training-body-barracks', state.barracks);
+    break;
+  case "stables":
+    updateTrainingList('training-body-stables', state.stables);
+    break;
+  case "range":
+    updateTrainingList('training-body-range', state.range);
+    break;
+  }
 }
 
 function processBonusSpeed(e) {
@@ -488,7 +544,7 @@ function processBonusSpeed(e) {
     updateState(el, pcnt);
   });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  updateTrainingList();
+  updateAllTrainingLists();
 }
 
 function processBonusCapacity(e) {
@@ -498,7 +554,7 @@ function processBonusCapacity(e) {
     updateState(el, amount);
   });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  updateTrainingList();
+  updateAllTrainingLists();
 }
 
 function calculateTrainingTimes(level, capacity, speed) {
@@ -538,26 +594,94 @@ function calculateTrainingTimes(level, capacity, speed) {
   }
 }
 
-function renderTrainingRow(group) {
+function renderTrainingRow(group, capacity) {
   const tr = document.createElement('tr');
+  if (!group.fullPromoteNum) {
+    tr.innerHTML = `
+      <td class="end-section">T${group.level}</td>
+      <td>${capacity.toLocaleString()}</td>
+      <td class="end-section">${toHMS(group.time)}</td>
+      <td></td>
+      <td></td>
+    `;
+    return tr;
+  }
   tr.innerHTML = `
-    <td>Level ${group.level}</td>
-    <td>${state.all.capacity}</td>
-    <td>${toHMS(group.time)}</td>
-    <td>${group.fullPromoteNum}</td>
+    <td class="end-section">T${group.level}</td>
+    <td>${capacity.toLocaleString()}</td>
+    <td class="end-section">${toHMS(group.time)}</td>
+    <td>${group.fullPromoteNum.toLocaleString()}</td>
     <td>${toHMS(group.fullPromoteTime)}</td>
   `;
   return tr;
 }
 
-function updateTrainingList() {
-  const tbody = document.getElementById('training-body');
+function updateTrainingList(bodyId, data) {
+  const tbody = document.getElementById(bodyId);
   tbody.innerHTML = '';
 
-  const times = calculateTrainingTimes(state.all.level, state.all.capacity, state.all.speed);
+  const times = calculateTrainingTimes(data.level, data.capacity, data.speed);
   if (times) {
-    for (const g of times) tbody.appendChild(renderTrainingRow(g));
+    for (const g of times) tbody.appendChild(renderTrainingRow(g, data.capacity));
   }
+}
+
+function updateAllTrainingLists() {
+  updateTrainingList('training-body', state.all);
+  updateTrainingList('training-body-barracks', state.barracks);
+  updateTrainingList('training-body-stables', state.stables);
+  updateTrainingList('training-body-range', state.range);
+}
+
+function loadTroopNumbers() {
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "total"].forEach(level => {
+    ["infantry", "cavalry", "archers", "total"].forEach(troop => {
+      const cellCurrent = document.getElementById(`current-${troop}-${level}`);
+      const cellTarget = document.getElementById(`target-${troop}-${level}`);
+      if (troop === "total" || level === "total") {
+        cellCurrent.textContent = state.currentTroops[troop][level].toLocaleString();
+        cellTarget.textContent = state.targetTroops[troop][level];
+      } else {
+        cellCurrent.value = state.currentTroops[troop][level];
+        cellTarget.value = state.targetTroops[troop][level];
+      }
+    });
+  });
+}
+
+function processTroopInputNumbersChange(e) {
+  const input = e.target;
+  
+  const parts = input.id.split("-");
+  const troop = parts[1];
+  const level = Number(parts[2]);
+  
+  const oldVal = state.currentTroops[troop][level];
+  const oldRowTotal = state.currentTroops.total[level];
+  const oldColTotal = state.currentTroops[troop].total;
+  const oldGrandTotal = state.currentTroops.total.total;
+  
+  const newVal = Number(input.value) || 0;
+  const delta = newVal - oldVal;
+  state.currentTroops[troop][level] = newVal;
+  
+  const newRowTotal = oldRowTotal + delta;
+  state.currentTroops.total[level] = newRowTotal;
+  const newColTotal = oldColTotal + delta;
+  state.currentTroops[troop].total = newColTotal;
+  const newTotalTotal = oldGrandTotal + delta;
+  state.currentTroops.total.total = newTotalTotal;
+  
+  const rowTotalCell = document.getElementById(`current-total-${level}`);
+  rowTotalCell.textContent = newRowTotal.toLocaleString();
+  const colTotalCell = document.getElementById(`current-${troop}-total`);
+  colTotalCell.textContent = newColTotal.toLocaleString();
+  const totalTotalCell = document.getElementById("current-total-total");
+  totalTotalCell.textContent = newTotalTotal.toLocaleString();
+  
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  
+  return 0;
 }
 
 function setUpListeners() {
@@ -574,11 +698,13 @@ function setUpListeners() {
   bonusCapacities.forEach(el => {
     document.getElementById(el).addEventListener('change', processBonusCapacity);
   });
+  
+  document.getElementById("current-infantry").addEventListener('change', processTroopInputNumbersChange);
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
   setUpListeners();
   loadStateFromLocalStorage();
-  updateTrainingList();
+  updateAllTrainingLists();
+  loadTroopNumbers();
 });
-

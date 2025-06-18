@@ -52,6 +52,8 @@
   </ul>
   <p>That's it. Simples!</p>
 
+  <hr />
+  
   <h1>Troop Calculator</h1>
 
   <div>
@@ -59,7 +61,7 @@
     <label for="all-buildings-same">All buildings the same level?</label>
   </div>
 
-  <div class="filter-group show-inputs" id="all-building-inputs">
+  <div class="inputs show-section" id="all-building-inputs">
     <div class="building-group">
       <div class="row">
         <label for="all-buildings-level">Training Buildings Level:</label>
@@ -113,7 +115,7 @@
     </div>
   </div>
 
-  <div class="filter-group hide-inputs" id="separate-building-inputs">
+  <div class="inputs hide-section" id="separate-building-inputs">
     <div class="building-group">
       <div class="row">
         <label for="barracks-level">Barracks Level:</label>
@@ -276,18 +278,278 @@
   </div>
   
   <h3>Training Times List</h3>
-  <table id="training-table">
+  <div class="show-section" id="all-building-table">
+    <table>
+      <thead>
+        <tr class="top-header">
+          <th></th>
+          <th colspan="2">Train New</th>
+          <th colspan="2">Promote</th>
+        </tr>
+        <tr class="bottom-header">
+          <th>Level</th>
+          <th>#</th>
+          <th>Time</th>
+          <th>#</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="training-body">
+        <!-- rows will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="hide-section" id="separate-building-tables">
+    <h4>Barracks</h4>
+    <table>
+      <thead>
+        <tr class="top-header">
+          <th></th>
+          <th colspan="2">Train New</th>
+          <th colspan="2">Promote</th>
+        </tr>
+        <tr class="bottom-header">
+          <th>Level</th>
+          <th>#</th>
+          <th>Time</th>
+          <th>#</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="training-body-barracks">
+        <!-- rows will be inserted here -->
+      </tbody>
+    </table>
+    
+    <h4>Stables</h4>
+    <table>
+      <thead>
+        <tr class="top-header">
+          <th></th>
+          <th colspan="2">Train New</th>
+          <th colspan="2">Promote</th>
+        </tr>
+        <tr class="bottom-header">
+          <th>Level</th>
+          <th>#</th>
+          <th>Time</th>
+          <th>#</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="training-body-stables">
+        <!-- rows will be inserted here -->
+      </tbody>
+    </table>
+    
+    <h4>Range</h4>
+    <table>
+      <thead>
+        <tr class="top-header">
+          <th></th>
+          <th colspan="2">Train New</th>
+          <th colspan="2">Promote</th>
+        </tr>
+        <tr class="bottom-header">
+          <th>Level</th>
+          <th>#</th>
+          <th>Time</th>
+          <th>#</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="training-body-range">
+        <!-- rows will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+  
+  <br />
+  <hr />
+  
+  <h3>Training / Promotion Planner</h3>
+  <h4>Current Troop Numbers</h4>
+  <table class="troop-numbers" id="current-infantry">
     <thead>
       <tr>
         <th>Level</th>
-        <th>Number</th>
-        <th>Time</th>
-        <th>Promote Number</th>
-        <th>Promote Time</th>
+        <th># Infantry</th>
+        <th># Cavalry</th>
+        <th># Archers</th>
+        <th>Total</th>
       </tr>
     </thead>
-    <tbody id="training-body">
-      <!-- rows will be inserted here -->
+    <tbody>
+      <tr>
+        <td>T1</td>
+        <td><input type="number" id="current-infantry-1" value="0" placeholder="Current Lvl 1 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-1" value="0" placeholder="Current Lvl 1 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-1" value="0" placeholder="Current Lvl 1 Archers" step="1" ></td>
+        <td id="current-total-1">0</td>
+      </tr>
+      <tr>
+        <td>T2</td>
+        <td><input type="number" id="current-infantry-2" value="0" placeholder="Current Lvl 2 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-2" value="0" placeholder="Current Lvl 2 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-2" value="0" placeholder="Current Lvl 2 Archers" step="1" ></td>
+        <td id="current-total-2">0</td>
+      </tr>
+      <tr>
+        <td>T3</td>
+        <td><input type="number" id="current-infantry-3" value="0" placeholder="Current Lvl 3 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-3" value="0" placeholder="Current Lvl 3 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-3" value="0" placeholder="Current Lvl 3 Archers" step="1" ></td>
+        <td id="current-total-3">0</td>
+      </tr>
+      <tr>
+        <td>T4</td>
+        <td><input type="number" id="current-infantry-4" value="0" placeholder="Current Lvl 4 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-4" value="0" placeholder="Current Lvl 4 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-4" value="0" placeholder="Current Lvl 4 Archers" step="1" ></td>
+        <td id="current-total-4">0</td>
+      </tr>
+      <tr>
+        <td>T5</td>
+        <td><input type="number" id="current-infantry-5" value="0" placeholder="Current Lvl 5 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-5" value="0" placeholder="Current Lvl 5 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-5" value="0" placeholder="Current Lvl 5 Archers" step="1" ></td>
+        <td id="current-total-5">0</td>
+      </tr>
+      <tr>
+        <td>T6</td>
+        <td><input type="number" id="current-infantry-6" value="0" placeholder="Current Lvl 6 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-6" value="0" placeholder="Current Lvl 6 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-6" value="0" placeholder="Current Lvl 6 Archers" step="1" ></td>
+        <td id="current-total-6">0</td>
+      </tr>
+      <tr>
+        <td>T7</td>
+        <td><input type="number" id="current-infantry-7" value="0" placeholder="Current Lvl 7 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-7" value="0" placeholder="Current Lvl 7 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-7" value="0" placeholder="Current Lvl 7 Archers" step="1" ></td>
+        <td id="current-total-7">0</td>
+      </tr>
+      <tr>
+        <td>T8</td>
+        <td><input type="number" id="current-infantry-8" value="0" placeholder="Current Lvl 8 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-8" value="0" placeholder="Current Lvl 8 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-8" value="0" placeholder="Current Lvl 8 Archers" step="1" ></td>
+        <td id="current-total-8">0</td>
+      </tr>
+      <tr>
+        <td>T9</td>
+        <td><input type="number" id="current-infantry-9" value="0" placeholder="Current Lvl 9 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-9" value="0" placeholder="Current Lvl 9 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-9" value="0" placeholder="Current Lvl 9 Archers" step="1" ></td>
+        <td id="current-total-9">0</td>
+      </tr>
+      <tr>
+        <td>T10</td>
+        <td><input type="number" id="current-infantry-10" value="0" placeholder="Current Lvl 10 Infantry" step="1" ></td>
+        <td><input type="number" id="current-cavalry-10" value="0" placeholder="Current Lvl 10 Cavalry" step="1" ></td>
+        <td><input type="number" id="current-archers-10" value="0" placeholder="Current Lvl 10 Archers" step="1" ></td>
+        <td id="current-total-10">0</td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td id="current-infantry-total">0</td>
+        <td id="current-cavalry-total">0</td>
+        <td id="current-archers-total">0</td>
+        <td id="current-total-total">0</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h4>Target Troop Numbers</h4>
+  <table class="troop-numbers" id="target-infantry">
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th># Infantry</th>
+        <th># Cavalry</th>
+        <th># Archers</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>T1</td>
+        <td><input type="number" id="target-infantry-1" value="0" placeholder="Target Lvl 1 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-1" value="0" placeholder="Target Lvl 1 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-1" value="0" placeholder="Target Lvl 1 Archers" step="1" ></td>
+        <td id="target-total-1">0</td>
+      </tr>
+      <tr>
+        <td>T2</td>
+        <td><input type="number" id="target-infantry-2" value="0" placeholder="Target Lvl 2 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-2" value="0" placeholder="Target Lvl 2 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-2" value="0" placeholder="Target Lvl 2 Archers" step="1" ></td>
+        <td id="target-total-2">0</td>
+      </tr>
+      <tr>
+        <td>T3</td>
+        <td><input type="number" id="target-infantry-3" value="0" placeholder="Target Lvl 3 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-3" value="0" placeholder="Target Lvl 3 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-3" value="0" placeholder="Target Lvl 3 Archers" step="1" ></td>
+        <td id="target-total-3">0</td>
+      </tr>
+      <tr>
+        <td>T4</td>
+        <td><input type="number" id="target-infantry-4" value="0" placeholder="Target Lvl 4 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-4" value="0" placeholder="Target Lvl 4 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-4" value="0" placeholder="Target Lvl 4 Archers" step="1" ></td>
+        <td id="target-total-4">0</td>
+      </tr>
+      <tr>
+        <td>T5</td>
+        <td><input type="number" id="target-infantry-5" value="0" placeholder="Target Lvl 5 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-5" value="0" placeholder="Target Lvl 5 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-5" value="0" placeholder="Target Lvl 5 Archers" step="1" ></td>
+        <td id="target-total-5">0</td>
+      </tr>
+      <tr>
+        <td>T6</td>
+        <td><input type="number" id="target-infantry-6" value="0" placeholder="Target Lvl 6 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-6" value="0" placeholder="Target Lvl 6 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-6" value="0" placeholder="Target Lvl 6 Archers" step="1" ></td>
+        <td id="target-total-6">0</td>
+      </tr>
+      <tr>
+        <td>T7</td>
+        <td><input type="number" id="target-infantry-7" value="0" placeholder="Target Lvl 7 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-7" value="0" placeholder="Target Lvl 7 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-7" value="0" placeholder="Target Lvl 7 Archers" step="1" ></td>
+        <td id="target-total-7">0</td>
+      </tr>
+      <tr>
+        <td>T8</td>
+        <td><input type="number" id="target-infantry-8" value="0" placeholder="Target Lvl 8 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-8" value="0" placeholder="Target Lvl 8 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-8" value="0" placeholder="Target Lvl 8 Archers" step="1" ></td>
+        <td id="target-total-8">0</td>
+      </tr>
+      <tr>
+        <td>T9</td>
+        <td><input type="number" id="target-infantry-9" value="0" placeholder="Target Lvl 9 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-9" value="0" placeholder="Target Lvl 9 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-9" value="0" placeholder="Target Lvl 9 Archers" step="1" ></td>
+        <td id="target-total-9">0</td>
+      </tr>
+      <tr>
+        <td>T10</td>
+        <td><input type="number" id="target-infantry-10" value="0" placeholder="Target Lvl 10 Infantry" step="1" ></td>
+        <td><input type="number" id="target-cavalry-10" value="0" placeholder="Target Lvl 10 Cavalry" step="1" ></td>
+        <td><input type="number" id="target-archers-10" value="0" placeholder="Target Lvl 10 Archers" step="1" ></td>
+        <td id="target-total-10">0</td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td id="target-infantry-total">0</td>
+        <td id="target-cavalry-total">0</td>
+        <td id="target-archers-total">0</td>
+        <td id="target-total-total">0</td>
+      </tr>
     </tbody>
   </table>
 </body>
