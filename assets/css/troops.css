@@ -132,3 +132,8 @@
 .troop-numbers tr.hide-row {
   display: none;
 }
+
+.total-row td,
+.total-col {
+  font-weight: bold;
+}
