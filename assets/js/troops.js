@@ -253,54 +253,104 @@ const state = {
 	  "bonusSpeed": 0,
 	  "speed": 0
   },
-  "promote": {
+  "trainNew": {
     "barracks": {
-      "1": 1,
-      "2": 1,
-      "3": 1,
-      "4": 1,
-      "5": 1,
-      "6": 1,
-      "7": 1,
-      "8": 1,
-      "9": 1,
-      "10": 1
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
     },
     "stables": {
-      "1": 1,
-      "2": 1,
-      "3": 1,
-      "4": 1,
-      "5": 1,
-      "6": 1,
-      "7": 1,
-      "8": 1,
-      "9": 1,
-      "10": 1
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
     },
     "range": {
-      "1": 1,
-      "2": 1,
-      "3": 1,
-      "4": 1,
-      "5": 1,
-      "6": 1,
-      "7": 1,
-      "8": 1,
-      "9": 1,
-      "10": 1
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
     },
     "all": {
-      "1": 1,
-      "2": 1,
-      "3": 1,
-      "4": 1,
-      "5": 1,
-      "6": 1,
-      "7": 1,
-      "8": 1,
-      "9": 1,
-      "10": 1
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    }
+  },
+  "promote": {
+    "barracks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    },
+    "stables": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    },
+    "range": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    },
+    "all": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
     }
   },
   "currentTroopLevels": {
@@ -473,19 +523,31 @@ function loadStateFromLocalStorage() {
       loadStateFromParsedSecion(state.barracks, parsed.barracks);
       loadStateFromParsedSecion(state.stables, parsed.stables);
       loadStateFromParsedSecion(state.range, parsed.range);
-      loadStateFromParsedSecion(state.promote.barracks, parsed.promote.barracks);
-      loadStateFromParsedSecion(state.promote.stables, parsed.promote.stables);
-      loadStateFromParsedSecion(state.promote.range, parsed.promote.range);
-      loadStateFromParsedSecion(state.promote.all, parsed.promote.all);
+      if (parsed.trainNew) {
+        loadStateFromParsedSecion(state.trainNew.barracks, parsed.trainNew.barracks);
+        loadStateFromParsedSecion(state.trainNew.stables, parsed.trainNew.stables);
+        loadStateFromParsedSecion(state.trainNew.range, parsed.trainNew.range);
+        loadStateFromParsedSecion(state.trainNew.all, parsed.trainNew.all);
+      }
+      if (parsed.promote) {
+        loadStateFromParsedSecion(state.promote.barracks, parsed.promote.barracks);
+        loadStateFromParsedSecion(state.promote.stables, parsed.promote.stables);
+        loadStateFromParsedSecion(state.promote.range, parsed.promote.range);
+        loadStateFromParsedSecion(state.promote.all, parsed.promote.all);
+      }
       loadStateFromParsedSecion(state.currentTroopLevels, parsed.currentTroopLevels);
-      loadStateFromParsedSecion(state.currentTroops.infantry, parsed.currentTroops.infantry);
-      loadStateFromParsedSecion(state.currentTroops.cavalry, parsed.currentTroops.cavalry);
-      loadStateFromParsedSecion(state.currentTroops.archers, parsed.currentTroops.archers);
-      loadStateFromParsedSecion(state.currentTroops.total, parsed.currentTroops.total);
-      loadStateFromParsedSecion(state.targetTroops.infantry, parsed.targetTroops.infantry);
-      loadStateFromParsedSecion(state.targetTroops.cavalry, parsed.targetTroops.cavalry);
-      loadStateFromParsedSecion(state.targetTroops.archers, parsed.targetTroops.archers);
-      loadStateFromParsedSecion(state.targetTroops.total, parsed.targetTroops.total);
+      if (parsed.currentTroops) {
+        loadStateFromParsedSecion(state.currentTroops.infantry, parsed.currentTroops.infantry);
+        loadStateFromParsedSecion(state.currentTroops.cavalry, parsed.currentTroops.cavalry);
+        loadStateFromParsedSecion(state.currentTroops.archers, parsed.currentTroops.archers);
+        loadStateFromParsedSecion(state.currentTroops.total, parsed.currentTroops.total);
+      }
+      if (parsed.targetTroops) {
+        loadStateFromParsedSecion(state.targetTroops.infantry, parsed.targetTroops.infantry);
+        loadStateFromParsedSecion(state.targetTroops.cavalry, parsed.targetTroops.cavalry);
+        loadStateFromParsedSecion(state.targetTroops.archers, parsed.targetTroops.archers);
+        loadStateFromParsedSecion(state.targetTroops.total, parsed.targetTroops.total);
+      }
       loadAllBuildingInputs();
     } catch (e) {
       console.warn('Failed to parse saved inputs:', e);
@@ -577,7 +639,7 @@ function processAllLevel(e) {
   
   updateAllTrainingLists();
   hideTroopLevels();
-  calculateTotalPromoteTimes();
+  calculateTotalTimes();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -597,7 +659,7 @@ function processLevel(e) {
     break;
   }
   hideTroopLevels();
-  calculateTotalPromoteTimes();
+  calculateTotalTimes();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -633,6 +695,7 @@ function calculateTrainingTimes(level, capacity, speed, type) {
               }
             });
 
+  Object.keys(state.trainNew[type]).forEach(v => state.trainNew[type][v] = 0);
   Object.keys(state.promote[type]).forEach(v => state.promote[type][v] = 0);
   const last = raw.at(-1);
   state.currentTroopLevels[type] = last.level;
@@ -640,6 +703,7 @@ function calculateTrainingTimes(level, capacity, speed, type) {
   if (last) {
     const maxLevelTime = last.time;
     return raw.map(data => {
+      state.trainNew[type][data.level] = data.time / capacity;
       if (data.level === last.level) {
         return {
           "level": data.level,
@@ -748,7 +812,7 @@ function processTroopInputNumbersChange(e) {
   const totalTotalCell = document.getElementById("current-total-total");
   totalTotalCell.textContent = newTotalTotal.toLocaleString();
   
-  calculateTotalPromoteTimes();
+  calculateTotalTimes();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -782,6 +846,7 @@ function processTroopTargetNumbersChange(e) {
   const totalTotalCell = document.getElementById("target-total-total");
   totalTotalCell.textContent = newTotalTotal.toLocaleString();
   
+  calculateTotalTargetTimes();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -854,6 +919,105 @@ function calculateTotalPromoteTimes() {
   document.getElementById("promote-all-time").textContent = toHMS(maxTime);
 }
 
+function getOneTotalTargetTime(currentLevel, currentNum, targetNum, trainNew, promote) {
+  const delta =
+    Object.keys(currentNum)
+      .filter(k => Number(k) <= currentLevel)
+      .map(level => {
+        return {
+          "level": Number(level),
+          "delta": targetNum[level] - currentNum[level]
+        };
+      });
+  
+  const promotions =
+    delta
+      .filter(level => level.level < currentLevel && level.delta < 0)
+      .map(level => {
+        return {
+          "level": level.level,
+          "promotions": -level.delta
+        };
+      });
+  const totPromotions = 
+    promotions
+      .map(level => level.promotions)
+      .reduce((acc, time) => acc + time, 0);
+  
+  const topLevel = delta.find(level => level.level === currentLevel);
+  if (topLevel.delta < totPromotions) {
+    return;
+  }
+  topLevel.delta -= totPromotions; // deliberately mutating the delta array
+  
+  const newTroops =
+    delta
+      .filter(level => level.level <= currentLevel && level.delta > 0)
+      .map(level => {
+        return {
+          "level": level.level,
+          "newTroops": level.delta
+        };
+      });
+  
+  const promotionTime =
+    promotions
+      .map(level => level.promotions * promote[level.level])
+      .reduce((acc, time) => acc + time, 0);
+  const newTrainTime =
+    newTroops
+      .map(level => level.newTroops * trainNew[level.level])
+      .reduce((acc, time) => acc + time, 0);
+  
+  return promotionTime + newTrainTime;
+}
+
+function calculateTotalTargetTimes() {
+  const infantryTime = getOneTotalTargetTime(
+    state.currentTroopLevels.barracks,
+    state.currentTroops.infantry,
+    state.targetTroops.infantry,
+    state.trainNew.barracks,
+    state.promote.barracks);
+  if (infantryTime) {
+    document.getElementById("target-infantry-time").textContent = toHMS(infantryTime);
+  } else {
+    document.getElementById("target-infantry-time").textContent = "Target troop nubmers are too low. Cannot compute";
+  }
+  
+  const cavalryTime = getOneTotalTargetTime(
+    state.currentTroopLevels.stables,
+    state.currentTroops.cavalry,
+    state.targetTroops.cavalry,
+    state.trainNew.stables,
+    state.promote.stables);
+  if (cavalryTime) {
+    document.getElementById("target-cavalry-time").textContent = toHMS(cavalryTime);
+  } else {
+    document.getElementById("target-cavalry-time").textContent = "Target troop nubmers are too low. Cannot compute";
+  }
+  
+  const archersTime = getOneTotalTargetTime(
+    state.currentTroopLevels.range,
+    state.currentTroops.archers,
+    state.targetTroops.archers,
+    state.trainNew.range,
+    state.promote.range);
+  if (archersTime) {
+    document.getElementById("target-archers-time").textContent = toHMS(archersTime);
+  } else {
+    document.getElementById("target-archers-time").textContent = "Target troop nubmers are too low. Cannot compute";
+  }
+  
+  const totalTime = Math.max((infantryTime || 0), (cavalryTime || 0), (archersTime || 0));
+  document.getElementById("target-all-time").textContent = toHMS(totalTime);
+}
+
+function calculateTotalTimes() {
+  calculateTotalPromoteTimes();
+  calculateTotalTargetTimes();
+}
+
 function setUpListeners() {
   document.getElementById("all-buildings-same").addEventListener('change', toggleInputs);
   document.getElementById("all-buildings-level").addEventListener('change', processAllLevel);
@@ -879,5 +1043,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
   updateAllTrainingLists();
   loadTroopNumbers();
   hideTroopLevels();
-  calculateTotalPromoteTimes();
+  calculateTotalTimes();
 });
