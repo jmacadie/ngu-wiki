@@ -901,22 +901,38 @@ function calculateTotalPromoteTimes() {
           .filter(k => Number(k) < state.currentTroopLevels.barracks)
           .map(level => state.currentTroops.infantry[level] * state.promote.barracks[level])
           .reduce((acc, time) => acc + time, 0);
-  document.getElementById("promote-infantry-time").textContent = toHMS(infantryTime);
+  if (infantryTime) {
+    document.getElementById("promote-infantry-time").textContent = toHMS(infantryTime);
+  } else {
+    document.getElementById("promote-infantry-time").textContent = "Nothing to promote";
+  }
   
   const cavalryTime = Object.keys(state.currentTroops.cavalry)
           .filter(k => Number(k) < state.currentTroopLevels.stables)
           .map(level => state.currentTroops.cavalry[level] * state.promote.stables[level])
           .reduce((acc, time) => acc + time, 0);
-  document.getElementById("promote-cavalry-time").textContent = toHMS(cavalryTime);
+  if (cavalryTime) {
+    document.getElementById("promote-cavalry-time").textContent = toHMS(cavalryTime);
+  } else {
+    document.getElementById("promote-cavalry-time").textContent = "Nothing to promote";
+  }
   
   const archersTime = Object.keys(state.currentTroops.archers)
           .filter(k => Number(k) < state.currentTroopLevels.range)
           .map(level => state.currentTroops.archers[level] * state.promote.range[level])
           .reduce((acc, time) => acc + time, 0);
-  document.getElementById("promote-archers-time").textContent = toHMS(archersTime);
+  if (archersTime) {
+    document.getElementById("promote-archers-time").textContent = toHMS(archersTime);
+  } else {
+    document.getElementById("promote-archers-time").textContent = "Nothing to promote";
+  }
   
   const maxTime = Math.max(infantryTime, cavalryTime, archersTime);
-  document.getElementById("promote-all-time").textContent = toHMS(maxTime);
+  if (maxTime) {
+    document.getElementById("promote-all-time").textContent = toHMS(maxTime);
+  } else {
+    document.getElementById("promote-all-time").textContent = "Nothing to promote";
+  }
 }
 
 function getOneTotalTargetTime(currentLevel, currentNum, targetNum, trainNew, promote) {
