@@ -1,0 +1,6 @@
+# Build artefacts
+_site/
+.jekyll-cache/
+.sass-cache/
+# Local Gem installs when you run `bundle install --path vendor/bundle`
+vendor/
