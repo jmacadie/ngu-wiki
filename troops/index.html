@@ -43,105 +43,31 @@ layout: default
   </div>
 
   <div class="inputs show-section" id="all-building-inputs">
-    {% include troop_input.html building="all-buildings" name="Training Buildings" %}
+    {% include_relative _building_input.html building="all-buildings" name="Training Buildings" %}
   </div>
 
   <div class="inputs hide-section" id="separate-building-inputs">
-    {% include troop_input.html building="barracks" name="Barracks" %}
+    {% include_relative _building_input.html building="barracks" name="Barracks" %}
     <hr />
 
-    {% include troop_input.html building="stables" name="Stables" %}
+    {% include_relative _building_input.html building="stables" name="Stables" %}
     <hr />
 
-    {% include troop_input.html building="range" name="Range" %}
+    {% include_relative _building_input.html building="range" name="Range" %}
   </div>
 
   <h3>Training Times List</h3>
   <div class="show-section" id="all-building-table">
-    <table>
-      <thead>
-        <tr class="top-header">
-          <th></th>
-          <th colspan="2">Train New</th>
-          <th colspan="2">Promote</th>
-        </tr>
-        <tr class="bottom-header">
-          <th>Level</th>
-          <th>#</th>
-          <th>Time</th>
-          <th>#</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="training-body">
-        <!-- rows will be inserted here -->
-      </tbody>
-    </table>
+    {% include_relative _training_time_table.html building="all" %}
   </div>
 
   <div class="hide-section" id="separate-building-tables">
     <h4>Barracks</h4>
-    <table>
-      <thead>
-        <tr class="top-header">
-          <th></th>
-          <th colspan="2">Train New</th>
-          <th colspan="2">Promote</th>
-        </tr>
-        <tr class="bottom-header">
-          <th>Level</th>
-          <th>#</th>
-          <th>Time</th>
-          <th>#</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="training-body-barracks">
-        <!-- rows will be inserted here -->
-      </tbody>
-    </table>
-
+    {% include_relative _training_time_table.html building="barracks" %}
     <h4>Stables</h4>
-    <table>
-      <thead>
-        <tr class="top-header">
-          <th></th>
-          <th colspan="2">Train New</th>
-          <th colspan="2">Promote</th>
-        </tr>
-        <tr class="bottom-header">
-          <th>Level</th>
-          <th>#</th>
-          <th>Time</th>
-          <th>#</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="training-body-stables">
-        <!-- rows will be inserted here -->
-      </tbody>
-    </table>
-
+    {% include_relative _training_time_table.html building="stables" %}
     <h4>Range</h4>
-    <table>
-      <thead>
-        <tr class="top-header">
-          <th></th>
-          <th colspan="2">Train New</th>
-          <th colspan="2">Promote</th>
-        </tr>
-        <tr class="bottom-header">
-          <th>Level</th>
-          <th>#</th>
-          <th>Time</th>
-          <th>#</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="training-body-range">
-        <!-- rows will be inserted here -->
-      </tbody>
-    </table>
+    {% include_relative _training_time_table.html building="range" %}
   </div>
 
   <br />

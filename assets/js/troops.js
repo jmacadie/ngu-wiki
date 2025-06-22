@@ -627,16 +627,16 @@ function processInner(building, level) {
 
 function processAllLevel(e) {
   const level = Number(e.target.value);
-  
+
   processInner("all-buildings", level);
-  
+
   document.getElementById("barracks-level").value = level;
   processInner("barracks", level);
   document.getElementById("stables-level").value = level;
   processInner("stables", level);
   document.getElementById("range-level").value = level;
   processInner("range", level);
-  
+
   updateAllTrainingLists();
   hideTroopLevels();
   calculateTotalTimes();
@@ -699,7 +699,7 @@ function calculateTrainingTimes(level, capacity, speed, type) {
   Object.keys(state.promote[type]).forEach(v => state.promote[type][v] = 0);
   const last = raw.at(-1);
   state.currentTroopLevels[type] = last.level;
-  
+
   if (last) {
     const maxLevelTime = last.time;
     return raw.map(data => {
@@ -712,7 +712,7 @@ function calculateTrainingTimes(level, capacity, speed, type) {
           "fullPromoteTime": null
         };
       }
-      
+
       const additionalTime = maxLevelTime - data.time;
       state.promote[type][data.level] = additionalTime / capacity;
       const fullPromoteNum = Math.floor(maxLevelTime * capacity / additionalTime);
@@ -760,7 +760,7 @@ function updateTrainingList(bodyId, data, type) {
 }
 
 function updateAllTrainingLists() {
-  updateTrainingList('training-body', state.all, "all");
+  updateTrainingList('training-body-all', state.all, "all");
   updateTrainingList('training-body-barracks', state.barracks, "barracks");
   updateTrainingList('training-body-stables', state.stables, "stables");
   updateTrainingList('training-body-range', state.range, "range");
@@ -784,68 +784,68 @@ function loadTroopNumbers() {
 
 function processTroopInputNumbersChange(e) {
   const input = e.target;
-  
+
   const parts = input.id.split("-");
   const troop = parts[1];
   const level = Number(parts[2]);
-  
+
   const oldVal = state.currentTroops[troop][level];
   const oldRowTotal = state.currentTroops.total[level];
   const oldColTotal = state.currentTroops[troop].total;
   const oldGrandTotal = state.currentTroops.total.total;
-  
+
   const newVal = Number(input.value) || 0;
   const delta = newVal - oldVal;
   state.currentTroops[troop][level] = newVal;
-  
+
   const newRowTotal = oldRowTotal + delta;
   state.currentTroops.total[level] = newRowTotal;
   const newColTotal = oldColTotal + delta;
   state.currentTroops[troop].total = newColTotal;
   const newTotalTotal = oldGrandTotal + delta;
   state.currentTroops.total.total = newTotalTotal;
-  
+
   const rowTotalCell = document.getElementById(`current-total-${level}`);
   rowTotalCell.textContent = newRowTotal.toLocaleString();
   const colTotalCell = document.getElementById(`current-${troop}-total`);
   colTotalCell.textContent = newColTotal.toLocaleString();
   const totalTotalCell = document.getElementById("current-total-total");
   totalTotalCell.textContent = newTotalTotal.toLocaleString();
-  
+
   calculateTotalTimes();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
 function processTroopTargetNumbersChange(e) {
   const input = e.target;
-  
+
   const parts = input.id.split("-");
   const troop = parts[1];
   const level = Number(parts[2]);
-  
+
   const oldVal = state.targetTroops[troop][level];
   const oldRowTotal = state.targetTroops.total[level];
   const oldColTotal = state.targetTroops[troop].total;
   const oldGrandTotal = state.targetTroops.total.total;
-  
+
   const newVal = Number(input.value) || 0;
   const delta = newVal - oldVal;
   state.targetTroops[troop][level] = newVal;
-  
+
   const newRowTotal = oldRowTotal + delta;
   state.targetTroops.total[level] = newRowTotal;
   const newColTotal = oldColTotal + delta;
   state.targetTroops[troop].total = newColTotal;
   const newTotalTotal = oldGrandTotal + delta;
   state.targetTroops.total.total = newTotalTotal;
-  
+
   const rowTotalCell = document.getElementById(`target-total-${level}`);
   rowTotalCell.textContent = newRowTotal.toLocaleString();
   const colTotalCell = document.getElementById(`target-${troop}-total`);
   colTotalCell.textContent = newColTotal.toLocaleString();
   const totalTotalCell = document.getElementById("target-total-total");
   totalTotalCell.textContent = newTotalTotal.toLocaleString();
-  
+
   calculateTotalTargetTimes();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
@@ -863,7 +863,7 @@ function hideTroopLevelsInner(type, max, min, b, s, r) {
       row.classList.add("hide-row");
       return;
     }
-    
+
     const cellInfantry = document.getElementById(`${type}-infantry-${i}`);
     if (i > b) {
       cellInfantry.setAttribute("disabled", "");
@@ -891,7 +891,7 @@ function hideTroopLevels() {
   const rangeLevelTroops = training_data.findLast(data => data.minTCLevel <= state.range.level).level;
   const maxLevelTroops = Math.max(barracksLevelTroops, stablesLevelTroops, rangeLevelTroops);
   const minLevelTroops = Math.min(barracksLevelTroops, stablesLevelTroops, rangeLevelTroops);
-  
+
   hideTroopLevelsInner("current", maxLevelTroops, minLevelTroops, barracksLevelTroops, stablesLevelTroops, rangeLevelTroops);
   hideTroopLevelsInner("target", maxLevelTroops, minLevelTroops, barracksLevelTroops, stablesLevelTroops, rangeLevelTroops);
 }
@@ -906,7 +906,7 @@ function calculateTotalPromoteTimes() {
   } else {
     document.getElementById("promote-infantry-time").textContent = "Nothing to promote";
   }
-  
+
   const cavalryTime = Object.keys(state.currentTroops.cavalry)
           .filter(k => Number(k) < state.currentTroopLevels.stables)
           .map(level => state.currentTroops.cavalry[level] * state.promote.stables[level])
@@ -916,7 +916,7 @@ function calculateTotalPromoteTimes() {
   } else {
     document.getElementById("promote-cavalry-time").textContent = "Nothing to promote";
   }
-  
+
   const archersTime = Object.keys(state.currentTroops.archers)
           .filter(k => Number(k) < state.currentTroopLevels.range)
           .map(level => state.currentTroops.archers[level] * state.promote.range[level])
@@ -926,7 +926,7 @@ function calculateTotalPromoteTimes() {
   } else {
     document.getElementById("promote-archers-time").textContent = "Nothing to promote";
   }
-  
+
   const maxTime = Math.max(infantryTime, cavalryTime, archersTime);
   if (maxTime) {
     document.getElementById("promote-all-time").textContent = toHMS(maxTime);
@@ -945,7 +945,7 @@ function getOneTotalTargetTime(currentLevel, currentNum, targetNum, trainNew, pr
           "delta": targetNum[level] - currentNum[level]
         };
       });
-  
+
   const promotions =
     delta
       .filter(level => level.level < currentLevel && level.delta < 0)
@@ -955,17 +955,17 @@ function getOneTotalTargetTime(currentLevel, currentNum, targetNum, trainNew, pr
           "promotions": -level.delta
         };
       });
-  const totPromotions = 
+  const totPromotions =
     promotions
       .map(level => level.promotions)
       .reduce((acc, time) => acc + time, 0);
-  
+
   const topLevel = delta.find(level => level.level === currentLevel);
   if (topLevel.delta < totPromotions) {
     return;
   }
   topLevel.delta -= totPromotions; // deliberately mutating the delta array
-  
+
   const newTroops =
     delta
       .filter(level => level.level <= currentLevel && level.delta > 0)
@@ -975,7 +975,7 @@ function getOneTotalTargetTime(currentLevel, currentNum, targetNum, trainNew, pr
           "newTroops": level.delta
         };
       });
-  
+
   const promotionTime =
     promotions
       .map(level => level.promotions * promote[level.level])
@@ -984,7 +984,7 @@ function getOneTotalTargetTime(currentLevel, currentNum, targetNum, trainNew, pr
     newTroops
       .map(level => level.newTroops * trainNew[level.level])
       .reduce((acc, time) => acc + time, 0);
-  
+
   return promotionTime + newTrainTime;
 }
 
@@ -1000,7 +1000,7 @@ function calculateTotalTargetTimes() {
   } else {
     document.getElementById("target-infantry-time").textContent = "Target troop nubmers are too low. Cannot compute";
   }
-  
+
   const cavalryTime = getOneTotalTargetTime(
     state.currentTroopLevels.stables,
     state.currentTroops.cavalry,
@@ -1012,7 +1012,7 @@ function calculateTotalTargetTimes() {
   } else {
     document.getElementById("target-cavalry-time").textContent = "Target troop nubmers are too low. Cannot compute";
   }
-  
+
   const archersTime = getOneTotalTargetTime(
     state.currentTroopLevels.range,
     state.currentTroops.archers,
@@ -1024,7 +1024,7 @@ function calculateTotalTargetTimes() {
   } else {
     document.getElementById("target-archers-time").textContent = "Target troop nubmers are too low. Cannot compute";
   }
-  
+
   const totalTime = Math.max((infantryTime || 0), (cavalryTime || 0), (archersTime || 0));
   document.getElementById("target-all-time").textContent = toHMS(totalTime);
 }
@@ -1048,7 +1048,7 @@ function setUpListeners() {
   bonusCapacities.forEach(el => {
     document.getElementById(el).addEventListener('change', processBonusCapacity);
   });
-  
+
   document.getElementById("current-troops").addEventListener('change', processTroopInputNumbersChange);
   document.getElementById("target-troops").addEventListener('change', processTroopTargetNumbersChange);
 }
