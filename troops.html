@@ -5,36 +5,36 @@ layout: default
   <h1>Troop Training and Promotion Guide</h1>
 
   <p>
-	1️⃣ The number 1 rule is <strong>always be training</strong>.
-	Training anything is better than having any of those buildings sitting idle
+    1️⃣ The number 1 rule is <strong>always be training</strong>.
+    Training anything is better than having any of those buildings sitting idle
   </p>
   <p>
-	2️⃣ The number 2 rule is <strong>promote troops over train new</strong>. There are a number of reasons for this:
+    2️⃣ The number 2 rule is <strong>promote troops over train new</strong>. There are a number of reasons for this:
   <ul>
     <li>
-	  You lose nothing by promoting over training new. The power increase is the same and the training time is the
-	  same (accounting for the power added per training time). If that sounds too complex, don't worry, the main
-	  thing is that you don't lose out on power by promoting.
-	</li>
+      You lose nothing by promoting over training new. The power increase is the same and the training time is the
+      same (accounting for the power added per training time). If that sounds too complex, don't worry, the main
+      thing is that you don't lose out on power by promoting.
+    </li>
     <li>
-	  Weak troops will get injured first, fill up your infirmary and then when your strong troops get injured later
-	  they will die if the infirmary is already full of weak troops
-	</li>
-	<li>
-	  Strong troops farm more effciently that weak troops, so while farming is an ok use of weak troops, you can get
-	  more done with fewer strong troops
-	</li>
-	<li>
-	  Having weak troops means you are liable to fill rallies or garrison with those weak troops. There is only so
-	  much space on rallies, so if you fill out the spaces with poor troops you compromise the overall effectiveness.
-	  This doesn't always matter but for things like the Castle battle or Sanctuary battles, it can mean the difference
-	  between succeding or not
-	</li>
+      Weak troops will get injured first, fill up your infirmary and then when your strong troops get injured later
+      they will die if the infirmary is already full of weak troops
+    </li>
+    <li>
+      Strong troops farm more effciently that weak troops, so while farming is an ok use of weak troops, you can get
+      more done with fewer strong troops
+    </li>
+    <li>
+      Having weak troops means you are liable to fill rallies or garrison with those weak troops. There is only so
+      much space on rallies, so if you fill out the spaces with poor troops you compromise the overall effectiveness.
+      This doesn't always matter but for things like the Castle battle or Sanctuary battles, it can mean the difference
+      between succeding or not
+    </li>
   </ul>
   <p>That's it. Simples!</p>
 
   <hr />
-  
+
   <h1>Troop Calculator</h1>
 
   <div>
@@ -43,221 +43,19 @@ layout: default
   </div>
 
   <div class="inputs show-section" id="all-building-inputs">
-    <div class="building-group">
-      <div class="row">
-        <label for="all-buildings-level">Training Buildings Level:</label>
-        <select id="all-buildings-level">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-          <option>9</option>
-          <option>10</option>
-          <option>11</option>
-          <option>12</option>
-          <option>13</option>
-          <option>14</option>
-          <option>15</option>
-          <option>16</option>
-          <option>17</option>
-          <option>18</option>
-          <option>19</option>
-          <option>20</option>
-          <option>21</option>
-          <option>22</option>
-          <option>23</option>
-          <option>24</option>
-          <option>25</option>
-          <option>26</option>
-          <option>27</option>
-          <option>28</option>
-          <option>29</option>
-          <option>30</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <label for="all-buildings-base-capacity">Training Buildings Capacity:</label>
-        <input type="number" id="all-buildings-base-capacity" value="0" placeholder="Base" step="1" disabled />
-        <span>+</span>
-        <input type="number" id="all-buildings-bonus-capacity" value="0" placeholder="Bonus" step="1" />
-      </div>
-
-      <div class="row">
-        <label for="all-buildings-base-speed">Training Buildings Speed (%):</label>
-        <input type="number" id="all-buildings-base-speed" value="0" placeholder="Base %" step="0.1" disabled />
-        <span>+</span>
-        <input type="number" id="all-buildings-bonus-speed" value="0" placeholder="Bonus %" step="0.1" />
-      </div>
-    </div>
+    {% include troop_input.html building="all-buildings" name="Training Buildings" %}
   </div>
 
   <div class="inputs hide-section" id="separate-building-inputs">
-    <div class="building-group">
-      <div class="row">
-        <label for="barracks-level">Barracks Level:</label>
-        <select id="barracks-level">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-          <option>9</option>
-          <option>10</option>
-          <option>11</option>
-          <option>12</option>
-          <option>13</option>
-          <option>14</option>
-          <option>15</option>
-          <option>16</option>
-          <option>17</option>
-          <option>18</option>
-          <option>19</option>
-          <option>20</option>
-          <option>21</option>
-          <option>22</option>
-          <option>23</option>
-          <option>24</option>
-          <option>25</option>
-          <option>26</option>
-          <option>27</option>
-          <option>28</option>
-          <option>29</option>
-          <option>30</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <label for="all-buildings-base-capacity">Barracks Capacity:</label>
-        <input type="number" id="barracks-base-capacity" value="0" placeholder="Base" step="1" disabled />
-        <span>+</span>
-        <input type="number" id="barracks-bonus-capacity" value="0" placeholder="Bonus" step="1" />
-      </div>
-
-      <div class="row">
-        <label for="barracks-base-speed">Barracks Speed (%):</label>
-        <input type="number" id="barracks-base-speed" value="0" placeholder="Base %" step="0.1" disabled />
-        <span>+</span>
-        <input type="number" id="barracks-bonus-speed" value="0" placeholder="Bonus %" step="0.1" />
-      </div>
-    </div>
-
+    {% include troop_input.html building="barracks" name="Barracks" %}
     <hr />
 
-    <div class="building-group">
-      <div class="row">
-        <label for="stables-level">Stables Level:</label>
-        <select id="stables-level">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-          <option>9</option>
-          <option>10</option>
-          <option>11</option>
-          <option>12</option>
-          <option>13</option>
-          <option>14</option>
-          <option>15</option>
-          <option>16</option>
-          <option>17</option>
-          <option>18</option>
-          <option>19</option>
-          <option>20</option>
-          <option>21</option>
-          <option>22</option>
-          <option>23</option>
-          <option>24</option>
-          <option>25</option>
-          <option>26</option>
-          <option>27</option>
-          <option>28</option>
-          <option>29</option>
-          <option>30</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <label for="all-buildings-base-capacity">Stables Capacity:</label>
-        <input type="number" id="stables-base-capacity" value="0" placeholder="Base" step="1" disabled />
-        <span>+</span>
-        <input type="number" id="stables-bonus-capacity" value="0" placeholder="Bonus" step="1" />
-      </div>
-
-      <div class="row">
-        <label for="stables-base-speed">Stables Speed (%):</label>
-        <input type="number" id="stables-base-speed" value="0" placeholder="Base %" step="0.1" disabled />
-        <span>+</span>
-        <input type="number" id="stables-bonus-speed" value="0" placeholder="Bonus %" step="0.1" />
-      </div>
-    </div>
-
+    {% include troop_input.html building="stables" name="Stables" %}
     <hr />
 
-    <div class="building-group">
-      <div class="row">
-        <label for="range-level">Range Level:</label>
-        <select id="range-level">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-          <option>9</option>
-          <option>10</option>
-          <option>11</option>
-          <option>12</option>
-          <option>13</option>
-          <option>14</option>
-          <option>15</option>
-          <option>16</option>
-          <option>17</option>
-          <option>18</option>
-          <option>19</option>
-          <option>20</option>
-          <option>21</option>
-          <option>22</option>
-          <option>23</option>
-          <option>24</option>
-          <option>25</option>
-          <option>26</option>
-          <option>27</option>
-          <option>28</option>
-          <option>29</option>
-          <option>30</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <label for="all-buildings-base-capacity">Range Capacity:</label>
-        <input type="number" id="range-base-capacity" value="0" placeholder="Base" step="1" disabled />
-        <span>+</span>
-        <input type="number" id="range-bonus-capacity" value="0" placeholder="Bonus" step="1" />
-      </div>
-
-      <div class="row">
-        <label for="range-base-speed">Range Speed (%):</label>
-        <input type="number" id="range-base-speed" value="0" placeholder="Base %" step="0.1" disabled />
-        <span>+</span>
-        <input type="number" id="range-bonus-speed" value="0" placeholder="Bonus %" step="0.1" />
-      </div>
-    </div>
+    {% include troop_input.html building="range" name="Range" %}
   </div>
-  
+
   <h3>Training Times List</h3>
   <div class="show-section" id="all-building-table">
     <table>
@@ -280,7 +78,7 @@ layout: default
       </tbody>
     </table>
   </div>
-  
+
   <div class="hide-section" id="separate-building-tables">
     <h4>Barracks</h4>
     <table>
@@ -302,7 +100,7 @@ layout: default
         <!-- rows will be inserted here -->
       </tbody>
     </table>
-    
+
     <h4>Stables</h4>
     <table>
       <thead>
@@ -323,7 +121,7 @@ layout: default
         <!-- rows will be inserted here -->
       </tbody>
     </table>
-    
+
     <h4>Range</h4>
     <table>
       <thead>
@@ -345,10 +143,10 @@ layout: default
       </tbody>
     </table>
   </div>
-  
+
   <br />
   <hr />
-  
+
   <h3>Training / Promotion Planner</h3>
   <h4>Current Troop Numbers</h4>
   <table class="troop-numbers" id="current-troops">
@@ -441,7 +239,7 @@ layout: default
       </tr>
     </tbody>
   </table>
-  
+
   <h4>Target Troop Numbers</h4>
   <table class="troop-numbers" id="target-troops">
     <thead>
@@ -533,7 +331,7 @@ layout: default
       </tr>
     </tbody>
   </table>
-  
+
   <h3>Results</h3>
   <p>It will take you the following times to promote all your troops:</p>
   <ul>
