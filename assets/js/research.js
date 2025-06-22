@@ -1,5 +1,128 @@
 import { researchData } from './research_data.js';
-import { toHMS, formatPcnt } from './utils.js';
+import { toHMS, formatPcnt, roundPcnt } from './utils.js';
+
+const base_data = [
+  {
+    level: 1,
+    baseSpeed: 0.001
+  },
+  {
+    level: 2,
+    baseSpeed: 0.002
+  },
+  {
+    level: 3,
+    baseSpeed: 0.003
+  },
+  {
+    level: 4,
+    baseSpeed: 0.004
+  },
+  {
+    level: 5,
+    baseSpeed: 0.005
+  },
+  {
+    level: 6,
+    baseSpeed: 0.006
+  },
+  {
+    level: 7,
+    baseSpeed: 0.007
+  },
+  {
+    level: 8,
+    baseSpeed: 0.008
+  },
+  {
+    level: 9,
+    baseSpeed: 0.009
+  },
+  {
+    level: 10,
+    baseSpeed: 0.010
+  },
+  {
+    level: 11,
+    baseSpeed: 0.011
+  },
+  {
+    level: 12,
+    baseSpeed: 0.012
+  },
+  {
+    level: 13,
+    baseSpeed: 0.013
+  },
+  {
+    level: 14,
+    baseSpeed: 0.014
+  },
+  {
+    level: 15,
+    baseSpeed: 0.015
+  },
+  {
+    level: 16,
+    baseSpeed: 0.016
+  },
+  {
+    level: 17,
+    baseSpeed: 0.017
+  },
+  {
+    level: 18,
+    baseSpeed: 0.018
+  },
+  {
+    level: 19,
+    baseSpeed: 0.019
+  },
+  {
+    level: 20,
+    baseSpeed: 0.020
+  },
+  {
+    level: 21,
+    baseSpeed: 0.021
+  },
+  {
+    level: 22,
+    baseSpeed: 0.022
+  },
+  {
+    level: 23,
+    baseSpeed: 0.023
+  },
+  {
+    level: 24,
+    baseSpeed: 0.024
+  },
+  {
+    level: 25,
+    baseSpeed: 0.025
+  },
+  {
+    level: 26,
+    baseSpeed: 0.026
+  },
+  {
+    level: 27,
+    baseSpeed: 0.027
+  },
+  {
+    level: 28,
+    baseSpeed: 0.028
+  },
+  {
+    level: 29,
+    baseSpeed: 0.029
+  },
+  {
+    level: 30,
+    baseSpeed: 0.030
+  }
+];
 
 const state = {
   tree: 'Growth',
@@ -9,7 +132,7 @@ const state = {
   speed: JSON.parse(localStorage.getItem('researchSpeed')) || { base: 0, bonus: 0 },
   completedMap: JSON.parse(localStorage.getItem('completedResearch') || '{}'),
   academyLevel: Number(JSON.parse(localStorage.getItem('academyLevel') || 0)),
-  visible: new Set(), 
+  visible: new Set(),
 };
 
 function isVisible(group) {
@@ -18,7 +141,7 @@ function isVisible(group) {
   const show =
     (state.completed === 'all') ||
     (state.completed === 'completed' && started) ||
-	(state.completed === 'uncompleted' && !finished) ;
+    (state.completed === 'uncompleted' && !finished) ;
 
   return (
     group.tree === state.tree &&
@@ -48,7 +171,7 @@ function getCategories() {
   const list = [...unique.values()].sort(
     (a, b) => a.buff.localeCompare(b.buff) || a.name.localeCompare(b.name)
   );
-  
+
   return list;
 }
 
@@ -79,12 +202,12 @@ function renderResearchRow(group) {
   for (let i = 0; i <= maxLvl; i++) {
     const opt = document.createElement('option');
     opt.value = i;
-	let textVal = `Level ${i}`;
-	if (i === 0) {
-		textVal = 'None';
-	} else if (i === maxLvl) {
-		textVal = 'MAX';
-	}
+    let textVal = `Level ${i}`;
+    if (i === 0) {
+      textVal = 'None';
+    } else if (i === maxLvl) {
+      textVal = 'MAX';
+    }
     opt.textContent = textVal;
     if (i === current) opt.selected = true;
     select.appendChild(opt);
@@ -159,25 +282,25 @@ function getTotalName(tree) {
 
 function aggregateDataForTable(data) {
   const totals = {
-	'TOTAL': { value: 0, count: 0, time: 0, power: 0 }
-  }; 
+    'TOTAL': { value: 0, count: 0, time: 0, power: 0 }
+  };
 
   for (const g of data) {
     const key = g.buff;
     if (!totals[key]) totals[key] = { value: 0, count: 0, time: 0, power: 0 };
-	const totalKey = getTotalName(g.tree);
-	if (!totals[totalKey]) totals[totalKey] = { value: 0, count: 0, time: 0, power: 0 };
+    const totalKey = getTotalName(g.tree);
+    if (!totals[totalKey]) totals[totalKey] = { value: 0, count: 0, time: 0, power: 0 };
 
     totals[key].value += g.buffValue;
     totals[key].count += 1;
     totals[key].time  += g.timeSeconds;
     totals[key].power += g.power;
-	
-	totals[totalKey].count += 1;
+
+    totals[totalKey].count += 1;
     totals[totalKey].time  += g.timeSeconds;
     totals[totalKey].power += g.power;
-	
-	totals['TOTAL'].count += 1;
+
+    totals['TOTAL'].count += 1;
     totals['TOTAL'].time  += g.timeSeconds;
     totals['TOTAL'].power += g.power;
   }
@@ -186,11 +309,11 @@ function aggregateDataForTable(data) {
 
 function isPcntRow(buff) {
   return buff.includes('Speed') ||
-	buff.includes('Output') ||
-	buff.includes('Attack') ||
-	buff.includes('Defense') ||
-	buff.includes('Health') ||
-	buff.includes('Lethality');
+         buff.includes('Output') ||
+         buff.includes('Attack') ||
+         buff.includes('Defense') ||
+         buff.includes('Health') ||
+         buff.includes('Lethality');
 }
 
 function updateBuffTable(data, tableId) {
@@ -198,25 +321,24 @@ function updateBuffTable(data, tableId) {
   const rows = document.querySelectorAll(`#${tableId} tbody tr`);
 
   rows.forEach(row => {
-	if (row.cells.length < 5) return; 
+    if (row.cells.length < 5) return;
 
     const buffName = row.cells[0].textContent.trim();
     const data = aggData[buffName];
 
     if (buffName.slice(0, 5) === 'TOTAL' && data) {
-	  const count = data.count;
-	  const time = toHMS(data.time);
-	  const power = data.power.toLocaleString();
-	  row.cells[1].textContent = '';
+      const count = data.count;
+      const time = toHMS(data.time);
+      const power = data.power.toLocaleString();
+      row.cells[1].textContent = '';
       row.cells[2].innerHTML = `<strong>${count}</strong>`;
       row.cells[3].innerHTML = `<strong>${time}</strong>`;
-      row.cells[4].innerHTML = `<strong>${power}</strong>`; 
-	}
-    else if (data) {
-	  row.cells[1].textContent = '+' + (isPcntRow(buffName) ? formatPcnt(data.value) : data.value.toLocaleString());
+      row.cells[4].innerHTML = `<strong>${power}</strong>`;
+    } else if (data) {
+      row.cells[1].textContent = '+' + (isPcntRow(buffName) ? formatPcnt(data.value) : data.value.toLocaleString());
       row.cells[2].textContent = data.count;
       row.cells[3].textContent = toHMS(data.time);
-      row.cells[4].textContent = data.power.toLocaleString(); 
+      row.cells[4].textContent = data.power.toLocaleString();
     } else {
       row.cells[1].textContent = 'None';
       row.cells[2].textContent = 0;
@@ -233,7 +355,7 @@ function updateTimeInvested() {
 }
 
 function researchSpeed() {
-	return (state.speed.base + state.speed.bonus) / 100;
+  return (state.speed.base + state.speed.bonus) / 100;
 }
 
 function completedResearchDetails() {
@@ -251,16 +373,16 @@ function completedResearchDetails() {
         level:        group.level,
         buff:         group.buff,
         innerLevel:   il.innerLevel,
-	    academyLevel: il.academyLevel,
-	    prerequisite: il.prerequisite,
-	    bread:        il.bread,
-	    wood:         il.wood,
-	    stone:        il.stone,
-	    iron:         il.iron,
-	    gold:         il.gold,
-	    timeSeconds:  il.rawTimeSeconds * modifier,
-	    power:        il.power,
-	    buffValue:    il.buffValue
+        academyLevel: il.academyLevel,
+        prerequisite: il.prerequisite,
+        bread:        il.bread,
+        wood:         il.wood,
+        stone:        il.stone,
+        iron:         il.iron,
+        gold:         il.gold,
+        timeSeconds:  il.rawTimeSeconds * modifier,
+        power:        il.power,
+        buffValue:    il.buffValue
       }));
   });
 }
@@ -269,7 +391,7 @@ function uncompletedLvlResearchDetails() {
   const modifier = 1 / (1 + researchSpeed());
   return researchData.flatMap(group => {
     const maxDone = state.completedMap[group.id] || 0;
-    
+
     return group.innerLevels
       .filter(il => (il.innerLevel > maxDone) && (il.academyLevel <= state.academyLevel))
       .map(il => ({
@@ -279,16 +401,16 @@ function uncompletedLvlResearchDetails() {
         level:        group.level,
         buff:         group.buff,
         innerLevel:   il.innerLevel,
-	    academyLevel: il.academyLevel,
-	    prerequisite: il.prerequisite,
-	    bread:        il.bread,
-	    wood:         il.wood,
-	    stone:        il.stone,
-	    iron:         il.iron,
-	    gold:         il.gold,
-	    timeSeconds:  il.rawTimeSeconds * modifier,
-	    power:        il.power,
-	    buffValue:    il.buffValue
+        academyLevel: il.academyLevel,
+        prerequisite: il.prerequisite,
+        bread:        il.bread,
+        wood:         il.wood,
+        stone:        il.stone,
+        iron:         il.iron,
+        gold:         il.gold,
+        timeSeconds:  il.rawTimeSeconds * modifier,
+        power:        il.power,
+        buffValue:    il.buffValue
       }));
   });
 }
@@ -307,38 +429,47 @@ function uncompletedAllResearchDetails() {
         level:        group.level,
         buff:         group.buff,
         innerLevel:   il.innerLevel,
-	    academyLevel: il.academyLevel,
-	    prerequisite: il.prerequisite,
-	    bread:        il.bread,
-	    wood:         il.wood,
-	    stone:        il.stone,
-	    iron:         il.iron,
-	    gold:         il.gold,
-	    timeSeconds:  il.rawTimeSeconds * modifier,
-	    power:        il.power,
-	    buffValue:    il.buffValue
+        academyLevel: il.academyLevel,
+        prerequisite: il.prerequisite,
+        bread:        il.bread,
+        wood:         il.wood,
+        stone:        il.stone,
+        iron:         il.iron,
+        gold:         il.gold,
+        timeSeconds:  il.rawTimeSeconds * modifier,
+        power:        il.power,
+        buffValue:    il.buffValue
       }));
   });
 }
 
 function updateSpeed(e) {
   e.preventDefault();
-  
+
   const elBase = document.getElementById('base-speed');
   const elBonus = document.getElementById('bonus-speed');
   state.speed.base  = parseFloat(elBase.value) || 0;
   state.speed.bonus = parseFloat(elBonus.value) || 0;
   localStorage.setItem('researchSpeed', JSON.stringify(state.speed));
-  
+
   updateTimeInvested();
 }
 
+function setBaseSpeed(level) {
+  const baseSpeed = base_data.find(inner => inner.level === level).baseSpeed;
+  document.getElementById("base-speed").value = roundPcnt(baseSpeed);
+}
+
+
 function updateAcademy(e) {
   e.preventDefault();
-  
+
   state.academyLevel = Number(e.target.value);
   localStorage.setItem('academyLevel', JSON.stringify(state.academyLevel));
-  
+
+  setBaseSpeed(state.academyLevel);
+  localStorage.setItem('researchSpeed', JSON.stringify(state.speed));
+
   updateTimeInvested();
 }
 
@@ -378,14 +509,13 @@ function addListeners() {
       updateResearchList();
     })
   );
-  
+
   // buttons
   document.getElementById('max-all').addEventListener('click', setFilteredMax);
   document.getElementById('clear-all').addEventListener('click', setFilteredNone);
   document.getElementById('reset-research').addEventListener('click', setAllNone);
 
   // speed inputs
-  document.getElementById('base-speed').addEventListener('input', updateSpeed);
   document.getElementById('bonus-speed').addEventListener('input', updateSpeed);
 
   // academy level
@@ -394,6 +524,6 @@ function addListeners() {
 
 /* ────────────────────  bootstrap  ──────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  addListeners();
   initPage();
+  addListeners();
 });
