@@ -136,19 +136,22 @@ const state = {
 };
 
 function isVisible(group) {
-  const finished = isGroupComplete(group);
-  const started = isGroupStarted(group);
-  const show =
-    (state.completed === 'all') ||
-    (state.completed === 'completed' && started) ||
-    (state.completed === 'uncompleted' && !finished) ;
+  if (group.tree !== state.tree ||
+    !state.categories.has(group.name) ||
+    !state.levels.has(group.level) ||
+    isGroupAboveLevel(group)) {
+    return false;
+  }
 
-  return (
-    group.tree === state.tree &&
-    state.categories.has(group.name) &&
-    state.levels.has(group.level) &&
-    show
-  );
+  const finished = isGroupComplete(group);
+  const started = finished || isGroupStarted(group);
+  return (state.completed === 'all') ||
+    (state.completed === 'completed' && started) ||
+    (state.completed === 'uncompleted' && !finished);
+}
+
+function isGroupAboveLevel(group) {
+  return group.innerLevels[0].academyLevel > state.academyLevel;
 }
 
 function isGroupComplete(group) {
@@ -196,10 +199,11 @@ function renderResearchRow(group) {
   const tr = document.createElement('tr');
 
   const maxLvl = group.innerLevels.length;
+  const maxLvlForAcademy = group.innerLevels.filter(inner => inner.academyLevel <= state.academyLevel).length;
   const current  = state.completedMap[group.id] || 0;
 
   const select = document.createElement('select');
-  for (let i = 0; i <= maxLvl; i++) {
+  for (let i = 0; i <= maxLvlForAcademy; i++) {
     const opt = document.createElement('option');
     opt.value = i;
     let textVal = `Level ${i}`;
@@ -248,7 +252,9 @@ function setFilteredMax(e) {
   const researches = researchData.filter(g => state.visible.has(g.id));
 
   for (const group of researches) {
-    state.completedMap[group.id] = group.innerLevels.length;
+    state.completedMap[group.id] = group.innerLevels
+                                        .filter(inner => inner.academyLevel <= state.academyLevel)
+                                        .length;
   }
   localStorage.setItem('completedResearch', JSON.stringify(state.completedMap));
   updateResearchList();
@@ -471,6 +477,7 @@ function updateAcademy(e) {
   localStorage.setItem('researchSpeed', JSON.stringify(state.speed));
 
   updateTimeInvested();
+  updateResearchList();
 }
 
 function initPage() {
