@@ -43,17 +43,17 @@ layout: default
   </div>
 
   <div class="inputs show-section" id="all-building-inputs">
-    {% include_relative _building_input.html building="all-buildings" name="Training Buildings" %}
+    {%- include_relative _building_input.html building="all-buildings" name="Training Buildings" %}
   </div>
 
   <div class="inputs hide-section" id="separate-building-inputs">
-    {% include_relative _building_input.html building="barracks" name="Barracks" %}
+    {%- include_relative _building_input.html building="barracks" name="Barracks" %}
+    
     <hr />
-
-    {% include_relative _building_input.html building="stables" name="Stables" %}
+    {%- include_relative _building_input.html building="stables" name="Stables" %}
+    
     <hr />
-
-    {% include_relative _building_input.html building="range" name="Range" %}
+    {%- include_relative _building_input.html building="range" name="Range" %}
   </div>
 
   <h3>Training Times List</h3>
@@ -63,11 +63,13 @@ layout: default
 
   <div class="hide-section" id="separate-building-tables">
     <h4>Barracks</h4>
-    {% include_relative _training_times.html building="barracks" %}
+    {%- include_relative _training_times.html building="barracks" %}
+    
     <h4>Stables</h4>
-    {% include_relative _training_times.html building="stables" %}
+    {%- include_relative _training_times.html building="stables" %}
+    
     <h4>Range</h4>
-    {% include_relative _training_times.html building="range" %}
+    {%- include_relative _training_times.html building="range" %}
   </div>
 
   <br />
@@ -75,9 +77,11 @@ layout: default
 
   <h3>Training / Promotion Planner</h3>
   <h4>Current Troop Numbers</h4>
-  {% include_relative _troop_numbers.html type="current" %}
+  {%- include_relative _troop_numbers.html type="current" %}
+  
   <h4>Target Troop Numbers</h4>
-  {% include_relative _troop_numbers.html type="target" %}
+  {%- include_relative _troop_numbers.html type="target" %}
+  
   <h3>Results</h3>
   <p>It will take you the following times to promote all your troops:</p>
   <ul>

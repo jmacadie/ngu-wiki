@@ -1,4 +1,5 @@
-<table class="troop-numbers" id="{{ include.type }}-troops">
+
+  <table class="troop-numbers" id="{{ include.type }}-troops">
     <thead>
       <tr>
         <th>Level</th>
@@ -9,16 +10,16 @@
       </tr>
     </thead>
     <tbody>
-      {% include_relative _troop_number_row.html level=1 type=include.type -%}
-      {% include_relative _troop_number_row.html level=2 type=include.type -%}
-      {% include_relative _troop_number_row.html level=3 type=include.type -%}
-      {% include_relative _troop_number_row.html level=4 type=include.type -%}
-      {% include_relative _troop_number_row.html level=5 type=include.type -%}
-      {% include_relative _troop_number_row.html level=6 type=include.type -%}
-      {% include_relative _troop_number_row.html level=7 type=include.type -%}
-      {% include_relative _troop_number_row.html level=8 type=include.type -%}
-      {% include_relative _troop_number_row.html level=9 type=include.type -%}
-      {% include_relative _troop_number_row.html level=10 type=include.type %}
+      {%- include_relative _troop_number_row.html level=1 type=include.type -%}
+      {%- include_relative _troop_number_row.html level=2 type=include.type -%}
+      {%- include_relative _troop_number_row.html level=3 type=include.type -%}
+      {%- include_relative _troop_number_row.html level=4 type=include.type -%}
+      {%- include_relative _troop_number_row.html level=5 type=include.type -%}
+      {%- include_relative _troop_number_row.html level=6 type=include.type -%}
+      {%- include_relative _troop_number_row.html level=7 type=include.type -%}
+      {%- include_relative _troop_number_row.html level=8 type=include.type -%}
+      {%- include_relative _troop_number_row.html level=9 type=include.type -%}
+      {%- include_relative _troop_number_row.html level=10 type=include.type %}
       <tr class="total-row">
         <td>Total</td>
         <td id="{{ include.type }}-infantry-total">0</td>
