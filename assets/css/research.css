@@ -201,3 +201,41 @@ table#uncompleted-all-research td:nth-child(5) {
 .control-bar input[type="number"] {
   text-align: right;
 }
+
+.stats-heading-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.7em 0 2em;
+}
+
+.stats-heading-row h4 {
+  margin: 0;
+}
+
+.stats-heading-row span {
+  padding: 5px 10px;
+  display: inline;
+  border-radius: 10px;
+  border: 1px solid;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.stats-heading-row span.completed-hide {
+  color: #777;
+  background: #ccc;
+  border-color: #aaa;
+}
+
+.stats-heading-row span.completed-show{
+  color: #548235;
+  background: #e2efda;
+  border-color: #c6e0b4;
+}
+
+table.completed-hide {
+  display: none;
+}

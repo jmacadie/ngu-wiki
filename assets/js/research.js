@@ -466,7 +466,6 @@ function setBaseSpeed(level) {
   document.getElementById("base-speed").value = roundPcnt(baseSpeed);
 }
 
-
 function updateAcademy(e) {
   e.preventDefault();
 
@@ -478,6 +477,24 @@ function updateAcademy(e) {
 
   updateTimeInvested();
   updateResearchList();
+}
+
+function processShowHide(e) {
+  const el = e.target;
+  const toHide = el.classList.contains("completed-hide");
+  const elTable = el.parentElement.nextElementSibling;
+  
+  if (toHide) {
+    el.classList.remove("completed-hide");
+    el.classList.add("completed-show");
+    el.textContent = "⬇️ expand";
+    elTable.classList.add("completed-hide");
+  } else {
+    el.classList.remove("completed-show");
+    el.classList.add("completed-hide");
+    el.textContent = "⬆️ collapse";
+    elTable.classList.remove("completed-hide");
+  }
 }
 
 function initPage() {
@@ -527,6 +544,11 @@ function addListeners() {
 
   // academy level
   document.getElementById('academy-select').addEventListener('input', updateAcademy);
+  
+  // collapse / show buttons
+  document.querySelectorAll('.stats-heading-row span').forEach(b =>
+    b.addEventListener('click', processShowHide)
+  );
 }
 
 /* ────────────────────  bootstrap  ──────────────────── */

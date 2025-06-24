@@ -35,85 +35,7 @@ layout: default
   </p>
 
   <h3>Filters</h3>
-  <div class="filter-group">
-    <label>Academy Level:
-      <select id="academy-select">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        <option>6</option>
-        <option>7</option>
-        <option>8</option>
-        <option>9</option>
-        <option>10</option>
-        <option>11</option>
-        <option>12</option>
-        <option>13</option>
-        <option>14</option>
-        <option>15</option>
-        <option>16</option>
-        <option>17</option>
-        <option>18</option>
-        <option>19</option>
-        <option>20</option>
-        <option>21</option>
-        <option>22</option>
-        <option>23</option>
-        <option>24</option>
-        <option>25</option>
-        <option>26</option>
-        <option>27</option>
-        <option>28</option>
-        <option>29</option>
-        <option>30</option>
-      </select>
-    </label>
-
-    <label>Research Speed (%):
-      <input type="number" id="base-speed" value="0" placeholder="Base %" disabled /> +
-      <input type="number" id="bonus-speed" value="0" placeholder="Research %" />
-    </label>
-
-    <label>Tree:
-      <select id="tree-select">
-        <option>Growth</option>
-        <option>Economy</option>
-        <option>Battle</option>
-      </select>
-    </label>
-
-    <label>Category:
-      <select id="category-select" multiple size="5"></select>
-    </label>
-
-    <label>Main Level:
-      <select id="level-select" multiple size="5">
-        <option>I</option>
-        <option>II</option>
-        <option>III</option>
-        <option>IV</option>
-        <option>V</option>
-        <option>VI</option>
-        <option>VII</option>
-      </select>
-    </label>
-
-    <label>Completion Status:
-      <div class="radio-group">
-        <label><input type="radio" name="completed" value="uncompleted" checked /> Uncompleted</label>
-        <label><input type="radio" name="completed" value="completed" /> Completed</label>
-        <label><input type="radio" name="completed" value="all" /> All</label>
-      </div>
-    </label>
-  </div>
-
-  <div class="controls">
-    <button id="max-all">MAX (all filtered)</button>
-    <button id="clear-all">None (all filtered)</button>
-    <button id="reset-research">Reset all research</button>
-  </div>
+  {%- include_relative _inputs.html -%}
 
   <h3>Research List</h3>
   <table class="research-list" id="research-table">
@@ -130,13 +52,22 @@ layout: default
   </table>
 
   <h3>Stats</h3>
-  <h4>Completed Research</h4>
+  <div class="stats-heading-row">
+    <h4>Completed Research</h4>
+    <span id="toggle-completed" class="completed-hide">⬆️ collapse</span>
+  </div>
   {% include_relative _result.html name="completed-research"%}
   <hr />
 
-  <h4>Not yet completed Research (To current academy level)</h4>
+  <div class="stats-heading-row">
+    <h4>Not yet completed Research (To current academy level)</h4>
+    <span id="toggle-uncompleted-lvl" class="completed-hide">⬆️ collapse</span>
+  </div>
   {% include_relative _result.html name="uncompleted-lvl-research"%}
   <hr />
 
-  <h4>Not yet completed Research (All levels)</h4>
+  <div class="stats-heading-row">
+    <h4>Not yet completed Research (All levels)</h4>
+    <span id="toggle-uncompleted-all" class="completed-hide">⬆️ collapse</span>
+  </div>
   {% include_relative _result.html name="uncompleted-all-research"%}
