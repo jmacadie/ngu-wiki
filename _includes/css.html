@@ -1,13 +1,11 @@
-<link rel="stylesheet" href="/assets/css/main.css">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
   {% if page.title == "home" -%}
-  <link rel="stylesheet" href="/assets/css/home.css">
-  {%- endif -%}
-  {%- if page.title == "troops" -%}
-  <link rel="stylesheet" href="/assets/css/troops.css">
-  {%- endif -%}
-  {%- if page.title == "research" -%}
-  <link rel="stylesheet" href="/assets/css/research.css">
-  {%- endif -%}
-  {%- if page.title == "healing" -%}
-  <link rel="stylesheet" href="/assets/css/healing.css">
-  {%- endif -%}
+    <link rel="stylesheet" href="/assets/css/home.css">
+  {%- elsif page.title == "troops" -%}
+    <link rel="stylesheet" href="/assets/css/troops.css">
+  {%- elsif page.title == "research" -%}
+    <link rel="stylesheet" href="/assets/css/research.css">
+  {%- elsif page.title == "healing" -%}
+    <link rel="stylesheet" href="/assets/css/healing.css">
+  {%- endif %}
