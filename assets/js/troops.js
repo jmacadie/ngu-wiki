@@ -850,6 +850,54 @@ function processTroopTargetNumbersChange(e) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+function copyAllState() {
+  const types = ["infantry", "cavalry", "archers", "total"];
+  const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "total"];
+  
+  types.forEach(t => {
+    levels.forEach(l => state.targetTroops[t][l] = state.currentTroops[t][l])
+  })
+}
+
+function processCopyTroops(e) {
+  e.preventDefault();
+  
+  copyAllState();
+  loadTroopNumbers();
+  calculateTotalTargetTimes();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function promoteAllState(troop, building) {
+  const level = state.currentTroopLevels[building];
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach(l => {
+    if (l === level) {
+      state.targetTroops[troop][l] = state.currentTroops[troop].total;
+    } else {
+      state.targetTroops[troop][l] = 0;
+    }
+  })
+}
+
+function processCopyPromoteTroops(e) {
+  e.preventDefault();
+  
+  copyAllState();
+  promoteAllState("infantry", "barracks");
+  promoteAllState("cavalry", "stables");
+  promoteAllState("archers", "range");
+  
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach(l => {
+    state.targetTroops.total[l] = state.targetTroops.infantry[l] +
+                                  state.targetTroops.cavalry[l] +
+                                  state.targetTroops.archers[l];
+  })
+  
+  loadTroopNumbers();
+  calculateTotalTargetTimes();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
 function hideTroopLevelsInner(type, max, min, b, s, r) {
   const rows = document.querySelectorAll(`#${type}-troops tbody tr`);
   var i = 0;
@@ -1051,6 +1099,12 @@ function setUpListeners() {
 
   document.getElementById("current-troops").addEventListener('change', processTroopInputNumbersChange);
   document.getElementById("target-troops").addEventListener('change', processTroopTargetNumbersChange);
+  
+  document.getElementById("copy").addEventListener('click', processCopyTroops);
+  document.getElementById("copy-promote").addEventListener('click', processCopyPromoteTroops);
+  document.getElementById("infantry1k").addEventListener('click', processTroopTargetNumbersChange);
+  document.getElementById("cavalry1k").addEventListener('click', processTroopTargetNumbersChange);
+  document.getElementById("archers1k").addEventListener('click', processTroopTargetNumbersChange);
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {

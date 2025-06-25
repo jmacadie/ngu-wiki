@@ -80,6 +80,20 @@ layout: default
   {%- include_relative _troop_numbers.html type="current" %}
   
   <h4>Target Troop Numbers</h4>
+  
+  Actions
+  <div id="action-buttons">
+    <div class="button-row">
+      <button id="copy">Copy current</button>
+      <button id="copy-promote">Copy current & promote</button>
+    </div>
+    <div class="button-row">
+      <button id="infantry1k">+1k Infantry</button>
+      <button id="cavalry1k">+1k Cavalry</button>
+      <button id="archers1k">+1k Archers</button>
+    </div>
+  </div>
+  
   {%- include_relative _troop_numbers.html type="target" %}
   
   <h3>Results</h3>
