@@ -1,7 +1,8 @@
 
   <div class="filter-group">
-    <label>Academy Level:
-      <select id="academy-select">
+    <div class="filter-section">
+      <label for="academy-select">Academy Level:</label>
+      <select id="academy-select" name="academy-select" class="small">
         <option>1</option>
         <option>2</option>
         <option>3</option>
@@ -33,27 +34,32 @@
         <option>29</option>
         <option>30</option>
       </select>
-    </label>
+    </div>
 
-    <label>Research Speed (%):
-      <input type="number" id="base-speed" value="0" placeholder="Base %" disabled /> +
-      <input type="number" id="bonus-speed" value="0" placeholder="Research %" />
-    </label>
+    <div class="filter-section">
+      <span>Research Speed (%):</span>
+      <input type="number" id="base-speed" name="base-speed" class="small" value="0" placeholder="Base %" disabled />
+      <span class="plus">+</span>
+      <input type="number" id="bonus-speed" name="bonus-speed" class="small" value="0" placeholder="Research %" />
+    </div>
 
-    <label>Tree:
-      <select id="tree-select">
+    <div class="filter-section">
+      <label for="tree-select">Tree:</label>
+      <select id="tree-select" name="tree-select" class="small">
         <option>Growth</option>
         <option>Economy</option>
         <option>Battle</option>
       </select>
-    </label>
+    </div>
 
-    <label>Category:
-      <select id="category-select" multiple size="5"></select>
-    </label>
+    <div class="filter-section">
+      <label for="category-select">Category:</label>
+      <select id="category-select" name="category-select" class="large" multiple size="5"></select>
+    </div>
 
-    <label>Main Level:
-      <select id="level-select" multiple size="5">
+    <div class="filter-section">
+      <label for="level-select">Main Level:</label>
+      <select id="level-select" name="level-select" class="small" multiple size="5">
         <option>I</option>
         <option>II</option>
         <option>III</option>
@@ -62,15 +68,14 @@
         <option>VI</option>
         <option>VII</option>
       </select>
-    </label>
+    </div>
 
-    <label>Completion Status:
-      <div class="radio-group">
-        <label><input type="radio" name="completed" value="uncompleted" checked /> Uncompleted</label>
-        <label><input type="radio" name="completed" value="completed" /> Completed</label>
-        <label><input type="radio" name="completed" value="all" /> All</label>
-      </div>
-    </label>
+    <div class="filter-section radio-group">
+      <span>Completion Status:</span>
+      <label><input type="radio" name="completed" value="uncompleted" checked /> Uncompleted</label>
+      <label><input type="radio" name="completed" value="completed" /> Completed</label>
+      <label><input type="radio" name="completed" value="all" /> All</label>
+    </div>
   </div>
 
   <div class="controls">
