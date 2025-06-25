@@ -648,15 +648,15 @@ function processLevel(e) {
   const level = Number(e.target.value);
   processInner(building, level);
   switch (building) {
-  case "barracks":
-    updateTrainingList('training-body-barracks', state.barracks, "barracks");
-    break;
-  case "stables":
-    updateTrainingList('training-body-stables', state.stables, "barracks");
-    break;
-  case "range":
-    updateTrainingList('training-body-range', state.range, "barracks");
-    break;
+    case "barracks":
+      updateTrainingList('training-body-barracks', state.barracks, "barracks");
+      break;
+    case "stables":
+      updateTrainingList('training-body-stables', state.stables, "barracks");
+      break;
+    case "range":
+      updateTrainingList('training-body-range', state.range, "barracks");
+      break;
   }
   hideTroopLevels();
   calculateTotalTimes();
@@ -898,6 +898,38 @@ function processCopyPromoteTroops(e) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+function add1kState(troop, building) {
+  const level = state.currentTroopLevels[building];
+  const start = state.targetTroops[troop][level];
+  const rounded = Math.floor(start / 1000 + Number.EPSILON) * 1000;
+  const updated = rounded + 1000;
+  const delta = updated - start;
+  
+  state.targetTroops[troop][level] = updated;
+  state.targetTroops.total[level] += delta;
+  state.targetTroops[troop].total += delta;
+  state.targetTroops.total.total += delta;
+}
+
+function processAdd1k(e) {
+  e.preventDefault();
+  switch (e.target.id) {
+    case "infantry1k":
+      add1kState("infantry", "barracks");
+      break;
+    case "cavalry1k":
+      add1kState("cavalry", "stables");
+      break;
+    case "archers1k":
+      add1kState("archers", "range");
+      break;
+  }
+  
+  loadTroopNumbers();
+  calculateTotalTargetTimes();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
 function hideTroopLevelsInner(type, max, min, b, s, r) {
   const rows = document.querySelectorAll(`#${type}-troops tbody tr`);
   var i = 0;
@@ -1102,9 +1134,9 @@ function setUpListeners() {
   
   document.getElementById("copy").addEventListener('click', processCopyTroops);
   document.getElementById("copy-promote").addEventListener('click', processCopyPromoteTroops);
-  document.getElementById("infantry1k").addEventListener('click', processTroopTargetNumbersChange);
-  document.getElementById("cavalry1k").addEventListener('click', processTroopTargetNumbersChange);
-  document.getElementById("archers1k").addEventListener('click', processTroopTargetNumbersChange);
+  document.getElementById("infantry1k").addEventListener('click', processAdd1k);
+  document.getElementById("cavalry1k").addEventListener('click', processAdd1k);
+  document.getElementById("archers1k").addEventListener('click', processAdd1k);
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
