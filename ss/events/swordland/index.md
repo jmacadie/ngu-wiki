@@ -25,7 +25,7 @@ Win control of and hold buildings to accumulate points. The team with the most p
 - Swordshrine: The biggest building in the event with the most points, but no buffs
 
 ### Available from 30 mins
-- Undercellers: Appear in 3 waves at 30:00, 40:00 and 50:00. Loot them for big point boosts
+- Undercellars: Appear in 3 waves at 30:00, 40:00 and 50:00. Loot them for big point boosts
 
 ![Swordland Map](/assets/img/swordland-showdown-map-1024x576.webp)
 
@@ -64,6 +64,10 @@ but this is not the same thing as leaving the battlefield for the 12 min cooldow
 ## Teams Strategy
 
 ### Setting Up
+- **Using teams is very important in this event**.
+If we stay together, we can reinforce one another to protect from attacks.
+Also full rallies are way stronger than any one player, this is how we beat stronger players than us.
+Stay with your team and always work as a unit
 - Divide into three teams of roughly one third each: Attackers, Support & Defenders.
 The defenders then get split into two sub-teams: Defenders 1 (Royal Stables) & Defenders 2 (Bell Tower)
 - Strongest player goes into the Support team
