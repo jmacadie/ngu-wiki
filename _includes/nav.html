@@ -7,5 +7,25 @@
       {%- else -%}
         <a href="/">Home</a>
       {%- endif %}
+      {% if page.title == "troops" -%}
+        <a href="javascript:void(0)" class="current">Troops</a>
+      {%- else -%}
+        <a href="/troops">Troops</a>
+      {%- endif %}
+      {% if page.title == "research" -%}
+        <a href="javascript:void(0)" class="current">Research</a>
+      {%- else -%}
+        <a href="/research">Research</a>
+      {%- endif %}
+      {% if page.title == "rallies" -%}
+        <a href="javascript:void(0)" class="current">Rallies</a>
+      {%- else -%}
+        <a href="/rallies">Rallies</a>
+      {%- endif %}
+      {% if page.title == "healing" -%}
+        <a href="javascript:void(0)" class="current">Healing</a>
+      {%- else -%}
+        <a href="/healing">Healing</a>
+      {%- endif %}
     </nav>
   </div>
