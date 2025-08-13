@@ -1,4 +1,4 @@
-import { toHMS, roundPcnt } from './utils.js';
+import { toHMS, roundPcnt, formatNumberForWrite } from './utils.js';
 
 const training_data = [
   {
@@ -1310,10 +1310,10 @@ function calculateOnePromote(currentTroops, currentLevel, promoteTimes, training
 function writeResults(type, troop, costs) {
   if (costs.time > 0) {
     document.getElementById(`${type}-${troop}-time`).textContent = toHMS(costs.time);
-    document.getElementById(`${type}-${troop}-bread`).textContent = costs.bread.toLocaleString();
-    document.getElementById(`${type}-${troop}-wood`).textContent = costs.wood.toLocaleString();
-    document.getElementById(`${type}-${troop}-stone`).textContent = costs.stone.toLocaleString();
-    document.getElementById(`${type}-${troop}-iron`).textContent = costs.iron.toLocaleString();
+    document.getElementById(`${type}-${troop}-bread`).textContent = formatNumberForWrite(costs.bread);
+    document.getElementById(`${type}-${troop}-wood`).textContent = formatNumberForWrite(costs.wood);
+    document.getElementById(`${type}-${troop}-stone`).textContent = formatNumberForWrite(costs.stone);
+    document.getElementById(`${type}-${troop}-iron`).textContent = formatNumberForWrite(costs.iron);
   } else {
     document.getElementById(`${type}-${troop}-time`).textContent = "Nothing to promote";
     document.getElementById(`${type}-${troop}-bread`).textContent = "-";

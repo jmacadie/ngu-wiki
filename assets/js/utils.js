@@ -29,3 +29,29 @@ export function roundPcnt(val) {
 export function formatPcnt(val) {
   return String(roundPcnt(val)) + '%';
 }
+
+export function formatNumberForWrite(num) {
+  let reduced;
+  let rounded;
+  
+  if (num > 1000000000) {
+    reduced = num / 1000000000;
+    rounded = Math.round(reduced * 100) / 100;
+    return rounded.toLocaleString() + 'b';
+  }
+  
+  if (num > 1000000) {
+    reduced = num / 1000000;
+    rounded = Math.round(reduced * 100) / 100;
+    return rounded.toLocaleString() + 'm';
+  }
+  
+  if (num > 1000) {
+    reduced = num / 1000;
+    rounded = Math.round(reduced * 100) / 100;
+    return rounded.toLocaleString() + 'k';
+  }
+  
+  rounded = Math.round(num * 100) / 100;
+  return rounded.toLocaleString();
+}
