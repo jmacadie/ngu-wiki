@@ -511,6 +511,8 @@ const base_data = [
 ];
 
 const state = {
+  "nobleAdvisor": false,
+  "trainingCapacityBoost": false,
   "all": {
 	  "level": 1,
 	  "baseCapacity": 0,
@@ -813,6 +815,8 @@ function loadStateFromLocalStorage() {
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
+      state.nobleAdvisor = parsed.nobleAdvisor;
+      state.trainingCapacityBoost = parsed.trainingCapacityBoost;
       loadStateFromParsedSecion(state.all, parsed.all);
       loadStateFromParsedSecion(state.barracks, parsed.barracks);
       loadStateFromParsedSecion(state.stables, parsed.stables);
@@ -965,6 +969,7 @@ function processBonusSpeed(e) {
     updateState(el, pcnt);
   });
   updateAllTrainingLists();
+  calculateTotalTimes();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -978,11 +983,27 @@ function processBonusCapacity(e) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+function processNobleAdvisor(e) {
+  state.nobleAdvisor = e.target.checked;
+  updateAllTrainingLists();
+  calculateTotalTimes();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function processTrainingCapacityBoost(e) {
+  state.trainingCapacityBoost = e.target.checked;
+  updateAllTrainingLists();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
 function calculateTrainingTimes(level, capacity, speed, type) {
+  const adjCapacityNA = state.nobleAdvisor ? capacity + 200 : capacity;
+  const adjCapacity = state.trainingCapacityBoost ? 3 * adjCapacityNA : adjCapacityNA;
+  const adjSpeed = state.nobleAdvisor ? speed + 0.5 : speed;
   const raw = training_data
             .filter(data => data.minTCLevel <= level)
             .map(data => {
-              const time = data.time * capacity / (1 + speed);
+              const time = data.time * adjCapacity / (1 + adjSpeed);
               return {
                 "level": data.level,
                 "time": time
@@ -997,10 +1018,11 @@ function calculateTrainingTimes(level, capacity, speed, type) {
   if (last) {
     const maxLevelTime = last.time;
     return raw.map(data => {
-      state.trainNew[type][data.level] = data.time / capacity;
+      state.trainNew[type][data.level] = data.time / adjCapacity;
       if (data.level === last.level) {
         return {
           "level": data.level,
+          "capacity": adjCapacity,
           "time": data.time,
           "fullPromoteNum": null,
           "fullPromoteTime": null
@@ -1008,11 +1030,12 @@ function calculateTrainingTimes(level, capacity, speed, type) {
       }
 
       const additionalTime = maxLevelTime - data.time;
-      state.promote[type][data.level] = additionalTime / capacity;
-      const fullPromoteNum = Math.floor(maxLevelTime * capacity / additionalTime);
-      const fullPromoteTime = fullPromoteNum * additionalTime / capacity;
+      state.promote[type][data.level] = additionalTime / adjCapacity;
+      const fullPromoteNum = Math.floor(maxLevelTime * adjCapacity / additionalTime);
+      const fullPromoteTime = fullPromoteNum * additionalTime / adjCapacity;
       return {
         "level": data.level,
+        "capacity": adjCapacity,
         "time": data.time,
         "fullPromoteNum": fullPromoteNum,
         "fullPromoteTime": fullPromoteTime
@@ -1021,12 +1044,12 @@ function calculateTrainingTimes(level, capacity, speed, type) {
   }
 }
 
-function renderTrainingRow(group, capacity) {
+function renderTrainingRow(group) {
   const tr = document.createElement('tr');
   if (!group.fullPromoteNum) {
     tr.innerHTML = `
       <td class="end-section">T${group.level}</td>
-      <td>${capacity.toLocaleString()}</td>
+      <td>${group.capacity.toLocaleString()}</td>
       <td class="end-section">${toHMS(group.time)}</td>
       <td></td>
       <td></td>
@@ -1035,7 +1058,7 @@ function renderTrainingRow(group, capacity) {
   }
   tr.innerHTML = `
     <td class="end-section">T${group.level}</td>
-    <td>${capacity.toLocaleString()}</td>
+    <td>${group.capacity.toLocaleString()}</td>
     <td class="end-section">${toHMS(group.time)}</td>
     <td>${group.fullPromoteNum.toLocaleString()}</td>
     <td>${toHMS(group.fullPromoteTime)}</td>
@@ -1049,7 +1072,7 @@ function updateTrainingList(bodyId, data, type) {
 
   const times = calculateTrainingTimes(data.level, data.capacity, data.speed, type);
   if (times) {
-    for (const g of times) tbody.appendChild(renderTrainingRow(g, data.capacity));
+    for (const g of times) tbody.appendChild(renderTrainingRow(g));
   }
 }
 
@@ -1553,6 +1576,9 @@ function setUpListeners() {
   bonusCapacities.forEach(el => {
     document.getElementById(el).addEventListener('change', processBonusCapacity);
   });
+  
+  document.getElementById("noble-advisor").addEventListener('change', processNobleAdvisor);
+  document.getElementById("training-capacity-boost").addEventListener('change', processTrainingCapacityBoost);
 
   document.getElementById("current-troops").addEventListener('change', processTroopInputNumbersChange);
   document.getElementById("target-troops").addEventListener('change', processTroopTargetNumbersChange);

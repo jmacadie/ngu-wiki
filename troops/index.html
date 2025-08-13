@@ -55,6 +55,18 @@ layout: default
     <hr />
     {%- include_relative _building_input.html building="range" name="Range" %}
   </div>
+  
+  <p>These next two options must not be selected if they were active when you read your building stats.
+  They are to simulate what happens when you additionally stack them, as you might to for a KvK training rush</p>
+  <div>
+    <input type="checkbox" id="noble-advisor" name="noble-advisor" />
+    <label for="noble-advisor">Include Noble Advisor appointment? (Training Speed +50% & Training Capcity +200)</label>
+  </div>
+  
+  <div>
+    <input type="checkbox" id="training-capacity-boost" name="training-capacity-boost" />
+    <label for="training-capacity-boost">Personal Training Capacity Growth boost? (3x total training capacity)</label>
+  </div>
 
   <h3>Training Times List</h3>
   <div class="show-section" id="all-building-table">
