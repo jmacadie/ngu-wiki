@@ -1357,6 +1357,13 @@ function calculateTotalPromoteTimes() {
     iron: infantryCosts.iron + cavalryCosts.iron + archersCosts.iron
   };
   writeResults("promote", "all", allCosts);
+  
+  const speedUpTime = infantryCosts.time + cavalryCosts.time + archersCosts.time;
+  if (speedUpTime > 0) {
+    document.getElementById("promote-speedup-time").textContent = toHMS(speedUpTime);
+  } else {
+    document.getElementById("promote-speedup-time").textContent = "Nothing to promote";
+  }
 }
 
 function calculatePromoteForTarget(promotions, currentLevel, times, training_costs) {
@@ -1518,6 +1525,13 @@ function calculateTotalTargetTimes() {
     iron: infantryCosts.iron + cavalryCosts.iron + archersCosts.iron
   };
   writeResults("target", "all", allCosts);
+  
+  const speedUpTime = infantryCosts.time + cavalryCosts.time + archersCosts.time;
+  if (speedUpTime > 0) {
+    document.getElementById("target-speedup-time").textContent = toHMS(speedUpTime);
+  } else {
+    document.getElementById("target-speedup-time").textContent = "Nothing to promote";
+  }
 }
 
 function calculateTotalTimes() {
