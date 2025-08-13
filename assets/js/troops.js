@@ -63,6 +63,225 @@ const training_data = [
   },
 ];
 
+const training_cost = {
+  infantry: [
+    {
+      level: 10,
+      bread: 2788,
+      wood: 2091,
+      stone: 488,
+      iron: 102
+    },
+    {
+      level: 9,
+      bread: 1394,
+      wood: 1046,
+      stone: 244,
+      iron: 51
+    },
+    {
+      level: 8,
+      bread: 558,
+      wood: 419,
+      stone: 98,
+      iron: 21
+    },
+    {
+      level: 7,
+      bread: 279,
+      wood: 210,
+      stone: 49,
+      iron: 11
+    },
+    {
+      level: 6,
+      bread: 186,
+      wood: 140,
+      stone: 33,
+      iron: 7
+    },
+    {
+      level: 5,
+      bread: 156,
+      wood: 117,
+      stone: 27,
+      iron: 6
+    },
+    {
+      level: 4,
+      bread: 120,
+      wood: 90,
+      stone: 21,
+      iron: 5
+    },
+    {
+      level: 3,
+      bread: 92,
+      wood: 69,
+      stone: 17,
+      iron: 4
+    },
+    {
+      level: 2,
+      bread: 58,
+      wood: 44,
+      stone: 10,
+      iron: 3
+    },
+    {
+      level: 1,
+      bread: 36,
+      wood: 27,
+      stone: 7,
+      iron: 2
+    }
+  ],
+  cavalry: [
+    {
+      level: 10,
+      bread: 2440,
+      wood: 2301,
+      stone: 474,
+      iron: 109
+    },
+    {
+      level: 9,
+      bread: 1220,
+      wood: 1151,
+      stone: 237,
+      iron: 55
+    },
+    {
+      level: 8,
+      bread: 488,
+      wood: 461,
+      stone: 95,
+      iron: 22
+    },
+    {
+      level: 7,
+      bread: 244,
+      wood: 231,
+      stone: 48,
+      iron: 11
+    },
+    {
+      level: 6,
+      bread: 163,
+      wood: 154,
+      stone: 32,
+      iron: 8
+    },
+    {
+      level: 5,
+      bread: 136,
+      wood: 129,
+      stone: 27,
+      iron: 7
+    },
+    {
+      level: 4,
+      bread: 105,
+      wood: 99,
+      stone: 21,
+      iron: 5
+    },
+    {
+      level: 3,
+      bread: 81,
+      wood: 76,
+      stone: 16,
+      iron: 4
+    },
+    {
+      level: 2,
+      bread: 51,
+      wood: 48,
+      stone: 10,
+      iron: 3
+    },
+    {
+      level: 1,
+      bread: 32,
+      wood: 30,
+      stone: 7,
+      iron: 2
+    }
+  ],
+  archers: [
+    {
+      level: 10,
+      bread: 1740,
+      wood: 2579,
+      stone: 433,
+      iron: 140
+    },
+    {
+      level: 9,
+      bread: 872,
+      wood: 1290,
+      stone: 217,
+      iron: 70
+    },
+    {
+      level: 8,
+      bread: 349,
+      wood: 516,
+      stone: 87,
+      iron: 28
+    },
+    {
+      level: 7,
+      bread: 175,
+      wood: 258,
+      stone: 44,
+      iron: 14
+    },
+    {
+      level: 6,
+      bread: 117,
+      wood: 173,
+      stone: 29,
+      iron: 10
+    },
+    {
+      level: 5,
+      bread: 97,
+      wood: 144,
+      stone: 24,
+      iron: 8
+    },
+    {
+      level: 4,
+      bread: 75,
+      wood: 111,
+      stone: 19,
+      iron: 6
+    },
+    {
+      level: 3,
+      bread: 58,
+      wood: 86,
+      stone: 15,
+      iron: 5
+    },
+    {
+      level: 2,
+      bread: 36,
+      wood: 54,
+      stone: 9,
+      iron: 4
+    },
+    {
+      level: 1,
+      bread: 23,
+      wood: 34,
+      stone: 6,
+      iron: 2
+    }
+  ]
+};
+
 const base_data = [
   {
     level: 1,
@@ -213,6 +432,81 @@ const base_data = [
     level: 30,
     baseSpeed: 0.080,
     baseCapacity: 209
+  },
+  {
+    level: 31,
+    baseSpeed: 0.080,
+    baseCapacity: 214
+  },
+  {
+    level: 32,
+    baseSpeed: 0.080,
+    baseCapacity: 219
+  },
+  {
+    level: 33,
+    baseSpeed: 0.080,
+    baseCapacity: 224
+  },
+  {
+    level: 34,
+    baseSpeed: 0.080,
+    baseCapacity: 229
+  },
+  {
+    level: 35,
+    baseSpeed: 0.083,
+    baseCapacity: 234
+  },
+  {
+    level: 36,
+    baseSpeed: 0.083,
+    baseCapacity: 239
+  },
+  {
+    level: 37,
+    baseSpeed: 0.083,
+    baseCapacity: 244
+  },
+  {
+    level: 38,
+    baseSpeed: 0.083,
+    baseCapacity: 249
+  },
+  {
+    level: 39,
+    baseSpeed: 0.083,
+    baseCapacity: 254
+  },
+  {
+    level: 40,
+    baseSpeed: 0.086,
+    baseCapacity: 259
+  },
+  {
+    level: 41,
+    baseSpeed: 0.086,
+    baseCapacity: 264
+  },
+  {
+    level: 42,
+    baseSpeed: 0.086,
+    baseCapacity: 269
+  },
+  {
+    level: 43,
+    baseSpeed: 0.086,
+    baseCapacity: 274
+  },
+  {
+    level: 44,
+    baseSpeed: 0.086,
+    baseCapacity: 279
+  },
+  {
+    level: 45,
+    baseSpeed: 0.089,
+    baseCapacity: 284
   }
 ];
 

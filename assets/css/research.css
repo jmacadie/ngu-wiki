@@ -39,6 +39,10 @@
   min-width: 300px;
 }
 
+.filter-section select.multi {
+  min-height: 100px;
+}
+
 .filter-section span.plus {
   font-weight: bold;
   align-self: center;
