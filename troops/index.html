@@ -94,21 +94,5 @@ layout: default
     </div>
   </div>
   
-  {%- include_relative _troop_numbers.html type="target" %}
-  
-  <h3>Results</h3>
-  <p>It will take you the following times to promote all your troops:</p>
-  <ul>
-    <li>Infantry - <span id="promote-infantry-time"></span></li>
-    <li>Cavalry - <span id="promote-cavalry-time"></span></li>
-    <li>Archers - <span id="promote-archers-time"></span></li>
-    <li><strong>Overall - <span id="promote-all-time"></span></strong></li>
-  </ul>
-  <br />
-  <p>It will take you the following times to reach your target troop levels:</p>
-  <ul>
-    <li>Infantry - <span id="target-infantry-time"></span></li>
-    <li>Cavalry - <span id="target-cavalry-time"></span></li>
-    <li>Archers - <span id="target-archers-time"></span></li>
-    <li><strong>Overall - <span id="target-all-time"></span></strong></li>
-  </ul>
+  {%- include_relative _troop_numbers.html type="target" %} 
+  {% include_relative _results.html %}

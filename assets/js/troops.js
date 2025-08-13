@@ -1270,46 +1270,165 @@ function hideTroopLevels() {
   hideTroopLevelsInner("target", maxLevelTroops, minLevelTroops, barracksLevelTroops, stablesLevelTroops, rangeLevelTroops);
 }
 
-function calculateTotalPromoteTimes() {
-  const infantryTime = Object.keys(state.currentTroops.infantry)
-          .filter(k => Number(k) < state.currentTroopLevels.barracks)
-          .map(level => state.currentTroops.infantry[level] * state.promote.barracks[level])
-          .reduce((acc, time) => acc + time, 0);
-  if (infantryTime) {
-    document.getElementById("promote-infantry-time").textContent = toHMS(infantryTime);
-  } else {
-    document.getElementById("promote-infantry-time").textContent = "Nothing to promote";
-  }
-
-  const cavalryTime = Object.keys(state.currentTroops.cavalry)
-          .filter(k => Number(k) < state.currentTroopLevels.stables)
-          .map(level => state.currentTroops.cavalry[level] * state.promote.stables[level])
-          .reduce((acc, time) => acc + time, 0);
-  if (cavalryTime) {
-    document.getElementById("promote-cavalry-time").textContent = toHMS(cavalryTime);
-  } else {
-    document.getElementById("promote-cavalry-time").textContent = "Nothing to promote";
-  }
-
-  const archersTime = Object.keys(state.currentTroops.archers)
-          .filter(k => Number(k) < state.currentTroopLevels.range)
-          .map(level => state.currentTroops.archers[level] * state.promote.range[level])
-          .reduce((acc, time) => acc + time, 0);
-  if (archersTime) {
-    document.getElementById("promote-archers-time").textContent = toHMS(archersTime);
-  } else {
-    document.getElementById("promote-archers-time").textContent = "Nothing to promote";
-  }
-
-  const maxTime = Math.max(infantryTime, cavalryTime, archersTime);
-  if (maxTime) {
-    document.getElementById("promote-all-time").textContent = toHMS(maxTime);
-  } else {
-    document.getElementById("promote-all-time").textContent = "Nothing to promote";
+function calculateOnePromote(currentTroops, currentLevel, promoteTimes, training_costs) {
+  const currentLevelCost = training_costs.find(obj => obj.level === currentLevel);
+  const baseCosts = {
+    time: 0,
+    bread: 0,
+    wood: 0,
+    stone: 0,
+    iron: 0
+  };
+  if (currentLevelCost) {
+    return Object.keys(currentTroops)
+            .filter(k => Number(k) < currentLevel)
+            .map(level => {
+              const fromLevelCost = training_costs.find(obj => obj.level === Number(level));
+              if (!fromLevelCost) {
+                return baseCosts;
+              }
+              return {
+                time: currentTroops[level] * promoteTimes[level],
+                bread: currentTroops[level] * (currentLevelCost.bread - fromLevelCost.bread),
+                wood: currentTroops[level] * (currentLevelCost.wood - fromLevelCost.wood),
+                stone: currentTroops[level] * (currentLevelCost.stone - fromLevelCost.stone),
+                iron: currentTroops[level] * (currentLevelCost.iron - fromLevelCost.iron)
+              };
+            })
+            .reduce((acc, costs) => {
+              return {
+                time: acc.time + costs.time,
+                bread: acc.bread + costs.bread,
+                wood: acc.wood + costs.wood,
+                stone: acc.stone + costs.stone,
+                iron: acc.iron + costs.iron
+              };
+            }, baseCosts);
   }
 }
 
-function getOneTotalTargetTime(currentLevel, currentNum, targetNum, trainNew, promote) {
+function writeResults(type, troop, costs) {
+  if (costs.time > 0) {
+    document.getElementById(`${type}-${troop}-time`).textContent = toHMS(costs.time);
+    document.getElementById(`${type}-${troop}-bread`).textContent = costs.bread.toLocaleString();
+    document.getElementById(`${type}-${troop}-wood`).textContent = costs.wood.toLocaleString();
+    document.getElementById(`${type}-${troop}-stone`).textContent = costs.stone.toLocaleString();
+    document.getElementById(`${type}-${troop}-iron`).textContent = costs.iron.toLocaleString();
+  } else {
+    document.getElementById(`${type}-${troop}-time`).textContent = "Nothing to promote";
+    document.getElementById(`${type}-${troop}-bread`).textContent = "-";
+    document.getElementById(`${type}-${troop}-wood`).textContent = "-";
+    document.getElementById(`${type}-${troop}-stone`).textContent = "-";
+    document.getElementById(`${type}-${troop}-iron`).textContent = "-";
+  }
+}
+
+function calculateTotalPromoteTimes() {
+  const infantryCosts = calculateOnePromote (
+    state.currentTroops.infantry,
+    state.currentTroopLevels.barracks,
+    state.promote.barracks,
+    training_cost.infantry
+  );
+  writeResults("promote", "infantry", infantryCosts);
+
+  const cavalryCosts = calculateOnePromote (
+    state.currentTroops.cavalry,
+    state.currentTroopLevels.stables,
+    state.promote.stables,
+    training_cost.cavalry
+  );
+  writeResults("promote", "cavalry", cavalryCosts);
+
+  const archersCosts = calculateOnePromote (
+    state.currentTroops.archers,
+    state.currentTroopLevels.range,
+    state.promote.range,
+    training_cost.archers
+  );
+  writeResults("promote", "archers", archersCosts);
+
+  const maxTime = Math.max(infantryCosts.time, cavalryCosts.time, archersCosts.time);
+  const allCosts = {
+    time: maxTime,
+    bread: infantryCosts.bread + cavalryCosts.bread + archersCosts.bread,
+    wood: infantryCosts.wood + cavalryCosts.wood + archersCosts.wood,
+    stone: infantryCosts.stone + cavalryCosts.stone + archersCosts.stone,
+    iron: infantryCosts.iron + cavalryCosts.iron + archersCosts.iron
+  };
+  writeResults("promote", "all", allCosts);
+}
+
+function calculatePromoteForTarget(promotions, currentLevel, times, training_costs) {
+  const currentLevelCost = training_costs.find(obj => obj.level === currentLevel);
+  const baseCosts = {
+    time: 0,
+    bread: 0,
+    wood: 0,
+    stone: 0,
+    iron: 0
+  };
+  if (currentLevelCost) {
+    return promotions
+           .map(level => {
+              const fromLevelCost = training_costs.find(obj => obj.level === Number(level.level));
+              if (!fromLevelCost) {
+                return baseCosts;
+              }
+              return {
+                time: level.promotions * times[level.level],
+                bread: level.promotions * (currentLevelCost.bread - fromLevelCost.bread),
+                wood: level.promotions * (currentLevelCost.wood - fromLevelCost.wood),
+                stone: level.promotions * (currentLevelCost.stone - fromLevelCost.stone),
+                iron: level.promotions * (currentLevelCost.iron - fromLevelCost.iron)
+              };
+            })
+            .reduce((acc, costs) => {
+              return {
+                time: acc.time + costs.time,
+                bread: acc.bread + costs.bread,
+                wood: acc.wood + costs.wood,
+                stone: acc.stone + costs.stone,
+                iron: acc.iron + costs.iron
+              };
+            }, baseCosts);
+  }
+}
+
+function calculateNewTrainForTarget(troops, times, training_costs) {
+  const baseCosts = {
+    time: 0,
+    bread: 0,
+    wood: 0,
+    stone: 0,
+    iron: 0
+  };
+  return troops
+         .map(level => {
+            const levelCost = training_costs.find(obj => obj.level === Number(level.level));
+            if (!levelCost) {
+              return baseCosts;
+            }
+            return {
+              time: level.newTroops * times[level.level],
+              bread: level.newTroops * levelCost.bread,
+              wood: level.newTroops * levelCost.wood,
+              stone: level.newTroops * levelCost.stone,
+              iron: level.newTroops * levelCost.iron
+            };
+          })
+          .reduce((acc, costs) => {
+            return {
+              time: acc.time + costs.time,
+              bread: acc.bread + costs.bread,
+              wood: acc.wood + costs.wood,
+              stone: acc.stone + costs.stone,
+              iron: acc.iron + costs.iron
+            };
+          }, baseCosts);
+}
+
+function getOneTotalTargetTime(currentLevel, currentNum, targetNum, trainNew, promote, training_costs) {
   const delta =
     Object.keys(currentNum)
       .filter(k => Number(k) <= currentLevel)
@@ -1349,58 +1468,56 @@ function getOneTotalTargetTime(currentLevel, currentNum, targetNum, trainNew, pr
           "newTroops": level.delta
         };
       });
+  
+  const promotionCosts = calculatePromoteForTarget(promotions, currentLevel, promote, training_costs);
+  const newTrainCosts = calculateNewTrainForTarget(newTroops, trainNew, training_costs);
 
-  const promotionTime =
-    promotions
-      .map(level => level.promotions * promote[level.level])
-      .reduce((acc, time) => acc + time, 0);
-  const newTrainTime =
-    newTroops
-      .map(level => level.newTroops * trainNew[level.level])
-      .reduce((acc, time) => acc + time, 0);
-
-  return promotionTime + newTrainTime;
+  return {
+    time: promotionCosts.time + newTrainCosts.time,
+    bread: promotionCosts.bread + newTrainCosts.bread,
+    wood: promotionCosts.wood + newTrainCosts.wood,
+    stone: promotionCosts.stone + newTrainCosts.stone,
+    iron: promotionCosts.iron + newTrainCosts.iron,
+  };
 }
 
 function calculateTotalTargetTimes() {
-  const infantryTime = getOneTotalTargetTime(
+  const infantryCosts = getOneTotalTargetTime(
     state.currentTroopLevels.barracks,
     state.currentTroops.infantry,
     state.targetTroops.infantry,
     state.trainNew.barracks,
-    state.promote.barracks);
-  if (infantryTime) {
-    document.getElementById("target-infantry-time").textContent = toHMS(infantryTime);
-  } else {
-    document.getElementById("target-infantry-time").textContent = "Target troop nubmers are too low. Cannot compute";
-  }
+    state.promote.barracks,
+    training_cost.infantry);
+  writeResults("target", "infantry", infantryCosts);
 
-  const cavalryTime = getOneTotalTargetTime(
+  const cavalryCosts = getOneTotalTargetTime(
     state.currentTroopLevels.stables,
     state.currentTroops.cavalry,
     state.targetTroops.cavalry,
     state.trainNew.stables,
-    state.promote.stables);
-  if (cavalryTime) {
-    document.getElementById("target-cavalry-time").textContent = toHMS(cavalryTime);
-  } else {
-    document.getElementById("target-cavalry-time").textContent = "Target troop nubmers are too low. Cannot compute";
-  }
+    state.promote.stables,
+    training_cost.cavalry);
+  writeResults("target", "cavalry", cavalryCosts);
 
-  const archersTime = getOneTotalTargetTime(
+  const archersCosts = getOneTotalTargetTime(
     state.currentTroopLevels.range,
     state.currentTroops.archers,
     state.targetTroops.archers,
     state.trainNew.range,
-    state.promote.range);
-  if (archersTime) {
-    document.getElementById("target-archers-time").textContent = toHMS(archersTime);
-  } else {
-    document.getElementById("target-archers-time").textContent = "Target troop nubmers are too low. Cannot compute";
-  }
+    state.promote.range,
+    training_cost.archers);
+  writeResults("target", "archers", archersCosts);
 
-  const totalTime = Math.max((infantryTime || 0), (cavalryTime || 0), (archersTime || 0));
-  document.getElementById("target-all-time").textContent = toHMS(totalTime);
+  const maxTime = Math.max(infantryCosts.time, cavalryCosts.time, archersCosts.time);
+  const allCosts = {
+    time: maxTime,
+    bread: infantryCosts.bread + cavalryCosts.bread + archersCosts.bread,
+    wood: infantryCosts.wood + cavalryCosts.wood + archersCosts.wood,
+    stone: infantryCosts.stone + cavalryCosts.stone + archersCosts.stone,
+    iron: infantryCosts.iron + cavalryCosts.iron + archersCosts.iron
+  };
+  writeResults("target", "all", allCosts);
 }
 
 function calculateTotalTimes() {
