@@ -1,8 +1,8 @@
 
       <tr>
         <td>T{{ include.level }}</td>
-        <td><input type="number" id="{{ include.type }}-infantry-{{ include.level }}" value="0" placeholder="{{ include.type }} Lvl {{ include.level }} Infantry" step="{{ include.level }}" ></td>
-        <td><input type="number" id="{{ include.type }}-cavalry-{{ include.level }}" value="0" placeholder="{{ include.type }} Lvl {{ include.level }} Cavalry" step="{{ include.level }}" ></td>
-        <td><input type="number" id="{{ include.type }}-archers-{{ include.level }}" value="0" placeholder="{{ include.type }} Lvl {{ include.level }} Archers" step="{{ include.level }}" ></td>
+        <td><input type="number" id="{{ include.type }}-infantry-{{ include.level }}" value="0" placeholder="{{ include.type }} Lvl {{ include.level }} Infantry" step="1" ></td>
+        <td><input type="number" id="{{ include.type }}-cavalry-{{ include.level }}" value="0" placeholder="{{ include.type }} Lvl {{ include.level }} Cavalry" step="1" ></td>
+        <td><input type="number" id="{{ include.type }}-archers-{{ include.level }}" value="0" placeholder="{{ include.type }} Lvl {{ include.level }} Archers" step="1" ></td>
         <td id="{{ include.type }}-total-{{ include.level }}" class="total-col">0</td>
       </tr>
